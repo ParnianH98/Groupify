@@ -134,7 +134,7 @@
             <v-radio label="Machine Learning" value="ml"></v-radio>
             <v-radio label="Others" value="othersce"></v-radio>
           </v-radio-group>
-          <v-radio-group v-else-if="radios3 === 'Mathematics" v-model="radios4" mandatory>
+          <v-radio-group v-else-if="radios3 === 'mathematics'" v-model="radios4" mandatory>
             <v-radio label="Probablility 1" value="probability1"></v-radio>
             <v-radio label="Probablility 2" value="probability2"></v-radio></v-radio>
             <v-radio label="Others" value="othersm"></v-radio>
@@ -150,7 +150,7 @@
             <v-radio label="Others" value="othersp"></v-radio>
           </v-radio-group>
           </v-radio-group>
-          <v-radio-group v-else-if="radios2==='mathematics"  v-model="radios4" mandatory>
+          <v-radio-group v-else-if="radios2==='mathematics'"  v-model="radios4" mandatory>
             <v-radio label="Physics" value="Physics"></v-radio>
             <v-radio label="Mathematics" value="mathematics"></v-radio>
             <v-radio label="Geometery" value="geometery"></v-radio>
