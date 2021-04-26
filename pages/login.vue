@@ -44,7 +44,9 @@
 </template>
 
 <script>
+import axios from '~/node_modules/axios';
 export default {
+  name: 'login',
 
   data: () => ({
     UserName: '',
@@ -54,13 +56,16 @@ export default {
   methods: {
     async submit () {
       const config = {
-      method: 'get',
-      url: 'api/users/register'
+      url: 'api/users/register',
+      data:{
+        username: this.UserName,
+        password: this.Password,
+      }
       }
 
-      let res = await fetch(config)
+      let res = await axios.post(config)
 
-      console.log(res.data);
+      console.log(res);
       },
     goToSignUp () {
       this.$router.push({name:'signup'});
