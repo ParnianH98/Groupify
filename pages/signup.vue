@@ -93,6 +93,7 @@
 </template>
 
 <script>
+  import { postReq } from "~/utils/services"
   import { validationMixin } from 'vuelidate'
   import { required, email , minLength , sameAs } from 'vuelidate/lib/validators'
 
@@ -174,7 +175,7 @@
       async submit () {
         this.$v.$touch()
         try{
-          const res = await this.$axios.$post('api/users/register',
+          const res = await postReq(this,'api/users/register',
             {
               username: this.UserName,
               password: this.password,
