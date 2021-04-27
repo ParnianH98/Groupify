@@ -95,9 +95,14 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, email , minLength , sameAs } from 'vuelidate/lib/validators'
-  import axios from 'axios'
 
   export default {
+    head(){
+      return{
+        title: 'SignUp'
+      }
+    },
+    
     name: 'signup',
 
     mixins: [validationMixin],
@@ -169,7 +174,7 @@
       async submit () {
         this.$v.$touch()
         try{
-          const res = await axios.post('api/users/register',
+          const res = await this.$axios.$post('api/users/register',
             {
               username: this.UserName,
               password: this.password,
@@ -179,7 +184,7 @@
             }
           )
           console.log(res)
-          this.$router.push({name: 'profile'})
+          this.$router.push({name: 'login'})
         } catch (e){
           console.log(e)
         }
