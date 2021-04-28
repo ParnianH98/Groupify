@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { postReq } from "~/utils/services"
+import { postReq, refreshToken } from "~/utils/services"
 
 export default {
   head(){
@@ -69,10 +69,10 @@ export default {
         }
       ) 
       console.log(res)
-      
       this.$axios.setToken(res.data.access_token, 'Bearer')
-      localStorage.setItem('accesss', res.data.access_token)
+      localStorage.setItem('accesss', true)
       localStorage.setItem('refresh', res.data.refresh_token)
+      refreshToken(this)
       },
     goToSignUp () {
       this.$router.push({name:'signup'});
