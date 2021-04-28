@@ -1,28 +1,25 @@
-function readyForRequest(that){
-    that.$axios.onError(async (error) => {
-        if(error.response.status === 401){
-            try{
-                res = await this.$axios.$post('api/token/refresh/', {
-                    token: localStorage.getItem('refresh')
-                })
-                localStorage.setItem('access', res.data.access_token)
-            } catch (er){
-                console.log(er)
+export function refreshToken(that){
+    that.$axios.onResponseError(async (error) => {
+        if(localStorage.getItem('access')){
+            if(error.response.status === 401){
+                try{
+                    res = new that.$axios.$post('api/token/refresh/', {
+                        token: localStorage.getItem('refresh')
+                    })
+                    that.$axios.setToken(res.data.access_token, 'Bearer')
+                    return Promise.resolve(that.$axios(error.config))
+                } catch (er){
+                    console.log(er)
+                    return Promise.reject(er)
+                }
             }
+            else return Promise.reject(error)
         }
+        else return Promise.reject(error)
     })
 }
 
-export function postReq(that, url ,config){
-    if(localStorage.getItem('access')){
-        readyForRequest()
-        that.$axios.setToken(localStorage.getItem('accesss'), 'Bearer')
-        const res = that.$axios.$post(url, config)
-        return res
-    }
-    else{
-        that.$axios.setHeader('Authorization')
-        const res = that.$axios.$post(url, config)
-        return res
-    }
+export function postReq(that, url ,config){    
+    const res = that.$axios.$post(url, config)
+    return res
 }
