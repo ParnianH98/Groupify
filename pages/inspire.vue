@@ -29,6 +29,20 @@
         want a study-mate to study:
       </v-stepper-step>
       </template>
+
+      <v-divider></v-divider>
+
+
+      <v-stepper-step :complete="e1 > 5" step="5">
+        how many weeks?:
+      </v-stepper-step>
+
+      <v-divider></v-divider>
+
+      <v-stepper-step :complete="e1 > 6" step="6">
+        how many hours per week?:
+      </v-stepper-step>
+
     </v-stepper-header>
 
     <v-stepper-items>
@@ -125,7 +139,7 @@
           
           <v-radio-group v-if="radios3 === 'ee'" v-model="radios4" mandatory>
             <v-radio label="Network 1" value="nw1"></v-radio>
-            <v-radio label="Network 1" value="nw1"></v-radio>
+            <v-radio label="Network 2" value="nw2"></v-radio>
             <v-radio label="Others" value="othersee"></v-radio>
           </v-radio-group>
           <v-radio-group v-else-if="radios3 === 'ce'" v-model="radios4" mandatory>
@@ -165,7 +179,7 @@
 
           </v-radio-group>
         </v-container>
-        <v-btn color="primary" @click="ClickHandler4">
+        <v-btn color="primary" @click="e1 = 5">
           Continue
         </v-btn>
 
@@ -173,6 +187,38 @@
           Cancel
         </v-btn>
       </v-stepper-content>
+
+      <v-stepper-content step="5">
+        <v-container fluid>
+          <p>{{ radios5 || "null" }}</p>
+          
+          write what you want to do
+        </v-container>
+        <v-btn color="primary" @click="e1 = 6">
+          Continue
+        </v-btn>
+
+        <v-btn text>
+          Cancel
+        </v-btn>
+      </v-stepper-content>
+
+      <v-stepper-content step="6">
+        <v-container fluid>
+          <p>{{ radios5 || "null" }}</p>
+          
+          write what you want to do
+        </v-container>
+        <v-btn color="primary" @click="ClickHandler6">
+          Continue
+        </v-btn>
+
+        <v-btn text>
+          Cancel
+        </v-btn>
+      </v-stepper-content>
+
+
 
     </v-stepper-items>
   </v-stepper>
@@ -187,7 +233,7 @@ export default {
       }else{
         this.e1 = 4;
       }
-    },ClickHandler4(){
+    },ClickHandler6(){
       this.$router.push({name:'dashboard'});
     }
   },
