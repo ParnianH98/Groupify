@@ -124,45 +124,7 @@
                 </v-list-item>
 
                 <v-divider v-if="this.isEditingProf" inset></v-divider>
-
-                <v-list-item v-if="this.isEditingProf">
-                  <v-list-item-content>
-                    <v-list-item-title>Change Password</v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-if="this.isEditingProf">
-                  <v-list-item-action></v-list-item-action>
-
-                  <v-text-field
-                    v-model="password"
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="show1 ? 'text' : 'password'"
-                    :error-messages="passwordErrors"
-                    label="Password"
-                    hint="At least 6 characters"
-                    counter
-                    @click:append="show1 = !show1"
-                    @input="$v.password.$touch()"
-                    @blur="$v.password.$touch()"
-                  ></v-text-field>
-
-                </v-list-item>
-                <v-list-item v-if="this.isEditingProf">
-                  <v-list-item-action></v-list-item-action>
-
-                  <v-text-field
-                    v-model="repeatPassword"
-                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="show2 ? 'text' : 'password'"
-                    :error-messages="repeatPasswordErrors"
-                    label="Repeat Password"
-                    required
-                    @click:append="show2 = !show2"
-                    @input="$v.repeatPassword.$touch()"
-                    @blur="$v.repeatPassword.$touch()"
-                  ></v-text-field>
-
-                </v-list-item>
+                
                 <v-list-item v-if="showSaveBtn">
                   <v-btn
                       :disabled="this.$v.$anyError || (this.$v.password.$dirty && !this.$v.repeatPassword.required)"
@@ -241,17 +203,12 @@ export default {
       firstName: '',
       lastName: '',
       email: '',
-      password: '',
-      repeatPassword:'',
       UserName:'',
       FirstName:'',
       LastName:'',
       Email:'',
-      Password:'',
       Lables:[],
       isEditingProf: false,
-      show1: false,
-      show2: false,
     };
   },
 
@@ -266,20 +223,6 @@ export default {
         const errors = []
         if (!this.$v.lastName.$dirty) return errors
         !this.$v.lastName.required && errors.push('Last Name is required.')
-        return errors
-      },
-      passwordErrors (){
-        const errors = []
-        if (!this.$v.password.$dirty) return errors
-        !this.$v.password.minLength && errors.push('Password must be at least 8 characters long.')
-        this.$v.password.$dirty && !this.$v.repeatPassword.required && errors.push('Password must be repeated.')
-        return errors
-      },
-      repeatPasswordErrors (){
-        const errors = []
-        if (!this.$v.repeatPassword.$dirty) return errors
-        this.$v.password.$dirty && !this.$v.repeatPassword.required && errors.push('Password must be repeated.')
-        !this.$v.repeatPassword.sameAsPassword && errors.push('You must reapeat the same Password.')
         return errors
       },
       emailErrors () {
@@ -310,7 +253,6 @@ export default {
         this.FirstName = this.firstName
         this.LastName = this.lastName
         this.Email = this.email
-        if (this.$v.password.$dirty) this.Password = this.password
         this.closeProfEdit()
       },
       startProfEdit () {
@@ -318,8 +260,6 @@ export default {
         this.firstName = this.FirstName
         this.lastName = this.LastName
         this.email = this.Email
-        this.password = ''
-        this.repeatPassword = ''
       },
       closeProfEdit () {
         this.$v.$reset()
@@ -327,8 +267,6 @@ export default {
         this.firstName = ''
         this.lastName = ''
         this.email = ''
-        this.password = ''
-        this.repeatPassword = ''
       },
       logOut(){
         localStorage.setItem('access', false)
