@@ -164,14 +164,21 @@
 
                 </v-list-item>
                 <v-list-item v-if="showSaveBtn">
-
-                    <v-btn
+                  <v-btn
                       :disabled="this.$v.$anyError || (this.$v.password.$dirty && !this.$v.repeatPassword.required)"
                       class="mr-4"
                       @click="SaveProf"
                     >
                       Save
                     </v-btn>
+                </v-list-item>
+                <v-list-item v-if="!this.isEditingProf">
+                  <v-btn
+                  class="mr-4"
+                  @click="logOut"
+                  >
+                    Log Out
+                  </v-btn>
                 </v-list-item>
               </v-list>
           </v-card>
@@ -194,7 +201,6 @@
                   <v-list-item-action v-if="index != 0"></v-list-item-action>
                   {{label}}
                 </v-list-item>
-
                 <v-list-item>
                   <v-btn
                       class="mr-4"
@@ -214,6 +220,8 @@
   import { required, email , minLength , sameAs } from 'vuelidate/lib/validators'
 
 export default {
+  name: 'profile',
+
   mixins: [validationMixin],
 
   validations: {
@@ -223,6 +231,10 @@ export default {
       password: { minLength: minLength(8) },
       repeatPassword: { required, sameAsPassword: sameAs('password')},
     },
+
+  beforeCreate() {
+    //getLables()
+  },
   
   data() {
     return {
@@ -288,6 +300,9 @@ export default {
     },
 
     methods: {
+      getLables () {
+        //get lables from api
+      },
       AddNewLable() {
         this.$router.push({name:'inspire'})
       },
@@ -314,6 +329,12 @@ export default {
         this.email = ''
         this.password = ''
         this.repeatPassword = ''
+      },
+      logOut(){
+        localStorage.setItem('access', false)
+        this.$axios.setHeader('Authorization')
+        localStorage.removeItem('refresh')
+        this.$router.push({name: 'login'})
       },
     },
 };
