@@ -25,7 +25,6 @@
       <v-stepper-step  :complete="e1 > 4" step="4">
         درس مورد نظر خود را انتخاب کنید.
       </v-stepper-step>
-      </template>
 
       <v-divider></v-divider>
 
