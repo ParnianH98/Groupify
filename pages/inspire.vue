@@ -176,8 +176,6 @@
                 >
                   <v-text-field
                     v-model="title"
-                    :rules="rules"
-                    counter="25"
                     label="به مدت چند هفته مایلید با هم‌گروهی خود به مطالعه این درس بپردازید؟"
                   ></v-text-field>
                 </v-col>
@@ -188,10 +186,7 @@
                 >
                   <v-text-field
                     v-model="title"
-                    :rules="wordsRules"
-                    counter="5"
                     label="حداقل چند ساعت در هفته می‌توانید برای مطالعه این درس زمان بگذارید؟"
-                    :counter-value="v => v.trim().split(' ').length"
                   ></v-text-field>
                 </v-col>
 
@@ -201,10 +196,7 @@
                 >
                   <v-text-field
                     v-model="title"
-                    :rules="wordsRules"
-                    counter="5"
                     label="اگر توضیحات بیشتری لازم می‌دانید، ذکر کنید:"
-                    :counter-value="v => v.trim().split(' ').length"
                   ></v-text-field>
                 </v-col>
 
@@ -244,6 +236,9 @@ export default {
       radios: null,
       radios2: null,
       radios3: null,
+      radios4: null,
+      radios5: null,
+      title: "",
       e1: 1
     };
   }
