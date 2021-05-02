@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-row>
-      <v-col lg="2" md="2" sm="12">
-        <v-card max-width="300">
+      <v-col lg="2" mt="20" md="20" sm="12">
+        <v-card max-width="500" min-width="300">
           <v-list two-line>
             <v-list-item-group
               v-model="selected"
@@ -52,12 +52,15 @@
           </v-list>
         </v-card>
       </v-col>
-      <v-col lg="10" md="10" sm="12">
+      <v-col lg="55" md="10" sm="12">
         <v-row class="mt-2" align="center" justify="space-around">
           <v-btn color="purple" @click="clickHandler('profile')">
             پروفایل
           </v-btn>
-          <v-btn color="light-blue accent-3" @click="clickHandler('inspire')">
+          <v-btn
+            color="light-blue accent-3"
+            @click="clickHandler('makerequest')"
+          >
             ارسال درخواست
           </v-btn>
           <v-btn color="green accent-3" @click="clickHandler('requestbox')">
@@ -74,42 +77,21 @@ export default {
   methods: {
     clickHandler(newrout) {
       this.$router.push({ name: newrout });
-    }
+    },
+    loadPage() {}
   },
   data: () => ({
     selected: [2],
     items: [
       {
-        action: "15 min",
-        headline: "Brunch this weekend?",
-        subtitle: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-        title: "Ali Connors"
+        action: "15 دقیقه",
+        headline: "شیمی دهم اسید و باز",
+        title: "اسم گروه ما اینه!"
       },
       {
-        action: "2 hr",
-        headline: "Summer BBQ",
-        subtitle: `Wish I could come, but I'm out of town this weekend.`,
-        title: "me, Scrott, Jennifer"
-      },
-      {
-        action: "6 hr",
-        headline: "Oui oui",
-        subtitle: "Do you have Paris recommendations? Have you ever been?",
-        title: "Sandra Adams"
-      },
-      {
-        action: "12 hr",
-        headline: "Birthday gift",
-        subtitle:
-          "Have any ideas about what we should get Heidi for her birthday?",
-        title: "Trevor Hansen"
-      },
-      {
-        action: "18hr",
-        headline: "Recipe to try",
-        subtitle:
-          "We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
-        title: "Britta Holt"
+        action: "2 ساعت",
+        headline: "فیزیک یازدهم نوسان حل مسائل الگو",
+        title: "ما فیزیک‌دانیم :D"
       }
     ]
   })
