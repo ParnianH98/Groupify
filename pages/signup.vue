@@ -4,14 +4,14 @@
             <form>
                 <v-card-title class="Black--text pl-12 pt-12">
                     <div class="display-1 pl-12 pt-12">
-                      Sign Up Form
+                      فرم ثبت نام
                     </div>
                 </v-card-title>
                 <v-text-field
                 v-model="UserName"
                 :error-messages="UserNameErrors"
                 counter
-                label="User Name"
+                label="نام کاربری"
                 required
                 @input="$v.UserName.$touch()"
                 @blur="$v.UserName.$touch()"
@@ -19,7 +19,7 @@
                 <v-text-field
                 v-model="FirstName"
                 :error-messages="FirstNameErrors"
-                label="First Name"
+                label="نام"
                 required
                 @input="$v.FirstName.$touch()"
                 @blur="$v.FirstName.$touch()"
@@ -27,7 +27,7 @@
                 <v-text-field
                 v-model="LastName"
                 :error-messages="LastNameErrors"
-                label="Last Name"
+                label="نام خانوادگی"
                 required
                 @input="$v.LastName.$touch()"
                 @blur="$v.LastName.$touch()"
@@ -35,7 +35,7 @@
                 <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
-                label="E-mail"
+                label="آدرس ایمیل"
                 required
                 @input="$v.email.$touch()"
                 @blur="$v.email.$touch()"
@@ -45,8 +45,8 @@
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show1 ? 'text' : 'password'"
                 :error-messages="passwordErrors"
-                label="Password"
-                hint="At least 8 characters"
+                label="رمز ورود"
+                hint="حداقل 8 کاراکتر"
                 counter
                 required
                 @click:append="show1 = !show1"
@@ -58,7 +58,7 @@
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show2 ? 'text' : 'password'"
                 :error-messages="repeatPasswordErrors"
-                label="Repeat Password"
+                label="تکرار رمز ورود"
                 required
                 @click:append="show2 = !show2"
                 @input="$v.repeatPassword.$touch()"
@@ -70,10 +70,10 @@
                 class="mr-4"
                 @click="submit"
                 >
-                   submit
+                  ثبت
                 </v-btn>
                 <v-btn @click="clear">
-                 clear
+                  پاک کردن
                 </v-btn>
             </form>
         </v-container>
@@ -82,10 +82,10 @@
 
         <v-container>
             <div>
-                Already a member?
+                عضو هستید؟
                 <v-btn small
                 @click="goToLogin">
-                Log in
+                  ورود
                 </v-btn> 
             </div>
         </v-container>
@@ -132,41 +132,41 @@
       UserNameErrors () {
         const errors = []
         if (!this.$v.UserName.$dirty) return errors
-        !this.$v.UserName.minLength && errors.push('User Name must be at least 3 characters long')
-        !this.$v.UserName.required && errors.push('User Name is required.')
+        !this.$v.UserName.minLength && errors.push('نام کاربری باید حداقل 3 کاراکتر داشنه باشد.')
+        !this.$v.UserName.required && errors.push('نام کاربری لازم است.')
         return errors
       },
       FirstNameErrors () {
         const errors = []
         if (!this.$v.FirstName.$dirty) return errors
-        !this.$v.FirstName.required && errors.push('First Name is required.')
+        !this.$v.FirstName.required && errors.push('نام لازم است.')
         return errors
       },
       LastNameErrors () {
         const errors = []
         if (!this.$v.LastName.$dirty) return errors
-        !this.$v.LastName.required && errors.push('Last Name is required.')
+        !this.$v.LastName.required && errors.push('نام خانوادگی لازم است.')
         return errors
       },
       passwordErrors (){
         const errors = []
         if (!this.$v.password.$dirty) return errors
-        !this.$v.password.required && errors.push('Password is required.')
-        !this.$v.password.minLength && errors.push('Password must be at least 8 characters long.')
+        !this.$v.password.required && errors.push('رمز لازم است.')
+        !this.$v.password.minLength && errors.push('رمز باید حداقل 8 کاراکتر داشنه باشد.')
         return errors
       },
       repeatPasswordErrors (){
         const errors = []
         if (!this.$v.repeatPassword.$dirty) return errors
-        !this.$v.repeatPassword.required && errors.push('Password must be repeated.')
-        !this.$v.repeatPassword.sameAsPassword && errors.push('You must reapeat the same Password.')
+        !this.$v.repeatPassword.required && errors.push('رمز باید تکرار شود.')
+        !this.$v.repeatPassword.sameAsPassword && errors.push('همان رمز دقیقا باید تکرار شود.')
         return errors
       },
       emailErrors () {
         const errors = []
         if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
+        !this.$v.email.email && errors.push('ایمیل باید معتبر باشد.')
+        !this.$v.email.required && errors.push('ایمیل لازم است.')
         return errors
       },
     },
@@ -203,5 +203,5 @@
         this.$router.push({name:'login'});
       }
     },
-  }
+  }              
 </script>

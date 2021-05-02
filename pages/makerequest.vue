@@ -2,20 +2,20 @@
   <v-stepper v-model="e1">
     <v-stepper-header>
       <v-stepper-step :complete="e1 > 1" step="1">
-        Choose Label:
+        انتخاب لیبیل
       </v-stepper-step>
 
       <v-divider></v-divider>
 
       <v-stepper-step step="2">
-        Search Results:
+        نتایج جستوجو
       </v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-container fluid>
-          <p>{{ selectedlabel || "You don't have any Labels yet." }}</p>
+          <p>{{ selectedlabel || "شما هنوز لیبلی ندارید" }}</p>
             <v-radio-group v-model="selectedlabel" mandatory>
               <v-radio v-for="(item, index) in Labels" :key="index" :label="String(item)" :value="item"></v-radio>
             </v-radio-group>
@@ -26,13 +26,13 @@
           color="primary"
           @click="search"
         >
-          Search
+          جستوجو
         </v-btn>
 
         <v-btn
         text
         @click="goBack">
-          Cancel
+          لغو کردن
         </v-btn>
       </v-stepper-content>
 
@@ -43,7 +43,7 @@
               <v-list-item-content>
                 {{item}}
                 <v-btn @click="sendrequest(index)">
-                  Send request
+                  ارسال درخواست
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -54,7 +54,7 @@
           color="primary"
           @click="goBack"
         >
-          Go Back to Dashboard
+          بازگشت به داشبورد
         </v-btn>
       </v-stepper-content>
     </v-stepper-items>
@@ -83,7 +83,7 @@ export default {
       //get labels from api
     },
     search(){
-      //get similar user with selectedlabel from api
+      //get similar user with selectedlable from api
       this.e1 = 2
     },
     sendrequest(x){
