@@ -5,7 +5,7 @@
         انتخاب لیبیل
       </v-stepper-step>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-stepper-step step="2">
         نتایج جستوجو
@@ -16,9 +16,9 @@
       <v-stepper-content step="1">
         <v-container fluid>
           <p>{{ selectedlabel || "شما هنوز لیبلی ندارید" }}</p>
-            <v-radio-group v-model="selectedlabel" mandatory>
-              <v-radio v-for="(item, index) in Labels" :key="index" :label="String(item)" :value="item"></v-radio>
-            </v-radio-group>
+          <v-radio-group v-model="selectedlabel" mandatory>
+            <v-radio v-for="(item, index) in Labels" :key="index" :label="String(item)" :value="item" />
+          </v-radio-group>
         </v-container>
 
         <v-btn
@@ -30,8 +30,9 @@
         </v-btn>
 
         <v-btn
-        text
-        @click="goBack">
+          text
+          @click="goBack"
+        >
           لغو کردن
         </v-btn>
       </v-stepper-content>
@@ -41,7 +42,7 @@
           <v-list>
             <v-list-item v-for="(item, index) in similarUsers" :key="index">
               <v-list-item-content>
-                {{item}}
+                {{ item }}
                 <v-btn @click="sendrequest(index)">
                   ارسال درخواست
                 </v-btn>
@@ -63,37 +64,37 @@
 
 <script>
 export default {
-  name: 'makerequest',
+  name: 'Makerequest',
 
-  Create() {
-  this.getLabels()
+  Create () {
+    this.getLabels()
   },
 
-  data() {
-      return {
-          e1: 1,
-          selectedlabel: null,
-          Labels:[],
-          similarUsers:[],
-      }
+  data () {
+    return {
+      e1: 1,
+      selectedlabel: null,
+      Labels: [],
+      similarUsers: []
+    }
   },
 
   methods: {
     getLabels () {
-      //get labels from api
+      // get labels from api
     },
-    search(){
-      //get similar user with selectedlable from api
+    search () {
+      // get similar user with selectedlable from api
       this.e1 = 2
     },
-    sendrequest(x){
-      //send the request to api to similarUsers[x]
+    sendrequest (x) {
+      // send the request to api to similarUsers[x]
       this.similarUsers.splice(x, 1)
     },
-    goBack(){
-      //return to dashboard
-      this.$router.push({name: 'dashboard'})
-    },
+    goBack () {
+      // return to dashboard
+      this.$router.push({ name: 'dashboard' })
+    }
   }
 }
 </script>

@@ -36,14 +36,14 @@ export default {
   props: {
     type: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   methods: {
-    handleClick(userType) {
-      this.$emit("update:type", userType);
-      this.$emit("next");
+    handleClick (userType) {
+      this.$emit('update:type', userType)
+      this.$emit('next')
     }
   }
-};
+}
 </script>
