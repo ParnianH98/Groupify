@@ -1,177 +1,166 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-card
-        max-width="560"
-        class="mx-auto"
-      >
-        <v-row class="fill-height">
-          <v-card-title class="Black--text pl-12 pt-12">
-            <v-btn
-              v-if="!isEditingProf"
-              icon
-              class="mr-4"
-              @click="startProfEdit"
-            >
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
+    <v-row>
+        <v-col>
+          <v-card
+           max-width="560"
+           class="mx-auto"
+           >
+            <v-row class="fill-height">
+              <v-card-title class="Black--text pl-12 pt-12">
+                  <v-btn
+                    v-if="!isEditingProf"
+                    icon
+                    class="mr-4"
+                    @click="startProfEdit"
+                    >
+                      <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
 
-            <v-btn
-              v-else
-              icon
-              class="mr-4"
-              @click="closeProfEdit"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
+                  <v-btn
+                    v-else
+                    icon
+                    class="mr-4"
+                    @click="closeProfEdit"
+                    >
+                      <v-icon>mdi-close</v-icon>
+                  </v-btn>
 
-            <v-spacer />
+                    <v-spacer></v-spacer>
 
-            <div class="display-1 pl-12 pt-12">
-              اطلاعات شخصی
-            </div>
-          </v-card-title>
-        </v-row>
+                  <div>
+                    اطلاعات شخصی
+                  </div>
+              </v-card-title>
+            </v-row>
 
-        <v-list two-line>
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon color="indigo">
-                mdi-account
-              </v-icon>
-            </v-list-item-icon>
+            <v-list two-line >
+              <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon color="indigo">
+                      mdi-account
+                    </v-icon>
+                  </v-list-item-icon>
 
-            <v-list-item-content v-if="!this.isEditingProf">
-              <v-list-item-title>{{ UserName }}</v-list-item-title>
-              <v-list-item-subtitle>نام کاربری</v-list-item-subtitle>
-            </v-list-item-content>
+                  <v-list-item-content v-if="!this.isEditingProf">
+                    <v-list-item-title>{{ UserName }}</v-list-item-title>
+                    <v-list-item-subtitle>نام کاربری</v-list-item-subtitle>
+                  </v-list-item-content>
 
-            <v-text-field
-              v-else
-              v-model="UserName"
-              label="نام کاربری"
-              disabled
-            />
-          </v-list-item>
+                  <v-text-field 
+                    v-else
+                    v-model="UserName"
+                    label="نام کاربری"
+                    disabled
+                  ></v-text-field>
 
-          <v-list-item>
-            <v-list-item-action />
+                </v-list-item>
 
-            <v-list-item-content v-if="!this.isEditingProf">
-              <v-list-item-title>{{ FirstName }}</v-list-item-title>
-              <v-list-item-subtitle>نام</v-list-item-subtitle>
-            </v-list-item-content>
+                <v-list-item>
 
-            <v-text-field
-              v-else
-              v-model="firstName"
-              :error-messages="FirstNameErrors"
-              label="نام"
-              required
-              @input="$v.firstName.$touch()"
-              @blur="$v.firstName.$touch()"
-            />
-          </v-list-item>
+                  <v-list-item-action></v-list-item-action>
 
-          <v-list-item>
-            <v-list-item-action />
+                    <v-list-item-content v-if="!this.isEditingProf">
+                      <v-list-item-title>{{ FirstName }}</v-list-item-title>
+                      <v-list-item-subtitle>نام</v-list-item-subtitle>
+                    </v-list-item-content>
 
-            <v-list-item-content v-if="!this.isEditingProf">
-              <v-list-item-title>{{ LastName }}</v-list-item-title>
-              <v-list-item-subtitle>نام خانوادگی</v-list-item-subtitle>
-            </v-list-item-content>
+                    <v-text-field
+                      v-else
+                      v-model="firstName"
+                      :error-messages="FirstNameErrors"
+                      label="نام"
+                      required
+                      @input="$v.firstName.$touch()"
+                      @blur="$v.firstName.$touch()"
+                    ></v-text-field>
 
-            <v-text-field
-              v-else
-              v-model="lastName"
-              :error-messages="LastNameErrors"
-              label="نام خانوادگی"
-              required
-              @input="$v.lastName.$touch()"
-              @blur="$v.lastName.$touch()"
-            />
-          </v-list-item>
+                </v-list-item>
 
-          <v-divider inset />
+                <v-list-item>
 
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon color="indigo">
-                mdi-email
-              </v-icon>
-            </v-list-item-icon>
+                  <v-list-item-action></v-list-item-action>
 
-            <v-list-item-content v-if="!this.isEditingProf">
-              <v-list-item-title>{{ Email }}</v-list-item-title>
-              <v-list-item-subtitle>آدرس ایمیل</v-list-item-subtitle>
-            </v-list-item-content>
+                    <v-list-item-content v-if="!this.isEditingProf">
+                      <v-list-item-title>{{ LastName }}</v-list-item-title>
+                      <v-list-item-subtitle>نام خانوادگی</v-list-item-subtitle>
+                    </v-list-item-content>
 
-            <v-text-field
-              v-else
-              v-model="email"
-              :error-messages="emailErrors"
-              label="آدرس ایمیل"
-              required
-              @input="$v.email.$touch()"
-              @blur="$v.email.$touch()"
-            />
-          </v-list-item>
+                    <v-text-field
+                    v-else
+                    v-model="lastName"
+                    :error-messages="LastNameErrors"
+                    label="نام خانوادگی"
+                    required
+                    @input="$v.lastName.$touch()"
+                    @blur="$v.lastName.$touch()"
+                    ></v-text-field>
 
-          <v-divider v-if="this.isEditingProf" inset />
+                </v-list-item>
 
-          <v-list-item v-if="showSaveBtn">
-            <v-btn
-              :disabled="this.$v.$anyError"
-              class="mr-4"
-              @click="SaveProf"
-            >
-              ذخیره
-            </v-btn>
-          </v-list-item>
-          <v-list-item v-if="!this.isEditingProf">
-            <v-btn
-              class="mr-4"
-              @click="logOut"
-            >
-              خروج
-            </v-btn>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-col>
-    <v-col>
-      <v-card
-        max-width="550"
-        class="mx-auto"
-      >
-        <v-row class="fill-height">
-          <v-card-title class="Black--text pl-12 pt-12">
-            <div class="display-1 pl-12 pt-12">
-              لیست لیبل ها
-            </div>
-          </v-card-title>
-        </v-row>
+                <v-divider inset></v-divider>
 
-        <v-list>
-          <v-list-item v-for="(label, index) in Labels" :key="index">
-            {{ lable }}
-            <v-spacer />
-            <v-btn
-              icon
-              class="mr-4"
-              @click="deletelable(index)"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-list-item>
-          <v-list-item>
-            <v-btn
-              class="mr-4"
-              @click="AddNewLable"
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon color="indigo">
+                      mdi-email
+                    </v-icon>
+                  </v-list-item-icon>
+
+                  <v-list-item-content v-if="!this.isEditingProf">
+                    <v-list-item-title>{{ Email }}</v-list-item-title>
+                    <v-list-item-subtitle>آدرس ایمیل</v-list-item-subtitle>
+                  </v-list-item-content>
+
+                  <v-text-field
+                    v-else
+                    v-model="email"
+                    :error-messages="emailErrors"
+                    label="آدرس ایمیل"
+                    required
+                    @input="$v.email.$touch()"
+                    @blur="$v.email.$touch()"
+                  ></v-text-field>
+
+                </v-list-item>
+
+                <v-divider v-if="this.isEditingProf" inset></v-divider>
+                
+                <v-list-item v-if="showSaveBtn">
+                  <v-btn
+                      :disabled="this.$v.$anyError"
+                      class="mr-4"
+                      @click="SaveProf"
+                    >
+                      ذخیره
+                    </v-btn>
+                </v-list-item>
+                <v-list-item v-if="!this.isEditingProf">
+                  <v-btn
+                  class="mr-4"
+                  @click="logOut"
+                  >
+                    خروج
+                  </v-btn>
+                </v-list-item>
+                <v-list-item>
+                  <v-btn
+                  class="mr-4"
+                  @click="goBack"
+                  >
+                    بازگشت به داشبورد
+                  </v-btn>
+                </v-list-item>
+              </v-list>
+          </v-card>
+        </v-col>
+        <v-col>
+            <v-card
+             max-width="550"
+            class="mx-auto"
             >
               <v-row class="fill-height">
                 <v-card-title class="Black--text pl-12 pt-12">
-                    <div class="display-1 pl-12 pt-12">
+                    <div>
                       لیست لیبل ها
                     </div>
                 </v-card-title>
@@ -203,11 +192,11 @@
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, email } from 'vuelidate/lib/validators'
+  import { validationMixin } from 'vuelidate'
+  import { required, email } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'Profile',
+  name: 'profile',
 
   mixins: [validationMixin],
 
@@ -220,53 +209,49 @@ export default {
   beforeCreate() {
     //getLabels()
   },
-
-  data () {
+  
+  data() {
     return {
       firstName: '',
       lastName: '',
       email: '',
-      UserName: '',
-      FirstName: '',
-      LastName: '',
-      Email: '',
-      Labels: [],
-      isEditingProf: false
-    }
+      UserName:'',
+      FirstName:'',
+      LastName:'',
+      Email:'',
+      Labels:[],
+      isEditingProf: false,
+    };
   },
 
   computed: {
-    FirstNameErrors () {
-      const errors = []
-      if (!this.$v.firstName.$dirty) { return errors }
-      !this.$v.firstName.required && errors.push('نام لازم است.')
-      return errors
+      FirstNameErrors () {
+        const errors = []
+        if (!this.$v.firstName.$dirty) return errors
+        !this.$v.firstName.required && errors.push('نام لازم است.')
+        return errors
+      },
+      LastNameErrors () {
+        const errors = []
+        if (!this.$v.lastName.$dirty) return errors
+        !this.$v.lastName.required && errors.push('نام خانوادگی لازم است.')
+        return errors
+      },
+      emailErrors () {
+        const errors = []
+        if (!this.$v.email.$dirty) return errors
+        !this.$v.email.email && errors.push('ایمیل باید معتبر باشد.')
+        !this.$v.email.required && errors.push('ایمیل لازم است.')
+        return errors
+      },
+      showSaveBtn () {
+        if (!this.isEditingProf) return false
+        if (this.$v.firstName.$dirty) return true
+        if (this.$v.lastName.$dirty) return true
+        if (this.$v.email.$dirty) return true
+        return false
+      }
     },
-    LastNameErrors () {
-      const errors = []
-      if (!this.$v.lastName.$dirty) { return errors }
-      !this.$v.lastName.required && errors.push('نام خانوادگی لازم است.')
-      return errors
-    },
-    emailErrors () {
-      const errors = []
-      if (!this.$v.email.$dirty) { return errors }
-      !this.$v.email.email && errors.push('ایمیل باید معتبر باشد.')
-      !this.$v.email.required && errors.push('ایمیل لازم است.')
-      return errors
-    },
-    showSaveBtn () {
-      if (!this.isEditingProf) { return false }
-      if (this.$v.firstName.$dirty) { return true }
-      if (this.$v.lastName.$dirty) { return true }
-      if (this.$v.email.$dirty) { return true }
-      return false
-    }
-  },
-
-  beforeCreate () {
-    // getLables()
-  },
 
     methods: {
       getLabels () {
@@ -304,13 +289,10 @@ export default {
         localStorage.removeItem('refresh')
         this.$router.push({name: 'login'})
       },
+      goBack(){
+        //return to dashboard
+        this.$router.push({name: 'dashboard'})
+      },
     },
-    logOut () {
-      localStorage.setItem('access', false)
-      this.$axios.setHeader('Authorization')
-      localStorage.removeItem('refresh')
-      this.$router.push({ name: 'login' })
-    }
-  }
-}
+};
 </script>
