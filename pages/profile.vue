@@ -28,7 +28,7 @@
                     <v-spacer></v-spacer>
 
                   <div class="display-1 pl-12 pt-12">
-                    Profile information
+                    اطلاعات شخصی
                   </div>
               </v-card-title>
             </v-row>
@@ -43,13 +43,13 @@
 
                   <v-list-item-content v-if="!this.isEditingProf">
                     <v-list-item-title>{{ UserName }}</v-list-item-title>
-                    <v-list-item-subtitle>User Name</v-list-item-subtitle>
+                    <v-list-item-subtitle>نام کاربری</v-list-item-subtitle>
                   </v-list-item-content>
 
                   <v-text-field 
                     v-else
                     v-model="UserName"
-                    label="User Name"
+                    label="نام کاربری"
                     disabled
                   ></v-text-field>
 
@@ -61,14 +61,14 @@
 
                     <v-list-item-content v-if="!this.isEditingProf">
                       <v-list-item-title>{{ FirstName }}</v-list-item-title>
-                      <v-list-item-subtitle>First Name</v-list-item-subtitle>
+                      <v-list-item-subtitle>نام</v-list-item-subtitle>
                     </v-list-item-content>
 
                     <v-text-field
                       v-else
                       v-model="firstName"
                       :error-messages="FirstNameErrors"
-                      label="First Name"
+                      label="نام"
                       required
                       @input="$v.firstName.$touch()"
                       @blur="$v.firstName.$touch()"
@@ -82,14 +82,14 @@
 
                     <v-list-item-content v-if="!this.isEditingProf">
                       <v-list-item-title>{{ LastName }}</v-list-item-title>
-                      <v-list-item-subtitle>Last Name</v-list-item-subtitle>
+                      <v-list-item-subtitle>نام خانوادگی</v-list-item-subtitle>
                     </v-list-item-content>
 
                     <v-text-field
                     v-else
                     v-model="lastName"
                     :error-messages="LastNameErrors"
-                    label="Last Name"
+                    label="نام خانوادگی"
                     required
                     @input="$v.lastName.$touch()"
                     @blur="$v.lastName.$touch()"
@@ -108,14 +108,14 @@
 
                   <v-list-item-content v-if="!this.isEditingProf">
                     <v-list-item-title>{{ Email }}</v-list-item-title>
-                    <v-list-item-subtitle>Email Adress</v-list-item-subtitle>
+                    <v-list-item-subtitle>آدرس ایمیل</v-list-item-subtitle>
                   </v-list-item-content>
 
                   <v-text-field
                     v-else
                     v-model="email"
                     :error-messages="emailErrors"
-                    label="E-mail"
+                    label="آدرس ایمیل"
                     required
                     @input="$v.email.$touch()"
                     @blur="$v.email.$touch()"
@@ -127,11 +127,11 @@
                 
                 <v-list-item v-if="showSaveBtn">
                   <v-btn
-                      :disabled="this.$v.$anyError || (this.$v.password.$dirty && !this.$v.repeatPassword.required)"
+                      :disabled="this.$v.$anyError"
                       class="mr-4"
                       @click="SaveProf"
                     >
-                      Save
+                      ذخیره
                     </v-btn>
                 </v-list-item>
                 <v-list-item v-if="!this.isEditingProf">
@@ -139,7 +139,7 @@
                   class="mr-4"
                   @click="logOut"
                   >
-                    Log Out
+                    خروج
                   </v-btn>
                 </v-list-item>
               </v-list>
@@ -153,22 +153,28 @@
               <v-row class="fill-height">
                 <v-card-title class="Black--text pl-12 pt-12">
                     <div class="display-1 pl-12 pt-12">
-                      List of Lables
+                      لیست لیبل ها
                     </div>
                 </v-card-title>
               </v-row>
             
               <v-list>
-                <v-list-item v-for="(lable, index) in Lables" :key="index">
-                  <v-list-item-action v-if="index != 0"></v-list-item-action>
-                  {{label}}
+                <v-list-item v-for="(label, index) in Labels" :key="index">
+                    {{ lable }}
+                    <v-spacer></v-spacer>
+                    <v-btn 
+                      icon
+                      class="mr-4"
+                      @click="deletelable(index)">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
                 </v-list-item>
                 <v-list-item>
                   <v-btn
                       class="mr-4"
                       @click="AddNewLable"
                     >
-                      Add New Label
+                      افزودن لیبل جدید
                     </v-btn>
                 </v-list-item>
               </v-list>
@@ -179,7 +185,7 @@
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import { required, email , minLength , sameAs } from 'vuelidate/lib/validators'
+  import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   name: 'profile',
@@ -190,8 +196,6 @@ export default {
       firstName: { required },
       lastName: { required },
       email: { required, email },
-      password: { minLength: minLength(8) },
-      repeatPassword: { required, sameAsPassword: sameAs('password')},
     },
 
   beforeCreate() {
@@ -207,7 +211,7 @@ export default {
       FirstName:'',
       LastName:'',
       Email:'',
-      Lables:[],
+      Labels:[],
       isEditingProf: false,
     };
   },
@@ -216,25 +220,24 @@ export default {
       FirstNameErrors () {
         const errors = []
         if (!this.$v.firstName.$dirty) return errors
-        !this.$v.firstName.required && errors.push('First Name is required.')
+        !this.$v.firstName.required && errors.push('نام لازم است.')
         return errors
       },
       LastNameErrors () {
         const errors = []
         if (!this.$v.lastName.$dirty) return errors
-        !this.$v.lastName.required && errors.push('Last Name is required.')
+        !this.$v.lastName.required && errors.push('نام خانوادگی لازم است.')
         return errors
       },
       emailErrors () {
         const errors = []
         if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
+        !this.$v.email.email && errors.push('ایمیل باید معتبر باشد.')
+        !this.$v.email.required && errors.push('ایمیل لازم است.')
         return errors
       },
       showSaveBtn () {
         if (!this.isEditingProf) return false
-        if (this.$v.password.$dirty) return true
         if (this.$v.firstName.$dirty) return true
         if (this.$v.lastName.$dirty) return true
         if (this.$v.email.$dirty) return true
@@ -267,6 +270,10 @@ export default {
         this.firstName = ''
         this.lastName = ''
         this.email = ''
+      },
+      deletelable(x){
+        //delete request
+        this.Lables.splice(x, 1)
       },
       logOut(){
         localStorage.setItem('access', false)

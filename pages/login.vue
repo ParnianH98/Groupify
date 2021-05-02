@@ -3,19 +3,19 @@
     <v-container>
       <form> 
         <v-card-title class="Black--text pl-12 pt-12">
-            <div class="display-1 pl-12 pt-12">
-              Wellcome!
+            <div class="display-1 pl-12 pt-12 rlt">
+            نام کاربری و رمز ورود را وارد کنید
             </div>
         </v-card-title>
         <v-text-field
         v-model="UserName"
-        label="User Name"
+        label="نام کاربری"
         required
         ></v-text-field>
         <v-text-field
         v-model="Password"
         :type="'password'"
-        label="Password"
+        label="رمز ورود"
         required
         ></v-text-field>
 
@@ -23,7 +23,7 @@
           class="mr-4"
           @click="submit"
           >
-              Log in
+            ورود
         </v-btn>
       </form>
     </v-container>
@@ -32,10 +32,10 @@
 
     <v-container>
         <div>
-            New yo to our site?
+            عضو نیستید؟
             <v-btn small
             @click="goToSignUp">
-            Sing Up
+            ثبت نام
             </v-btn> 
         </div>
     </v-container>
@@ -58,6 +58,7 @@ export default {
   data: () => ({
     UserName: '',
     Password: '',
+    text:[]
     }),
 
   methods: {
@@ -73,6 +74,7 @@ export default {
       localStorage.setItem('accesss', true)
       localStorage.setItem('refresh', res.data.refresh_token)
       refreshToken(this)
+      this.$router.push({name:'dashboard'})
       },
     goToSignUp () {
       this.$router.push({name:'signup'});
