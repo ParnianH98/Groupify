@@ -153,15 +153,21 @@
               <v-row class="fill-height">
                 <v-card-title class="Black--text pl-12 pt-12">
                     <div class="display-1 pl-12 pt-12">
-                      List of Lables
+                      List of Labels
                     </div>
                 </v-card-title>
               </v-row>
             
               <v-list>
-                <v-list-item v-for="(lable, index) in Lables" :key="index">
-                  <v-list-item-action v-if="index != 0"></v-list-item-action>
-                  {{label}}
+                <v-list-item v-for="(item, index) in Labels" :key="index">
+                    {{ item }}
+                    <v-spacer></v-spacer>
+                    <v-btn 
+                      icon
+                      class="mr-4"
+                      @click="deletelabel(index)">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
                 </v-list-item>
                 <v-list-item>
                   <v-btn
@@ -179,7 +185,7 @@
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import { required, email , minLength , sameAs } from 'vuelidate/lib/validators'
+  import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   name: 'profile',
@@ -190,12 +196,10 @@ export default {
       firstName: { required },
       lastName: { required },
       email: { required, email },
-      password: { minLength: minLength(8) },
-      repeatPassword: { required, sameAsPassword: sameAs('password')},
     },
 
   beforeCreate() {
-    //getLables()
+    //getLabels()
   },
   
   data() {
@@ -207,7 +211,7 @@ export default {
       FirstName:'',
       LastName:'',
       Email:'',
-      Lables:[],
+      Labels:[],
       isEditingProf: false,
     };
   },
@@ -243,8 +247,8 @@ export default {
     },
 
     methods: {
-      getLables () {
-        //get lables from api
+      getLabels () {
+        //get labels from api
       },
       AddNewLable() {
         this.$router.push({name:'inspire'})
@@ -267,6 +271,10 @@ export default {
         this.firstName = ''
         this.lastName = ''
         this.email = ''
+      },
+      deletelabel(x){
+        //delete request
+        this.Labels.splice(x, 1)
       },
       logOut(){
         localStorage.setItem('access', false)
