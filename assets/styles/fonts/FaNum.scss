@@ -1,0 +1,63 @@
+@font-face {
+	font-family: FaNum;
+	font-style: normal;
+	font-weight: 200;
+	src: url('~static/fonts/FaNum/eot/FaNum_UltraLight.eot');
+	src: url('~static/fonts/FaNum/eot/FaNum_UltraLight.eot?#iefix')
+			format('embedded-opentype'),
+		url('~static/fonts/FaNum/woff2/FaNum_UltraLight.woff2') format('woff2'),
+		url('~static/fonts/FaNum/woff/FaNum_UltraLight.woff') format('woff'),
+		url('~static/fonts/FaNum/ttf/FaNum_UltraLight.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: FaNum;
+	font-style: normal;
+	font-weight: 300;
+	src: url('~static/fonts/FaNum/eot/FaNum_Light.eot');
+	src: url('~static/fonts/FaNum/eot/FaNum_Light.eot?#iefix')
+			format('embedded-opentype'),
+		url('~static/fonts/FaNum/woff2/FaNum_Light.woff2') format('woff2'),
+		url('~static/fonts/FaNum/woff/FaNum_Light.woff') format('woff'),
+		url('~static/fonts/FaNum/ttf/FaNum_Light.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: FaNum;
+	font-style: normal;
+	font-weight: 400;
+	src: url('~static/fonts/FaNum/eot/FaNum.eot');
+	src: url('~static/fonts/FaNum/eot/FaNum.eot?#iefix')
+			format('embedded-opentype'),
+		url('~static/fonts/FaNum/woff2/FaNum.woff2') format('woff2'),
+		url('~static/fonts/FaNum/woff/FaNum.woff') format('woff'),
+		url('~static/fonts/FaNum/ttf/FaNum.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: FaNum;
+	font-style: normal;
+	font-weight: 500;
+	src: url('~static/fonts/FaNum/eot/FaNum_Medium.eot');
+	src: url('~static/fonts/FaNum/eot/FaNum_Medium.eot?#iefix')
+			format('embedded-opentype'),
+		url('~static/fonts/FaNum/woff2/FaNum_Medium.woff2') format('woff2'),
+		url('~static/fonts/FaNum/woff/FaNum_Medium.woff') format('woff'),
+		url('~static/fonts/FaNum/ttf/FaNum_Medium.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: FaNum;
+	font-style: normal;
+	font-weight: 700;
+	src: url('~static/fonts/FaNum/eot/FaNum_Bold.eot');
+	src: url('~static/fonts/FaNum/eot/FaNum_Bold.eot?#iefix')
+			format('embedded-opentype'),
+		url('~static/fonts/FaNum/woff2/FaNum_Bold.woff2') format('woff2'),
+		url('~static/fonts/FaNum/woff/FaNum_Bold.woff') format('woff'),
+		url('~static/fonts/FaNum/ttf/FaNum_Bold.ttf') format('truetype');
+}
+
+.fanum {
+	font-family: FaNum, sans-serif !important;
+}

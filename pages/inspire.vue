@@ -2,35 +2,32 @@
   <v-stepper v-model="e1">
     <v-stepper-header>
       <v-stepper-step :complete="e1 > 1" step="1">
-        در کدام دوره به دنبال هم‌گروهی می‌گردید؟
+        دوره تحصیلی
       </v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step v-if="radios === 'highschool'" step="2">
-        در چه پایه‌ای؟
-      </v-stepper-step>
-      <v-stepper-step v-if="radios === 'university'" step="2">
-        در چه مقطعی؟
+      <v-stepper-step :complete="e1 > 2" step="2">
+        پایه/مقطع
       </v-stepper-step>
 
       <v-divider></v-divider>
 
       <v-stepper-step  :complete="e1 > 3" step="3">
-        رشته تحصیلی شما چیست؟
+        رشته تحصیلی 
       </v-stepper-step>
 
       <v-divider></v-divider>
 
       <v-stepper-step  :complete="e1 > 4" step="4">
-        درس مورد نظر خود را انتخاب کنید.
+        درس
       </v-stepper-step>
 
       <v-divider></v-divider>
 
 
       <v-stepper-step :complete="e1 > 5" step="5">
-        لطفا اطلاعات زیر را وارد کنید.
+        اطلاعات بیشتر
       </v-stepper-step>
 
     </v-stepper-header>
@@ -38,24 +35,29 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-container fluid>
-          <p>{{ radios || "null" }}</p>
+          <p>در کدام دوره به دنبال هم‌گروهی می‌گردید؟</p>
           <v-radio-group v-model="radios" mandatory>
             <v-radio label="دانشگاه" value="university"></v-radio>
             <v-radio label="دبیرستان" value="highschool"></v-radio>
           </v-radio-group>
         </v-container>
         <v-btn color="primary" @click="e1 = 2">
-          Continue
+          ادامه
         </v-btn>
 
         <v-btn text>
-          Cancel
+          انصراف
         </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="2">
         <v-container fluid>
-          <p>{{ radios2 || "null" }}</p>
+          <p v-if="radios === 'highschool'">
+            در چه پایه‌ای؟
+          </p>
+          <p v-if="radios === 'university'">
+            در چه مقطعی؟
+          </p>
           <v-radio-group
             v-if="radios === 'university'"
             v-model="radios2"
@@ -72,17 +74,17 @@
         </v-container>
 
         <v-btn color="primary" @click="e1 = 3">
-          Continue
+          ادامه
         </v-btn>
 
         <v-btn text>
-          Cancel
+          انصراف
         </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="3">
         <v-container fluid>
-          <p>{{ radios3 || "null" }}</p>
+          <p>رشته تحصیلی شما چیست؟</p>
           <v-radio-group
             v-if="radios2 === 'bsc'"
             v-model="radios3"
@@ -103,17 +105,17 @@
           
         </v-container>
         <v-btn color="primary" @click="e1 = 4">
-          Continue
+          ادامه
         </v-btn>
 
         <v-btn text>
-          Cancel
+          انصراف
         </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="4">
         <v-container fluid>
-          <p>{{ radios4 || "null" }}</p>
+          <p>درس</p>
           
           <v-radio-group v-if="radios3 === 'ee'" v-model="radios4" mandatory>
             <v-radio label="Network 1" value="nw1"></v-radio>
@@ -156,17 +158,17 @@
           </v-radio-group>
         </v-container>
         <v-btn color="primary" @click="e1 = 5">
-          Continue
+          ادامه
         </v-btn>
 
         <v-btn text>
-          Cancel
+          انصراف
         </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="5">
         <v-container fluid>
-          <p>{{ radios5 || "null" }}</p>
+          <p>لطفا اطلاعات زیر را وارد کنید.</p>
           <v-form>
             <v-container>
               <v-row>
@@ -175,7 +177,7 @@
                   sm="6"
                 >
                   <v-text-field
-                    v-model="title"
+                    v-model="duration"
                     label="به مدت چند هفته مایلید با هم‌گروهی خود به مطالعه این درس بپردازید؟"
                   ></v-text-field>
                 </v-col>
@@ -185,7 +187,7 @@
                   sm="6"
                 >
                   <v-text-field
-                    v-model="title"
+                    v-model="hours"
                     label="حداقل چند ساعت در هفته می‌توانید برای مطالعه این درس زمان بگذارید؟"
                   ></v-text-field>
                 </v-col>
@@ -210,11 +212,11 @@
 
         </v-container>
         <v-btn color="primary" @click="ClickHandler5">
-          Continue
+          ادامه
         </v-btn>
 
         <v-btn text>
-          Cancel
+          انصراف
         </v-btn>
       </v-stepper-content>
 
@@ -228,7 +230,7 @@
 export default {
   methods:{
     ClickHandler5(){
-      this.$router.push({name:'dashboard'});
+      this.$router.push({name:'makerequest'});
     }
   },
   data() {
@@ -238,7 +240,9 @@ export default {
       radios3: null,
       radios4: null,
       radios5: null,
-      title: "",
+      duration: 4,
+      hours: 3,
+      title: " ",
       e1: 1
     };
   }
