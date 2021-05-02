@@ -127,7 +127,7 @@
                 
                 <v-list-item v-if="showSaveBtn">
                   <v-btn
-                      :disabled="this.$v.$anyError || (this.$v.password.$dirty && !this.$v.repeatPassword.required)"
+                      :disabled="this.$v.$anyError"
                       class="mr-4"
                       @click="SaveProf"
                     >
