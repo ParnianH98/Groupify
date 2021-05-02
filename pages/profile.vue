@@ -169,13 +169,37 @@
               class="mr-4"
               @click="AddNewLable"
             >
-              افزودن لیبل جدید
-            </v-btn>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-col>
-  </v-row>
+              <v-row class="fill-height">
+                <v-card-title class="Black--text pl-12 pt-12">
+                    <div class="display-1 pl-12 pt-12">
+                      لیست لیبل ها
+                    </div>
+                </v-card-title>
+              </v-row>
+            
+              <v-list>
+                <v-list-item v-for="(item, index) in Labels" :key="index">
+                    {{ item }}
+                    <v-spacer></v-spacer>
+                    <v-btn 
+                      icon
+                      class="mr-4"
+                      @click="deletelabel(index)">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-list-item>
+                <v-list-item>
+                  <v-btn
+                      class="mr-4"
+                      @click="AddNewLabel"
+                    >
+                      افزودن لیبل جدید
+                    </v-btn>
+                </v-list-item>
+              </v-list>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -188,9 +212,13 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    firstName: { required },
-    lastName: { required },
-    email: { required, email }
+      firstName: { required },
+      lastName: { required },
+      email: { required, email },
+    },
+
+  beforeCreate() {
+    //getLabels()
   },
 
   data () {
@@ -240,35 +268,42 @@ export default {
     // getLables()
   },
 
-  methods: {
-    getLables () {
-      // get lables from api
-    },
-    AddNewLable () {
-      this.$router.push({ name: 'inspire' })
-    },
-    SaveProf () {
-      this.FirstName = this.firstName
-      this.LastName = this.lastName
-      this.Email = this.email
-      this.closeProfEdit()
-    },
-    startProfEdit () {
-      this.isEditingProf = true
-      this.firstName = this.FirstName
-      this.lastName = this.LastName
-      this.email = this.Email
-    },
-    closeProfEdit () {
-      this.$v.$reset()
-      this.isEditingProf = false
-      this.firstName = ''
-      this.lastName = ''
-      this.email = ''
-    },
-    deletelable (x) {
-      // delete request
-      this.Lables.splice(x, 1)
+    methods: {
+      getLabels () {
+        //get labels from api
+      },
+      AddNewLabel() {
+        this.$router.push({name:'inspire'})
+      },
+      SaveProf () {
+        this.FirstName = this.firstName
+        this.LastName = this.lastName
+        this.Email = this.email
+        this.closeProfEdit()
+      },
+      startProfEdit () {
+        this.isEditingProf = true
+        this.firstName = this.FirstName
+        this.lastName = this.LastName
+        this.email = this.Email
+      },
+      closeProfEdit () {
+        this.$v.$reset()
+        this.isEditingProf = false
+        this.firstName = ''
+        this.lastName = ''
+        this.email = ''
+      },
+      deletelabel(x){
+        //delete request
+        this.Labels.splice(x, 1)
+      },
+      logOut(){
+        localStorage.setItem('access', false)
+        this.$axios.setHeader('Authorization')
+        localStorage.removeItem('refresh')
+        this.$router.push({name: 'login'})
+      },
     },
     logOut () {
       localStorage.setItem('access', false)
