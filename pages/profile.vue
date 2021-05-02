@@ -159,20 +159,20 @@
               </v-row>
             
               <v-list>
-                <v-list-item v-for="(label, index) in Labels" :key="index">
-                    {{ lable }}
+                <v-list-item v-for="(item, index) in Labels" :key="index">
+                    {{ item }}
                     <v-spacer></v-spacer>
                     <v-btn 
                       icon
                       class="mr-4"
-                      @click="deletelable(index)">
+                      @click="deletelabel(index)">
                       <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-list-item>
                 <v-list-item>
                   <v-btn
                       class="mr-4"
-                      @click="AddNewLable"
+                      @click="AddNewLabel"
                     >
                       افزودن لیبل جدید
                     </v-btn>
@@ -199,7 +199,7 @@ export default {
     },
 
   beforeCreate() {
-    //getLables()
+    //getLabels()
   },
   
   data() {
@@ -246,10 +246,10 @@ export default {
     },
 
     methods: {
-      getLables () {
-        //get lables from api
+      getLabels () {
+        //get labels from api
       },
-      AddNewLable() {
+      AddNewLabel() {
         this.$router.push({name:'inspire'})
       },
       SaveProf () {
@@ -271,9 +271,9 @@ export default {
         this.lastName = ''
         this.email = ''
       },
-      deletelable(x){
+      deletelabel(x){
         //delete request
-        this.Lables.splice(x, 1)
+        this.Labels.splice(x, 1)
       },
       logOut(){
         localStorage.setItem('access', false)
