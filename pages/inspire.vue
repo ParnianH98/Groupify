@@ -230,6 +230,8 @@ export default {
   },
   methods: {
     ClickHandler5 () {
+      const res = postReq(this, "api/groups/all",{})
+      console.log(res)
       this.$router.push({ name: 'makerequest' })
     }
   }

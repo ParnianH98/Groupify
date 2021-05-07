@@ -192,13 +192,13 @@ export default {
 
   data() {
     return {
-      firstName: "",
-      lastName: "",
-      email: "",
-      UserName: "",
-      FirstName: "",
-      LastName: "",
-      Email: "",
+      firstName: "پرنیان",
+      lastName: "حاتمی",
+      email: "p.hatami98@gmail.com",
+      UserName: "p.hatami98",
+      FirstName: "پرنیان",
+      LastName: "حاتمی",
+      Email: "p.hatami98@gmail.com",
       Labels: [],
       isEditingProf: false
     };
