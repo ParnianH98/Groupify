@@ -225,15 +225,22 @@ export default {
       duration: 4,
       hours: 3,
       title: ' ',
+      courseCode: 0,
       e1: 1
     }
   },
   methods: {
     ClickHandler5 () {
-      const res = postReq(this, "api/groups/all",{})
+      try{
+        const res = postReq(this, "api/topics/children/<int:id>",{
+          coursecode = this.courseCode
+        })
       console.log(res)
       this.$router.push({ name: 'makerequest' })
-    }
+      }catch (e){
+        console.log(e)
+      }
+    },
   }
 }
 </script>
