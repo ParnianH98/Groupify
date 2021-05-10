@@ -233,7 +233,7 @@ export default {
     ClickHandler5 () {
       try{
         const res = postReq(this, "api/topics/children/<int:id>",{
-          coursecode = this.courseCode
+          coursecode: this.courseCode
         })
       console.log(res)
       this.$router.push({ name: 'makerequest' })
