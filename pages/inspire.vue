@@ -236,7 +236,7 @@ export default {
           coursecode: this.courseCode
         })
       console.log(res)
-      this.$router.push({ name: 'makerequest' })
+      this.$router.push({ name: 'dashboard' })
       }catch (e){
         console.log(e)
       }

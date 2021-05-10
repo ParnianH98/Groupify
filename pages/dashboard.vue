@@ -48,24 +48,30 @@
           </v-list>
         </v-card>
       </v-col>
-      <v-col lg="55" md="10" sm="12">
-        <v-row class="mt-2" align="center" justify="space-around">
-          <v-btn color="deep-purple lighten-1" @click="clickHandler('profile')">
-            پروفایل
-          </v-btn>
-          <v-btn
-            color="deep-purple lighten-2"
-            @click="clickHandler('makerequest')"
-          >
-            ارسال درخواست
-          </v-btn>
-          <v-btn
-            color="deep-purple lighten-3"
-            @click="clickHandler('requestbox')"
-          >
-            درخواست‌های دریافتی
-          </v-btn>
-        </v-row>
+      <v-col cols="12" sm="6" offset-sm="3">
+        <v-card height="200px">
+          <v-card-title class="purple white--text">
+            <span class="headline">Dashboard</span>
+
+            <v-spacer></v-spacer>
+
+            <v-menu bottom right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn dark icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item v-for="(item, i) in menuItems" :key="i">
+                  <v-list-item-title @click="menuHandler(pageItems(i))">{{
+                    item.title
+                  }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-card-title>
+        </v-card>
       </v-col>
     </v-row>
     <v-snackbar v-model="snackbar">
@@ -87,11 +93,11 @@ export default {
     this.loadPage();
   },
   methods: {
-    clickHandler(newrout) {
+    menuHandler(newrout) {
       this.$router.push({ name: newrout });
     },
     loadPage() {
-      getReq(this, "api/groups/all")
+      getReq(this, "api/groups/own")
         .then(({ data }) => {
           this.items = data;
         })
@@ -101,6 +107,12 @@ export default {
     }
   },
   data: () => ({
+    menuItems: [
+      { title: "پروفایل" },
+      { title: "ارسال درخواست" },
+      { title: "درخواست‌های دریافتی" }
+    ],
+    pageItems: ["profile", "makerequest", "requestbox"],
     items: [],
     snackbar: false,
     text: `retrieve error!`
