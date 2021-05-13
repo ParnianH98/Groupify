@@ -19,7 +19,7 @@
 
             <v-spacer />
 
-            <div class="display-1 pl-12 pt-12">
+            <div>
               اطلاعات شخصی
             </div>
           </v-card-title>
@@ -125,46 +125,39 @@
       </v-card>
     </v-col>
     <v-col>
-      <v-card max-width="550" class="mx-auto">
+      <v-card max-width="560" class="mx-auto">
         <v-row class="fill-height">
           <v-card-title class="Black--text pl-12 pt-12">
-            <div class="display-1 pl-12 pt-12">
+            <div>
               لیست لیبل ها
             </div>
           </v-card-title>
         </v-row>
 
         <v-list>
-          <v-list-item v-for="(label, index) in Labels" :key="index">
-            {{ lable }}
-            <v-spacer />
-            <v-btn icon class="mr-4" @click="deletelable(index)">
+          <v-list-item v-for="(item, index) in Labels" :key="index">
+            <dive>
+              نام درس:
+              {{ item.topic.name }}
+              ساعت در هفته:
+              {{ item.hours_per_week }}
+              هفته:
+              {{ item.weeks }}
+              توضیحات:
+              {{ item.slug }}
+              توضیحات بیشتر:
+              {{ item.description }}
+            </dive>
+            <v-spacer></v-spacer>
+            <v-btn icon class="mr-4" @click="deletelabel(index)">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-list-item>
-          <v-btn class="mr-4" @click="AddNewLable"></v-btn>
-          <v-row class="fill-height">
-            <v-card-title class="Black--text pl-12 pt-12">
-              <div class="display-1 pl-12 pt-12">
-                لیست لیبل ها
-              </div>
-            </v-card-title>
-          </v-row>
-
-          <v-list>
-            <v-list-item v-for="(item, index) in Labels" :key="index">
-              {{ item }}
-              <v-spacer></v-spacer>
-              <v-btn icon class="mr-4" @click="deletelabel(index)">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-list-item>
-            <v-list-item>
-              <v-btn class="mr-4" @click="AddNewLabel">
-                افزودن لیبل جدید
-              </v-btn>
-            </v-list-item>
-          </v-list>
+          <v-list-item>
+            <v-btn class="mr-4" @click="AddNewLabel">
+              افزودن لیبل جدید
+            </v-btn>
+          </v-list-item>
         </v-list>
       </v-card>
     </v-col>
@@ -186,15 +179,34 @@ export default {
     email: { required, email }
   },
 
-  beforeCreate() {
-    //getLabels()
+  created() {
+    //this.getLabels()
+    this.Labels = [
+        {
+            "id": 1,
+            "owner": {
+                "id": 1,
+                "username": "mohi"
+            },
+            "active": false,
+            "created_at": "2021-05-02T14:18:50.864946Z",
+            "hours_per_week": 4,
+            "topic": {
+                "id": 9,
+                "name": "Compiler"
+            },
+            "weeks": 7,
+            "slug": "studying compiler for this semester",
+            "description": "fridays and saturdays at faculty lobbby"
+        }
+    ]
   },
 
   data() {
     return {
-      firstName: "پرنیان",
-      lastName: "حاتمی",
-      email: "p.hatami98@gmail.com",
+      firstName: "",
+      lastName: "",
+      email: "",
       UserName: "p.hatami98",
       FirstName: "پرنیان",
       LastName: "حاتمی",
@@ -247,16 +259,19 @@ export default {
     }
   },
 
-  beforeCreate() {
-    // getLables()
-  },
-
   methods: {
-    getLabels() {
-      //get labels from api
+    async getLabels () {
+      // get labels from api
+      try{
+        const res = await getReq(this, '/api/demands/owned')
+        this.Labels = res.response.data
+      } catch (err) {
+        console.log(err)
+      }
     },
     AddNewLabel() {
-      this.$router.push({ name: "inspire" });
+      //this.$router.push({ name: "inspire" });
+      console.log(this.Labels)
     },
     SaveProf() {
       this.FirstName = this.firstName;
