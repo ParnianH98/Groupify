@@ -15,7 +15,42 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-container fluid>
-          <p>{{ String(selectedlabel.topic.name)+'| ساعت در هفته:'+String(selectedlabel.hours_per_week)+'| هفته:'+String(selectedlabel.weeks) || "شما هنوز لیبلی ندارید" }}</p>
+          <p v-if="selectedlabel === null">
+             "شما هنوز لیبلی ندارید" 
+          </p>
+          <p v-else>
+            <v-chip
+              class="ma-2"
+              color="indigo"
+              >
+              نام درس:
+              {{ selectedlabel.topic.name }}
+              </v-chip>
+              <v-chip
+              class="ma-2"
+              >
+              ساعت در هفته:
+              {{ selectedlabel.hours_per_week }}
+              </v-chip>
+              <v-chip
+              class="ma-2"
+              >
+              هفته:
+              {{ selectedlabel.weeks }}
+              </v-chip>
+              <v-chip
+              class="ma-2"
+              >
+              توضیحات:
+              {{ selectedlabel.slug }}
+              </v-chip>
+              <v-chip
+              class="ma-2"
+              >
+              توضیحات بیشتر:
+              {{ selectedlabel.description }}
+              </v-chip>
+            </p>
           <v-radio-group v-model="selectedlabel" mandatory>
             <v-radio v-for="(item, index) in Labels" :key="index" :label="String(item.topic.name)" :value="item" />
           </v-radio-group>
@@ -42,7 +77,46 @@
           <v-list>
             <v-list-item v-for="(item, index) in similarUsers" :key="index">
               <v-list-item-content>
-                {{ ShowSearchItem(item) }}
+                <p>
+                  <v-chip
+                    class="ma-2"
+                    color="indigo"
+                    >
+                    نام کاربری:
+                    {{ item.owner.username }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    color="indigo"
+                    >
+                    نام درس:
+                    {{ item.topic.name }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    >
+                    ساعت در هفته:
+                    {{ item.hours_per_week }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    >
+                    هفته:
+                    {{ item.weeks }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    >
+                    توضیحات:
+                    {{ item.slug }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    >
+                    توضیحات بیشتر:
+                    {{ item.description }}
+                  </v-chip>
+                </p>
                 <v-btn @click="sendrequest(index)">
                   ارسال درخواست
                 </v-btn>
@@ -68,7 +142,7 @@ import { postReq, getReq } from '~/utils/services'
 export default {
   name: 'Makerequest',
 
-  async Create () {
+  async created () {
     await this.getLabels()
   },
 
@@ -105,12 +179,6 @@ export default {
       } catch (err) {
         console.log(err)
       }
-    },
-    showSearchItem( item ){
-      const str = 'کاربر:' + String(item.owner.username) 
-      str = str + '| نام درس:' + String(item.topic.name) + '| ساعت در هفته:' +String(item.hours_per_week) + '| هفته:' +String(item.weeks)
-      str = str +'| توضیحات بیشتر:' + String(item.slug) + '| توضیحات بیشتر:' + String(item.description)
-      return str
     },
     async sendrequest (x) {
       // send the request to api to similarUsers[x]
