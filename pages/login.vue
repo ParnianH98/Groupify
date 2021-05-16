@@ -3,23 +3,32 @@
     <v-container>
       <form>
         <v-card-title class="Black--text pl-12 pt-12">
-          <div class="display-1 pl-12 pt-12 rlt">
+          <div>
             نام کاربری و رمز ورود را وارد کنید
           </div>
         </v-card-title>
+        <div v-if="this.isLoading">
+            <v-progress-linear
+              indeterminate
+              color="green"
+              ></v-progress-linear>
+        </div>
         <v-text-field
           v-model="UserName"
+          :disabled="isLoading"
           label="نام کاربری"
           required
         />
         <v-text-field
           v-model="Password"
+          :disabled="isLoading"
           :type="'password'"
           label="رمز ورود"
           required
         />
 
         <v-btn
+          :disabled="beDisable"
           class="mr-4"
           @click="submit"
         >
@@ -54,7 +63,7 @@ export default {
   data: () => ({
     UserName: '',
     Password: '',
-    text: []
+    isLoading: false
   }),
   head () {
     return {
@@ -62,20 +71,33 @@ export default {
     }
   },
 
+  computed:{
+    beDisable(){
+      if(this.isLoading) return true
+      return (this.UserName === '') || (this.Password === '')
+    }
+  },
+
   methods: {
     async submit () {
-      const res = await postReq(this, 'api/token/',
-        {
-          username: this.UserName,
-          password: this.Password
-        }
-      )
-      console.log(res)
-      this.$axios.setToken(res.data.access_token, 'Bearer')
-      localStorage.setItem('accesss', true)
-      localStorage.setItem('refresh', res.data.refresh_token)
-      refreshToken(this)
-      this.$router.push({ name: 'dashboard' })
+      this.isLoading = !this.isLoading
+      try{
+        const res = await postReq(this, 'api/token/',
+          {
+            username: this.UserName,
+            password: this.Password
+          }
+        )
+        this.isLoading = !this.isLoading
+        console.log(res)
+        this.$axios.setToken(res.data.access_token, 'Bearer')
+        localStorage.setItem('accesss', true)
+        localStorage.setItem('refresh', res.data.refresh_token)
+        refreshToken(this)
+        this.$router.push({ name: 'dashboard' })
+      } catch (err){
+        console.error(err)
+      }
     },
     goToSignUp () {
       this.$router.push({ name: 'signup' })

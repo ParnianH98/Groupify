@@ -211,7 +211,47 @@ export default {
   },
 
   created() {
-    this.getLabels()
+    //this.getLabels()
+    this.Labels = [
+        {
+            "id": 1,
+            "owner": {
+                "id": 1,
+                "username": "mohi"
+            },
+            "active": false,
+            "created_at": "2021-05-02T14:18:50.864946Z",
+            "hours_per_week": 4,
+            "topic": {
+                "id": 9,
+                "name": "Compiler"
+            },
+            "weeks": 7,
+            "slug": "studying compiler for this semester",
+            "description": "fridays and saturdays at faculty lobbby"
+        },
+        {
+            "id": 2,
+            "owner": {
+                "id": 1,
+                "username": "mohi"
+            },
+            "active": false,
+            "created_at": "2021-05-02T14:18:50.864946Z",
+            "hours_per_week": 6,
+            "topic": {
+                "id": 12,
+                "name": "Network"
+            },
+            "weeks": 4,
+            "slug": "studying for this semester",
+            "description": "saturdays at faculty lobbby"
+        }
+    ]
+    var i
+    for (i = 0; i < this.Labels.length; i++) {
+      this.Labels[i].show = false
+    } 
   },
 
   data() {

@@ -3,13 +3,20 @@
     <v-container>
       <form>
         <v-card-title class="Black--text pl-12 pt-12">
-          <div class="display-1 pl-12 pt-12">
+          <div>
             فرم ثبت نام
           </div>
         </v-card-title>
+        <div v-if="this.isLoading">
+            <v-progress-linear
+              indeterminate
+              color="green"
+              ></v-progress-linear>
+        </div>
         <v-text-field
           v-model="UserName"
           :error-messages="UserNameErrors"
+          :disabled="isLoading"
           counter
           label="نام کاربری"
           required
@@ -19,6 +26,7 @@
         <v-text-field
           v-model="FirstName"
           :error-messages="FirstNameErrors"
+          :disabled="isLoading"
           label="نام"
           required
           @input="$v.FirstName.$touch()"
@@ -27,6 +35,7 @@
         <v-text-field
           v-model="LastName"
           :error-messages="LastNameErrors"
+          :disabled="isLoading"
           label="نام خانوادگی"
           required
           @input="$v.LastName.$touch()"
@@ -35,6 +44,7 @@
         <v-text-field
           v-model="email"
           :error-messages="emailErrors"
+          :disabled="isLoading"
           label="آدرس ایمیل"
           required
           @input="$v.email.$touch()"
@@ -45,6 +55,7 @@
           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show1 ? 'text' : 'password'"
           :error-messages="passwordErrors"
+          :disabled="isLoading"
           label="رمز ورود"
           hint="حداقل 8 کاراکتر"
           counter
@@ -58,6 +69,7 @@
           :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show2 ? 'text' : 'password'"
           :error-messages="repeatPasswordErrors"
+          :disabled="isLoading"
           label="تکرار رمز ورود"
           required
           @click:append="show2 = !show2"
@@ -66,13 +78,15 @@
         />
 
         <v-btn
-          :disabled="this.$v.$anyError || !this.$v.$dirty"
+          :disabled="this.$v.$anyError || !this.$v.$dirty || this.isLoading"
           class="mr-4"
           @click="submit"
         >
           ثبت
         </v-btn>
-        <v-btn @click="clear">
+        <v-btn 
+          :disabled="isLoading"
+          @click="clear">
           پاک کردن
         </v-btn>
       </form>
@@ -127,7 +141,8 @@ export default {
     password: '',
     repeatPassword: '',
     show1: false,
-    show2: false
+    show2: false,
+    isLoading: false
   }),
 
   computed: {
@@ -176,6 +191,7 @@ export default {
   methods: {
     async submit () {
       this.$v.$touch()
+      this.isLoading = !this.isLoading
       try {
         const res = await postReq(this, 'api/users/register',
           {
@@ -187,9 +203,11 @@ export default {
           }
         )
         console.log(res)
+        this.isLoading = !this.isLoading
         this.$router.push({ name: 'login' })
       } catch (e) {
         console.log(e)
+        this.isLoading = !this.isLoading
       }
     },
     clear () {
