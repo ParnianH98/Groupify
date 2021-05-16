@@ -15,14 +15,49 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-container fluid>
-          <p>{{ selectedlabel || "شما هنوز لیبلی ندارید" }}</p>
+          <p v-if="selectedlabel === null">
+             "شما هنوز لیبلی ندارید" 
+          </p>
+          <p v-else>
+            <v-chip
+              class="ma-2"
+              color="indigo"
+              >
+              نام درس:
+              {{ selectedlabel.topic.name }}
+              </v-chip>
+              <v-chip
+              class="ma-2"
+              >
+              ساعت در هفته:
+              {{ selectedlabel.hours_per_week }}
+              </v-chip>
+              <v-chip
+              class="ma-2"
+              >
+              هفته:
+              {{ selectedlabel.weeks }}
+              </v-chip>
+              <v-chip
+              class="ma-2"
+              >
+              توضیحات:
+              {{ selectedlabel.slug }}
+              </v-chip>
+              <v-chip
+              class="ma-2"
+              >
+              توضیحات بیشتر:
+              {{ selectedlabel.description }}
+              </v-chip>
+            </p>
           <v-radio-group v-model="selectedlabel" mandatory>
-            <v-radio v-for="(item, index) in Labels" :key="index" :label="String(item)" :value="item" />
+            <v-radio v-for="(item, index) in Labels" :key="index" :label="String(item.topic.name)" :value="item" />
           </v-radio-group>
         </v-container>
 
         <v-btn
-          v-if="selectedlable !== null"
+          v-if="selectedlabel !== null"
           color="primary"
           @click="search"
         >
@@ -42,7 +77,46 @@
           <v-list>
             <v-list-item v-for="(item, index) in similarUsers" :key="index">
               <v-list-item-content>
-                {{ item }}
+                <p>
+                  <v-chip
+                    class="ma-2"
+                    color="indigo"
+                    >
+                    نام کاربری:
+                    {{ item.owner.username }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    color="indigo"
+                    >
+                    نام درس:
+                    {{ item.topic.name }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    >
+                    ساعت در هفته:
+                    {{ item.hours_per_week }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    >
+                    هفته:
+                    {{ item.weeks }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    >
+                    توضیحات:
+                    {{ item.slug }}
+                  </v-chip>
+                  <v-chip
+                    class="ma-2"
+                    >
+                    توضیحات بیشتر:
+                    {{ item.description }}
+                  </v-chip>
+                </p>
                 <v-btn @click="sendrequest(index)">
                   ارسال درخواست
                 </v-btn>
@@ -63,11 +137,13 @@
 </template>
 
 <script>
+import { postReq, getReq } from '~/utils/services'
+
 export default {
   name: 'Makerequest',
 
-  Create () {
-    this.getLabels()
+  async created () {
+    await this.getLabels()
   },
 
   data () {
@@ -80,16 +156,43 @@ export default {
   },
 
   methods: {
-    getLabels () {
+    async getLabels () {
       // get labels from api
+      try{
+        const res = await getReq(this, '/api/demands/owned')
+        this.Labels = res.response.data
+      } catch (err) {
+        console.log(err)
+      }
     },
-    search () {
+    async search () {
       // get similar user with selectedlable from api
       this.e1 = 2
+      try{
+        const res = await postReq(this, '/api/demands/search',
+        {
+          topic: this.selectedlabel.topic.id,
+          hours_per_week: this.selectedlabel.hours_per_week,
+          weeks: this.selectedlabel.weeks
+        })
+        this.similarUsers = res.response.data
+      } catch (err) {
+        console.log(err)
+      }
     },
-    sendrequest (x) {
+    async sendrequest (x) {
       // send the request to api to similarUsers[x]
-      this.similarUsers.splice(x, 1)
+      const group = this.similarUsers[x].id
+      try{
+        const res = await postReq(this, '/api/join',
+        {
+          group: group 
+        })
+        console.log(res)
+        this.similarUsers.splice(x, 1)
+      } catch (err) {
+        console.log(err)
+      }      
     },
     goBack () {
       // return to dashboard
