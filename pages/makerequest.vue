@@ -2,7 +2,7 @@
   <v-stepper v-model="e1">
     <v-stepper-header>
       <v-stepper-step :complete="e1 > 1" step="1">
-        انتخاب لیبیل
+        انتخاب لیبل
       </v-stepper-step>
 
       <v-divider />
