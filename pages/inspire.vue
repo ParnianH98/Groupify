@@ -193,7 +193,7 @@
                   sm="6"
                 >
                   <v-text-field
-                    v-model="title"
+                    v-model="description"
                     label="اگر توضیحات بیشتری لازم می‌دانید، ذکر کنید:"
                   />
                 </v-col>
@@ -224,7 +224,8 @@ export default {
       radios5: null,
       duration: 4,
       hours: 3,
-      title: ' ',
+      slug: 'None',
+      description: ' ',
       courseCode: 0,
       e1: 1
     }
@@ -232,8 +233,12 @@ export default {
   methods: {
     ClickHandler5 () {
       try{
-        const res = postReq(this, "api/topics/children/<int:id>",{
-          coursecode: this.courseCode
+        const res = postReq(this, "api/demands/create",{
+          hours_per_week: this.hours,
+          specified_topic: this.courseCode,
+          weeks: this.duration,
+          slug:this.slug,
+          description: this.description
         })
       console.log(res)
       this.$router.push({ name: 'dashboard' })

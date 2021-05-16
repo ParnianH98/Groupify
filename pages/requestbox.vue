@@ -65,18 +65,22 @@ export default {
   },
   methods: {
     loadPage() {
-      getReq(this, "api/requests/sent")
+      getReq(this, "api/requests/owned")
         .then(({ data }) => {
           this.items = data;
         })
         .catch(err => {
           snackbar = true;
         });
+    },
+    accept() {
+      accepted = true;
     }
   },
   data: () => ({
     items: [],
     snackbar: false,
+    accepted: null,
     text: `retrieve error!`
   })
 };

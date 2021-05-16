@@ -97,7 +97,7 @@ export default {
       this.$router.push({ name: newrout });
     },
     loadPage() {
-      getReq(this, "api/groups/own")
+      getReq(this, "api/demands/owned")
         .then(({ data }) => {
           this.items = data;
         })
