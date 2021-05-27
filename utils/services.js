@@ -25,6 +25,7 @@ export function postReq(that, url, config) {
     const res = that.$axios.$post(url, config);
     return res;
 }
+
 export function getReq(that, url, config) {
     const res = that.$axios.$get(url, config);
     return res;

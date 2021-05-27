@@ -6,34 +6,35 @@
           <v-list-item-group active-class="pink--text" multiple>
             <template v-for="(item, index) in items">
               <v-list-item :key="item.title">
-                <template v-slot:default="{ active }">
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.title"></v-list-item-title>
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title"></v-list-item-title>
 
-                    <v-list-item-subtitle
-                      class="text--primary"
-                      v-text="item.headline"
-                    ></v-list-item-subtitle>
+                  <v-list-item-subtitle
+                    v-text="item.description"
+                  ></v-list-item-subtitle>
+                </v-list-item-content>
 
-                    <v-list-item-subtitle
-                      v-text="item.subtitle"
-                    ></v-list-item-subtitle>
-                  </v-list-item-content>
-
-                  <v-list-item-action>
-                    <v-list-item-action-text
-                      v-text="item.action"
-                    ></v-list-item-action-text>
-
-                    <v-icon v-if="!active" color="grey lighten-1">
-                      mdi-star-outline
-                    </v-icon>
-
-                    <v-icon v-else color="yellow darken-3">
-                      mdi-star
-                    </v-icon>
-                  </v-list-item-action>
-                </template>
+                <v-list-item-action>
+                  <v-row>
+                    <v-btn
+                      x-small
+                      depressed
+                      color="green"
+                      @click="updateStatus(item.id, true)"
+                    >
+                      قبول
+                    </v-btn>
+                    <v-btn
+                      class="mr-1"
+                      x-small
+                      depressed
+                      color="error"
+                      @click="updateStatus(item.id, false)"
+                    >
+                      رد
+                    </v-btn></v-row
+                  >
+                </v-list-item-action>
               </v-list-item>
 
               <v-divider
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-import { getReq } from "~/utils/services";
+import { getReq, postReq } from "~/utils/services";
 export default {
   mounted() {
     this.loadPage();
@@ -73,12 +74,26 @@ export default {
           snackbar = true;
         });
     },
-    accept() {
-      accepted = true;
+    updateStatus(id, status) {
+      postReq(this, `api/requests/owned/${id}`, {
+        data: { accepted: status },
+        method: "PUT"
+      })
+        .then(() => {
+          this.loadPage();
+        })
+        .catch(() => {
+          snackbar = true;
+        });
     }
   },
   data: () => ({
-    items: [],
+    items: [
+      { id: 1, title: "apple", description: "sgsgbs", status: null },
+      { id: 2, title: "apple", description: "sgsgbs", status: null },
+      { id: 3, title: "apple", description: "sgsgbs", status: null },
+      { id: 4, title: "apple", description: "sgsgbs", status: null }
+    ],
     snackbar: false,
     accepted: null,
     text: `retrieve error!`
