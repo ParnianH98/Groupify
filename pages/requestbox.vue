@@ -5,7 +5,7 @@
         <v-list two-line color="purple darken-3">
           <v-list-item-group active-class="pink--text" multiple>
             <template v-for="(item, index) in items">
-              <v-list-item :key="item.title">
+              <v-list-item :key="item.title" @click="selectedGroup = item">
                 <v-list-item-content>
                   <v-list-item-title v-text="item.title"></v-list-item-title>
 
@@ -23,6 +23,9 @@
                       @click="updateStatus(item.id, true)"
                     >
                       قبول
+                      <v-icon dark right>
+                        mdi-checkbox-marked-circle
+                      </v-icon>
                     </v-btn>
                     <v-btn
                       class="mr-1"
@@ -32,6 +35,9 @@
                       @click="updateStatus(item.id, false)"
                     >
                       رد
+                      <v-icon dark right>
+                        mdi-cancel
+                      </v-icon>
                     </v-btn></v-row
                   >
                 </v-list-item-action>
@@ -85,6 +91,22 @@ export default {
         .catch(() => {
           snackbar = true;
         });
+    },
+    groupFind() {
+      getReq(this, `api/requests/owned/${this.selectedGroup.id}`)
+        .then(() => {
+          //this.loadPage();
+        })
+        .catch(() => {
+          snackbar = true;
+        });
+    }
+  },
+  watch: {
+    selectedGroup(newVal) {
+      if (newVal) {
+        this.groupFind();
+      }
     }
   },
   data: () => ({
@@ -94,6 +116,7 @@ export default {
       { id: 3, title: "apple", description: "sgsgbs", status: null },
       { id: 4, title: "apple", description: "sgsgbs", status: null }
     ],
+    selectedGroup: null,
     snackbar: false,
     accepted: null,
     text: `retrieve error!`
