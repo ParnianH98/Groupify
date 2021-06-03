@@ -136,7 +136,7 @@
 
         <v-list>
           <v-list-item v-for="(item, index) in Labels" :key="index">
-            <div>
+            <v-chip-group>
               <v-chip
               class="ma-2"
               color="indigo"
@@ -172,7 +172,7 @@
               توضیحات بیشتر:
               {{ item.description }}
               </v-chip>
-            </div>
+            </v-chip-group>
             <v-spacer></v-spacer>
             <v-btn v-if="!item.show" icon class="mr-4" @click="showlabe(index)">
               <v-icon>mdi-eye</v-icon>

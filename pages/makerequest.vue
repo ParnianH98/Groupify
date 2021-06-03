@@ -16,10 +16,11 @@
       <v-stepper-content step="1">
         <v-container fluid>
           <p v-if="selectedlabel === null">
-             "شما هنوز لیبلی ندارید" 
+           .شما هنوز لیبلی ندارید. ابتدا در پروفایل لیبل اضافع کنید 
           </p>
           <p v-else>
-            <v-chip
+            <v-chip-group>
+              <v-chip
               class="ma-2"
               color="indigo"
               >
@@ -50,6 +51,7 @@
               توضیحات بیشتر:
               {{ selectedlabel.description }}
               </v-chip>
+            </v-chip-group>
             </p>
           <v-radio-group v-model="selectedlabel" mandatory>
             <v-radio v-for="(item, index) in Labels" :key="index" :label="String(item.topic.name)" :value="item" />
