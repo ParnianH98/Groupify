@@ -69,7 +69,7 @@
                                 rounded
                                 v-bind="attrs"
                                 v-on="on"
-                                @click="updateStatus(item.id, false)"
+                                @click="delGP(item.id)"
                               >
                                 <v-icon>
                                   {{ icons.mdiDelete }}
@@ -113,7 +113,7 @@
 
 <script>
 import ChatBoard from "~/components/chatboard.vue";
-import { getReq } from "~/utils/services";
+import { getReq, postReq } from "~/utils/services";
 import { mdiDelete, mdiAlphaWCircle } from "@mdi/js";
 export default {
   mounted() {
@@ -132,6 +132,15 @@ export default {
           this.items = data;
         })
         .catch(err => {
+          snackbar = true;
+        });
+    },
+    delGP(id) {
+      postReq(this, `api/delete/${id}`, { id })
+        .then(() => {
+          this.loadPage();
+        })
+        .catch(() => {
           snackbar = true;
         });
     }
@@ -160,8 +169,7 @@ export default {
     icons: {
       mdiDelete,
       mdiAlphaWCircle
-    },
-    rating: 4.5
+    }
   })
 };
 </script>
