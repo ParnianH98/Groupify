@@ -59,17 +59,15 @@
 
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            icon
+                          <v-rating
+                            v-model="rating"
                             color="yellow"
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="updateStatus(item.id, false)"
-                          >
-                            <v-icon dark>
-                              mdi-star
-                            </v-icon>
-                          </v-btn>
+                            background-color="grey darken-1"
+                            empty-icon="$ratingFull"
+                            half-increments
+                            hover
+                            large
+                          ></v-rating>
                         </template>
                         <span>امتیاز شما به این گروه</span>
                       </v-tooltip>
@@ -164,7 +162,8 @@ export default {
     icons: {
       mdiDelete,
       mdiAlphaWCircle
-    }
+    },
+    rating: 4.5
   })
 };
 </script>
