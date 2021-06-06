@@ -15,9 +15,9 @@
 
           <v-list>
             <v-list-item v-for="(item, i) in menuItems" :key="i">
-              <v-list-item-title @click="menuHandler(pageItems[i])">{{
-                item.title
-              }}</v-list-item-title>
+              <v-list-item-title @click="menuHandler(pageItems[i])">
+                {{item.title }}
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -41,10 +41,28 @@
                     <v-row>
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            v-if="item.hasPermission"
+                            icon
+                            color="blue"
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="updateStatus(item.id, false)"
+                          >
+                            <v-icon dark>
+                              {{ icons.mdiAlphaWCircle }}
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>تعداد هفته‌های فعالیت</span>
+                      </v-tooltip>
+
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
                           <v-rating
-                            medium
                             v-model="rating"
                             color="yellow"
+                            background-color="grey darken-1"
                             empty-icon="$ratingFull"
                             half-increments
                             hover
@@ -54,48 +72,24 @@
                         <span>امتیاز شما به این گروه</span>
                       </v-tooltip>
 
-                      <v-col>
-                        <div>
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                v-if="item.hasPermission"
-                                icon
-                                color="blue"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="updateStatus(item.id, false)"
-                              >
-                                <v-icon dark>
-                                  {{ icons.mdiAlphaWCircle }}
-                                </v-icon>
-                              </v-btn>
-                            </template>
-                            <span>تعداد هفته‌های فعالیت</span>
-                          </v-tooltip>
-                        </div>
-
-                        <div>
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                v-if="item.hasPermission"
-                                icon
-                                color="error"
-                                rounded
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="updateStatus(item.id, false)"
-                              >
-                                <v-icon>
-                                  {{ icons.mdiDelete }}
-                                </v-icon>
-                              </v-btn>
-                            </template>
-                            <span>حذف این گروه</span>
-                          </v-tooltip>
-                        </div>
-                      </v-col>
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            v-if="item.hasPermission"
+                            icon
+                            color="error"
+                            rounded
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="updateStatus(item.id, false)"
+                          >
+                            <v-icon>
+                              {{ icons.mdiDelete }}
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>حذف این گروه</span>
+                      </v-tooltip>
                     </v-row>
                   </v-list-item-action>
                 </template>
@@ -109,6 +103,9 @@
           </v-list-item-group>
         </v-list>
       </v-card>
+    <v-card>
+      <chat-board/>
+    </v-card>
       <!-- </v-col> -->
     </v-card>
     <v-snackbar v-model="snackbar">
@@ -124,15 +121,19 @@
 </template>
 
 <script>
+import ChatBoard from '~/components/chatboard.vue' 
 import { getReq } from "~/utils/services";
 import { mdiDelete, mdiAlphaWCircle } from "@mdi/js";
 export default {
   mounted() {
     this.loadPage();
   },
+  components: {
+    ChatBoard,
+  },
   methods: {
     menuHandler(newrout) {
-      this.$router.push({ name: newrout });
+      this.$router.push({ name: String(newrout) });
     },
     loadPage() {
       getReq(this, "api/demands/owned")
