@@ -150,14 +150,14 @@ export default {
     items: [
       {
         id: 1,
-        title: "apple",
-        description: "sgsgbs",
+        title: "گروه 1",
+        description: "ریاضی",
         status: null,
         hasPermission: true
       },
-      { id: 2, title: "apple", description: "sgsgbs", status: null },
-      { id: 3, title: "apple", description: "sgsgbs", status: null },
-      { id: 4, title: "apple", description: "sgsgbs", status: null }
+      { id: 2, title: "گروه 2", description: "شیمی", status: null },
+      { id: 3, title: "گروه 3", description: "فیزیک", status: null },
+      { id: 4, title: "گروه 4", description: "زیست", status: null }
     ],
     snackbar: false,
     text: `retrieve error!`,
