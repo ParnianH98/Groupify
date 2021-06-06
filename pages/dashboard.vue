@@ -16,7 +16,7 @@
           <v-list>
             <v-list-item v-for="(item, i) in menuItems" :key="i">
               <v-list-item-title @click="menuHandler(pageItems[i])">
-                {{item.title }}
+                {{ item.title }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -31,7 +31,9 @@
                   <v-list-item :key="item.title">
                     <template v-slot:default="{ active }">
                       <v-list-item-content>
-                        <v-list-item-title v-text="item.title"></v-list-item-title>
+                        <v-list-item-title
+                          v-text="item.title"
+                        ></v-list-item-title>
 
                         <v-list-item-subtitle
                           v-text="item.description"
@@ -56,21 +58,6 @@
                               </v-btn>
                             </template>
                             <span>تعداد هفته‌های فعالیت</span>
-                          </v-tooltip>
-
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-rating
-                                v-model="rating"
-                                color="yellow"
-                                background-color="grey darken-1"
-                                empty-icon="$ratingFull"
-                                half-increments
-                                hover
-                                large
-                              ></v-rating>
-                            </template>
-                            <span>امتیاز شما به این گروه</span>
                           </v-tooltip>
 
                           <v-tooltip top>
@@ -107,7 +94,7 @@
         </v-col>
         <v-col width="400">
           <v-card>
-            <chat-board/>
+            <chat-board />
           </v-card>
         </v-col>
       </v-row>
@@ -125,7 +112,7 @@
 </template>
 
 <script>
-import ChatBoard from '~/components/chatboard.vue' 
+import ChatBoard from "~/components/chatboard.vue";
 import { getReq } from "~/utils/services";
 import { mdiDelete, mdiAlphaWCircle } from "@mdi/js";
 export default {
@@ -133,7 +120,7 @@ export default {
     this.loadPage();
   },
   components: {
-    ChatBoard,
+    ChatBoard
   },
   methods: {
     menuHandler(newrout) {
