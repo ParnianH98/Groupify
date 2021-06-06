@@ -41,24 +41,6 @@
                     <v-row>
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            v-if="item.hasPermission"
-                            icon
-                            color="blue"
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="updateStatus(item.id, false)"
-                          >
-                            <v-icon dark>
-                              {{ icons.mdiAlphaWCircle }}
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                        <span>تعداد هفته‌های فعالیت</span>
-                      </v-tooltip>
-
-                      <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
                           <v-rating
                             v-model="rating"
                             color="yellow"
@@ -72,24 +54,43 @@
                         <span>امتیاز شما به این گروه</span>
                       </v-tooltip>
 
-                      <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            v-if="item.hasPermission"
-                            icon
-                            color="error"
-                            rounded
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="updateStatus(item.id, false)"
-                          >
-                            <v-icon>
-                              {{ icons.mdiDelete }}
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                        <span>حذف این گروه</span>
-                      </v-tooltip>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              v-if="item.hasPermission"
+                              icon
+                              color="blue"
+                              v-bind="attrs"
+                              v-on="on"
+                              @click="updateStatus(item.id, false)"
+                            >
+                              <v-icon dark>
+                                {{ icons.mdiAlphaWCircle }}
+                              </v-icon>
+                            </v-btn>
+                          </template>
+                          <span>تعداد هفته‌های فعالیت</span>
+                        </v-tooltip>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              v-if="item.hasPermission"
+                              icon
+                              color="error"
+                              rounded
+                              v-bind="attrs"
+                              v-on="on"
+                              @click="updateStatus(item.id, false)"
+                            >
+                              <v-icon>
+                                {{ icons.mdiDelete }}
+                              </v-icon>
+                            </v-btn>
+                          </template>
+                          <span>حذف این گروه</span>
+                        </v-tooltip>
+                      </v-col>
                     </v-row>
                   </v-list-item-action>
                 </template>
