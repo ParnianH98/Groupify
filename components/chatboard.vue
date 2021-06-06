@@ -24,7 +24,7 @@
                 <v-list-item v-for="(item, index) in messages" :key="index">
                     <v-row>
                         <v-avatar color="indigo">
-                            {{ getAuthorInitials(item) }}
+                            {{ getAuthorInitials(item.sender) }}
                         </v-avatar>
                         <v-snackbar
                         :timeout="-1"
@@ -79,7 +79,7 @@ export default {
 
     methods: {
         getAuthorInitials(massage) {
-            const author = massage.sender
+            const author = massage.username
             const l = author.length - 1
             const initial = author.charAt(0) + author.charAt(l)
             return initial
