@@ -8,10 +8,7 @@
           </div>
         </v-card-title>
         <div v-if="this.isLoading">
-            <v-progress-linear
-              indeterminate
-              color="green"
-              ></v-progress-linear>
+          <v-progress-linear indeterminate color="green"></v-progress-linear>
         </div>
         <v-text-field
           v-model="UserName"
@@ -84,9 +81,7 @@
         >
           ثبت
         </v-btn>
-        <v-btn 
-          :disabled="isLoading"
-          @click="clear">
+        <v-btn :disabled="isLoading" @click="clear">
           پاک کردن
         </v-btn>
       </form>
@@ -97,10 +92,7 @@
     <v-container>
       <div>
         عضو هستید؟
-        <v-btn
-          small
-          @click="goToLogin"
-        >
+        <v-btn small @click="goToLogin">
           ورود
         </v-btn>
       </div>
@@ -109,19 +101,18 @@
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
-import { postReq } from '~/utils/services'
+import { validationMixin } from "vuelidate";
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import { postReq } from "~/utils/services";
 
 export default {
-
-  name: 'Signup',
+  name: "Signup",
 
   mixins: [validationMixin],
-  head () {
+  head() {
     return {
-      title: 'SignUp'
-    }
+      title: "SignUp"
+    };
   },
 
   validations: {
@@ -130,98 +121,111 @@ export default {
     LastName: { required },
     email: { required, email },
     password: { required, minLength: minLength(8) },
-    repeatPassword: { required, sameAsPassword: sameAs('password') }
+    repeatPassword: { required, sameAsPassword: sameAs("password") }
   },
 
   data: () => ({
-    UserName: '',
-    FirstName: '',
-    LastName: '',
-    email: '',
-    password: '',
-    repeatPassword: '',
+    UserName: "",
+    FirstName: "",
+    LastName: "",
+    email: "",
+    password: "",
+    repeatPassword: "",
     show1: false,
     show2: false,
     isLoading: false
   }),
 
   computed: {
-    UserNameErrors () {
-      const errors = []
-      if (!this.$v.UserName.$dirty) { return errors }
-      !this.$v.UserName.minLength && errors.push('نام کاربری باید حداقل 3 کاراکتر داشنه باشد.')
-      !this.$v.UserName.required && errors.push('نام کاربری لازم است.')
-      return errors
+    UserNameErrors() {
+      const errors = [];
+      if (!this.$v.UserName.$dirty) {
+        return errors;
+      }
+      !this.$v.UserName.minLength &&
+        errors.push("نام کاربری باید حداقل 3 کاراکتر داشنه باشد.");
+      !this.$v.UserName.required && errors.push("نام کاربری لازم است.");
+      return errors;
     },
-    FirstNameErrors () {
-      const errors = []
-      if (!this.$v.FirstName.$dirty) { return errors }
-      !this.$v.FirstName.required && errors.push('نام لازم است.')
-      return errors
+    FirstNameErrors() {
+      const errors = [];
+      if (!this.$v.FirstName.$dirty) {
+        return errors;
+      }
+      !this.$v.FirstName.required && errors.push("نام لازم است.");
+      return errors;
     },
-    LastNameErrors () {
-      const errors = []
-      if (!this.$v.LastName.$dirty) { return errors }
-      !this.$v.LastName.required && errors.push('نام خانوادگی لازم است.')
-      return errors
+    LastNameErrors() {
+      const errors = [];
+      if (!this.$v.LastName.$dirty) {
+        return errors;
+      }
+      !this.$v.LastName.required && errors.push("نام خانوادگی لازم است.");
+      return errors;
     },
-    passwordErrors () {
-      const errors = []
-      if (!this.$v.password.$dirty) { return errors }
-      !this.$v.password.required && errors.push('رمز لازم است.')
-      !this.$v.password.minLength && errors.push('رمز باید حداقل 8 کاراکتر داشنه باشد.')
-      return errors
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) {
+        return errors;
+      }
+      !this.$v.password.required && errors.push("رمز لازم است.");
+      !this.$v.password.minLength &&
+        errors.push("رمز باید حداقل 8 کاراکتر داشنه باشد.");
+      return errors;
     },
-    repeatPasswordErrors () {
-      const errors = []
-      if (!this.$v.repeatPassword.$dirty) { return errors }
-      !this.$v.repeatPassword.required && errors.push('رمز باید تکرار شود.')
-      !this.$v.repeatPassword.sameAsPassword && errors.push('همان رمز دقیقا باید تکرار شود.')
-      return errors
+    repeatPasswordErrors() {
+      const errors = [];
+      if (!this.$v.repeatPassword.$dirty) {
+        return errors;
+      }
+      !this.$v.repeatPassword.required && errors.push("رمز باید تکرار شود.");
+      !this.$v.repeatPassword.sameAsPassword &&
+        errors.push("همان رمز دقیقا باید تکرار شود.");
+      return errors;
     },
-    emailErrors () {
-      const errors = []
-      if (!this.$v.email.$dirty) { return errors }
-      !this.$v.email.email && errors.push('ایمیل باید معتبر باشد.')
-      !this.$v.email.required && errors.push('ایمیل لازم است.')
-      return errors
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) {
+        return errors;
+      }
+      !this.$v.email.email && errors.push("ایمیل باید معتبر باشد.");
+      !this.$v.email.required && errors.push("ایمیل لازم است.");
+      return errors;
     }
   },
 
   methods: {
-    async submit () {
-      this.$v.$touch()
-      this.isLoading = !this.isLoading
+    async submit() {
+      this.$v.$touch();
+      this.isLoading = !this.isLoading;
       try {
-        const res = await postReq(this, 'api/users/register',
-          {
-            username: this.UserName,
-            password: this.password,
-            email: this.email,
-            firstname: this.FirstName,
-            lastname: this.LastName
-          }
-        )
-        console.log(res)
-        this.isLoading = !this.isLoading
-        this.$router.push({ name: 'login' })
+        const res = await postReq(this, "api/users/register", {
+          username: this.UserName,
+          password: this.password,
+          email: this.email,
+          firstname: this.FirstName,
+          lastname: this.LastName
+        });
+        console.log(res);
+        this.isLoading = !this.isLoading;
+        this.$router.push({ name: "login" });
       } catch (e) {
-        console.log(e)
-        this.isLoading = !this.isLoading
+        console.log(e);
+        this.isLoading = !this.isLoading;
       }
     },
-    clear () {
-      this.$v.$reset()
-      this.UserName = ''
-      this.FirstName = ''
-      this.LastName = ''
-      this.email = ''
-      this.password = ''
-      this.repeatPassword = ''
+    clear() {
+      this.$v.$reset();
+      this.UserName = "";
+      this.FirstName = "";
+      this.LastName = "";
+      this.email = "";
+      this.password = "";
+      this.repeatPassword = "";
     },
-    goToLogin () {
-      this.$router.push({ name: 'login' })
+    goToLogin() {
+      this.$router.push({ name: "login" });
     }
   }
-}
+};
 </script>
