@@ -137,40 +137,25 @@
         <v-list>
           <v-list-item v-for="(item, index) in Labels" :key="index">
             <v-chip-group>
-              <v-chip
-              class="ma-2"
-              color="indigo"
-              >
-              نام درس:
-              {{ item.topic.name }}
+              <v-chip class="ma-2" color="indigo">
+                نام درس:
+                {{ item.topic.name }}
               </v-chip>
-              <v-chip
-              v-if="item.show"
-              class="ma-2"
-              >
-              ساعت در هفته:
-              {{ item.hours_per_week }}
+              <v-chip v-if="item.show" class="ma-2">
+                ساعت در هفته:
+                {{ item.hours_per_week }}
               </v-chip>
-              <v-chip
-              v-if="item.show"
-              class="ma-2"
-              >
-              هفته:
-              {{ item.weeks }}
+              <v-chip v-if="item.show" class="ma-2">
+                هفته:
+                {{ item.weeks }}
               </v-chip>
-              <v-chip
-              v-if="item.show"
-              class="ma-2"
-              >
-              توضیحات:
-              {{ item.slug }}
+              <v-chip v-if="item.show" class="ma-2">
+                توضیحات:
+                {{ item.slug }}
               </v-chip>
-              <v-chip
-              class="ma-2"
-              v-if="item.show"
-              >
-              توضیحات بیشتر:
-              {{ item.description }}
+              <v-chip class="ma-2" v-if="item.show">
+                توضیحات بیشتر:
+                {{ item.description }}
               </v-chip>
             </v-chip-group>
             <v-spacer></v-spacer>
@@ -213,45 +198,45 @@ export default {
   created() {
     //this.getLabels()
     this.Labels = [
-        {
-            "id": 1,
-            "owner": {
-                "id": 1,
-                "username": "mohi"
-            },
-            "active": false,
-            "created_at": "2021-05-02T14:18:50.864946Z",
-            "hours_per_week": 4,
-            "topic": {
-                "id": 9,
-                "name": "Compiler"
-            },
-            "weeks": 7,
-            "slug": "studying compiler for this semester",
-            "description": "fridays and saturdays at faculty lobbby"
+      {
+        id: 1,
+        owner: {
+          id: 1,
+          username: "mohi"
         },
-        {
-            "id": 2,
-            "owner": {
-                "id": 1,
-                "username": "mohi"
-            },
-            "active": false,
-            "created_at": "2021-05-02T14:18:50.864946Z",
-            "hours_per_week": 6,
-            "topic": {
-                "id": 12,
-                "name": "Network"
-            },
-            "weeks": 4,
-            "slug": "studying for this semester",
-            "description": "saturdays at faculty lobbby"
-        }
-    ]
-    var i
+        active: false,
+        created_at: "2021-05-02T14:18:50.864946Z",
+        hours_per_week: 4,
+        topic: {
+          id: 9,
+          name: "Compiler"
+        },
+        weeks: 7,
+        slug: "studying compiler for this semester",
+        description: "fridays and saturdays at faculty lobbby"
+      },
+      {
+        id: 2,
+        owner: {
+          id: 1,
+          username: "mohi"
+        },
+        active: false,
+        created_at: "2021-05-02T14:18:50.864946Z",
+        hours_per_week: 6,
+        topic: {
+          id: 12,
+          name: "Network"
+        },
+        weeks: 4,
+        slug: "studying for this semester",
+        description: "saturdays at faculty lobbby"
+      }
+    ];
+    var i;
     for (i = 0; i < this.Labels.length; i++) {
-      this.Labels[i].show = false
-    } 
+      this.Labels[i].show = false;
+    }
   },
 
   data() {
@@ -312,22 +297,22 @@ export default {
   },
 
   methods: {
-    async getLabels () {
+    async getLabels() {
       // get labels from api
-      try{
-        const res = await getReq(this, '/api/demands/owned')
-        this.Labels = res.response.data
-        var i
+      try {
+        const res = await getReq(this, "/api/demands/owned");
+        this.Labels = res.response.data;
+        var i;
         for (i = 0; i < this.Labels.length; i++) {
-          this.Labels[i].show = false
+          this.Labels[i].show = false;
         }
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
     AddNewLabel() {
-      //this.$router.push({ name: "inspire" });
-      console.log(this.Labels)
+      //this.$router.push({ name: "form" });
+      console.log(this.Labels);
     },
     SaveProf() {
       this.FirstName = this.firstName;
@@ -352,10 +337,10 @@ export default {
       //delete request
       this.Labels.splice(x, 1);
     },
-    showlabe(x){
-      var lab = this.Labels[x]
-      lab.show = !lab.show
-      this.Labels.splice(x, 1, lab)
+    showlabe(x) {
+      var lab = this.Labels[x];
+      lab.show = !lab.show;
+      this.Labels.splice(x, 1, lab);
     },
     logOut() {
       localStorage.setItem("access", false);

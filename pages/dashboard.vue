@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-card height="200px">
-      <v-card-title class="purple white--text">
-        <span class="headline">داشبورد</span>
+    <v-card width="400">
+      <v-card-title>
+        <span>گروه‌های فعال من</span>
 
         <v-spacer></v-spacer>
 
@@ -23,8 +23,8 @@
         </v-menu>
       </v-card-title>
       <!-- <v-col lg="2" mt="20" md="20" sm="12"> -->
-      <v-card max-width="500" min-width="300">
-        <v-list two-line color="purple darken-3">
+      <v-card max-width="400" min-width="300">
+        <v-list two-line color="blue light-3">
           <v-list-item-group active-class="pink--text" multiple>
             <template v-for="(item, index) in items">
               <v-list-item :key="item.title">
@@ -33,26 +33,30 @@
                     <v-list-item-title v-text="item.title"></v-list-item-title>
 
                     <v-list-item-subtitle
-                      class="text--primary"
-                      v-text="item.headline"
-                    ></v-list-item-subtitle>
-
-                    <v-list-item-subtitle
-                      v-text="item.subtitle"
+                      v-text="item.description"
                     ></v-list-item-subtitle>
                   </v-list-item-content>
 
                   <v-list-item-action>
                     <v-row>
-                      <v-btn
-                        icon
-                        color="blue"
-                        @click="updateStatus(item.id, false)"
-                      >
-                        <v-icon dark>
-                          {{ icons.mdiAlphaWCircle }}
-                        </v-icon>
-                      </v-btn>
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            v-if="item.hasPermission"
+                            icon
+                            color="blue"
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="updateStatus(item.id, false)"
+                          >
+                            <v-icon dark>
+                              {{ icons.mdiAlphaWCircle }}
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>تعداد هفته‌های فعالیت</span>
+                      </v-tooltip>
+
                       <v-btn
                         icon
                         color="yellow"
@@ -64,6 +68,7 @@
                       </v-btn>
 
                       <v-btn
+                        v-if="item.hasPermission"
                         icon
                         color="error"
                         rounded
@@ -129,7 +134,13 @@ export default {
     ],
     pageItems: ["profile", "makerequest", "requestbox"],
     items: [
-      { id: 1, title: "apple", description: "sgsgbs", status: null },
+      {
+        id: 1,
+        title: "apple",
+        description: "sgsgbs",
+        status: null,
+        hasPermission: true
+      },
       { id: 2, title: "apple", description: "sgsgbs", status: null },
       { id: 3, title: "apple", description: "sgsgbs", status: null },
       { id: 4, title: "apple", description: "sgsgbs", status: null }
