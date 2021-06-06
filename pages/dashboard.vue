@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card width="400" color="indigo lighten-1">
+    <v-card width="800" color="indigo lighten-1">
       <v-card-title>
         <span>گروه‌های فعال من</span>
 
@@ -22,91 +22,95 @@
           </v-list>
         </v-menu>
       </v-card-title>
-      <!-- <v-col lg="2" mt="20" md="20" sm="12"> -->
-      <v-card max-width="400" min-width="300">
-        <v-list two-line color="indigo lighten-4">
-          <v-list-item-group active-class="pink--text" multiple>
-            <template v-for="(item, index) in items">
-              <v-list-item :key="item.title">
-                <template v-slot:default="{ active }">
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.title"></v-list-item-title>
+      <v-row>
+        <v-col width="400">
+          <v-card max-width="400" min-width="300">
+            <v-list two-line color="indigo lighten-4">
+              <v-list-item-group active-class="pink--text" multiple>
+                <template v-for="(item, index) in items">
+                  <v-list-item :key="item.title">
+                    <template v-slot:default="{ active }">
+                      <v-list-item-content>
+                        <v-list-item-title v-text="item.title"></v-list-item-title>
 
-                    <v-list-item-subtitle
-                      v-text="item.description"
-                    ></v-list-item-subtitle>
-                  </v-list-item-content>
+                        <v-list-item-subtitle
+                          v-text="item.description"
+                        ></v-list-item-subtitle>
+                      </v-list-item-content>
 
-                  <v-list-item-action>
-                    <v-row>
-                      <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            v-if="item.hasPermission"
-                            icon
-                            color="blue"
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="updateStatus(item.id, false)"
-                          >
-                            <v-icon dark>
-                              {{ icons.mdiAlphaWCircle }}
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                        <span>تعداد هفته‌های فعالیت</span>
-                      </v-tooltip>
+                      <v-list-item-action>
+                        <v-row>
+                          <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                v-if="item.hasPermission"
+                                icon
+                                color="blue"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="updateStatus(item.id, false)"
+                              >
+                                <v-icon dark>
+                                  {{ icons.mdiAlphaWCircle }}
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            <span>تعداد هفته‌های فعالیت</span>
+                          </v-tooltip>
 
-                      <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-rating
-                            v-model="rating"
-                            color="yellow"
-                            background-color="grey darken-1"
-                            empty-icon="$ratingFull"
-                            half-increments
-                            hover
-                            large
-                          ></v-rating>
-                        </template>
-                        <span>امتیاز شما به این گروه</span>
-                      </v-tooltip>
+                          <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-rating
+                                v-model="rating"
+                                color="yellow"
+                                background-color="grey darken-1"
+                                empty-icon="$ratingFull"
+                                half-increments
+                                hover
+                                large
+                              ></v-rating>
+                            </template>
+                            <span>امتیاز شما به این گروه</span>
+                          </v-tooltip>
 
-                      <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            v-if="item.hasPermission"
-                            icon
-                            color="error"
-                            rounded
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="updateStatus(item.id, false)"
-                          >
-                            <v-icon>
-                              {{ icons.mdiDelete }}
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                        <span>حذف این گروه</span>
-                      </v-tooltip>
-                    </v-row>
-                  </v-list-item-action>
+                          <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                v-if="item.hasPermission"
+                                icon
+                                color="error"
+                                rounded
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="updateStatus(item.id, false)"
+                              >
+                                <v-icon>
+                                  {{ icons.mdiDelete }}
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            <span>حذف این گروه</span>
+                          </v-tooltip>
+                        </v-row>
+                      </v-list-item-action>
+                    </template>
+                  </v-list-item>
+
+                  <v-divider
+                    v-if="index < items.length - 1"
+                    :key="index"
+                  ></v-divider>
                 </template>
-              </v-list-item>
-
-              <v-divider
-                v-if="index < items.length - 1"
-                :key="index"
-              ></v-divider>
-            </template>
-          </v-list-item-group>
-        </v-list>
-      </v-card>
-    <v-card>
-      <chat-board/>
-    </v-card>
-      <!-- </v-col> -->
+              </v-list-item-group>
+            </v-list>
+          </v-card>
+        </v-col>
+        <v-col width="400">
+          <v-card>
+            <chat-board/>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-card>
     <v-snackbar v-model="snackbar">
       {{ text }}
