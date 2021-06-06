@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar :clipped-left="clipped" fixed app dense color="blue">
+    <v-app-bar :clipped-left="clipped" fixed app dense color="indigo lighten-2">
       <v-toolbar-title v-text="routeTitle" />
     </v-app-bar>
     <v-main
@@ -50,7 +50,12 @@ export default {
     routeTitle() {
       return {
         dashboard: "داشبورد",
-        form: "فرم"
+        form: "فرم",
+        login: "ورود",
+        makerequest: "ارسال درخواست",
+        profile: "پروفایل",
+        requestbox: "درخواست‌های دریافتی",
+        signup: "ساخت حساب کاربری"
       }[this.$route.name];
     }
   },

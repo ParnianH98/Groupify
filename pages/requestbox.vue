@@ -2,7 +2,7 @@
   <div>
     <v-col lg="2" mt="20" md="20" sm="12">
       <v-card max-width="500" min-width="300">
-        <v-list two-line color="purple darken-3">
+        <v-list two-line color="indigo lighten-4">
           <v-list-item-group active-class="pink--text" multiple>
             <template v-for="(item, index) in items">
               <v-list-item :key="item.title" @click="selectedGroup = item">
@@ -16,30 +16,40 @@
 
                 <v-list-item-action>
                   <v-row>
-                    <v-btn
-                      x-small
-                      depressed
-                      color="green"
-                      @click="updateStatus(item.id, true)"
-                    >
-                      قبول
-                      <v-icon dark right>
-                        mdi-checkbox-marked-circle
-                      </v-icon>
-                    </v-btn>
-                    <v-btn
-                      class="mr-1"
-                      x-small
-                      depressed
-                      color="error"
-                      @click="updateStatus(item.id, false)"
-                    >
-                      رد
-                      <v-icon dark right>
-                        mdi-cancel
-                      </v-icon>
-                    </v-btn></v-row
-                  >
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          color="green"
+                          @click="updateStatus(item.id, true)"
+                        >
+                          <v-icon dark right>
+                            mdi-checkbox-marked-circle
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>قبول درخواست</span>
+                    </v-tooltip>
+
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          color="error"
+                          @click="updateStatus(item.id, false)"
+                        >
+                          <v-icon dark right>
+                            mdi-cancel
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>رد درخواست</span>
+                    </v-tooltip>
+                  </v-row>
                 </v-list-item-action>
               </v-list-item>
 
