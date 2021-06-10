@@ -96,7 +96,7 @@
             <v-radio label="هوش مصنوعی" value="َai" />
             <v-radio label="بیوانفورماتیک" value="bio" />
           </v-radio-group>
-          <v-radio-group v-else v-model="radios2" mandatory>
+          <v-radio-group v-else v-model="radios3" mandatory>
             <v-radio label="رشته ریاضی" value="mathematics" />
             <v-radio label="ٍرشته تجربی" value="expscience" />
           </v-radio-group>
@@ -115,32 +115,31 @@
           <p>درس</p>
 
           <v-radio-group v-if="radios3 === 'ee'" v-model="radios4" mandatory>
-            <v-radio label="Network 1" value="nw1" />
-            <v-radio label="Network 2" value="nw2" />
-            <v-radio label="Others" value="othersee" />
+            <v-radio label="Network 1" value="21" />
+            <v-radio label="Network 2" value="22" />
+            <v-radio label="Others" value="23" />
           </v-radio-group>
           <v-radio-group v-else-if="radios3 === 'ce'" v-model="radios4" mandatory>
-            <v-radio label="Compiler" value="compiler" />
-            <v-radio label="Artificial Intelligece" value="ai" />
-            <v-radio label="Machine Learning" value="ml" />
-            <v-radio label="Others" value="othersce" />
+            <v-radio label="Compiler" value="24" />
+            <v-radio label="Artificial Intelligece" value="25" />
+            <v-radio label="Machine Learning" value="26" />
+            <v-radio label="Others" value="32" />
           </v-radio-group>
           <v-radio-group v-else-if="radios3 === 'cs'" v-model="radios4" mandatory>
-            <v-radio label="Theory of Computation" value="theocomp" />
-            <v-radio label="Computer Systems" value="compsys" />
-            <v-radio label="Others" value="otherscs" />
+            <v-radio label="Theory of Computation" value="27" />
+            <v-radio label="Computer Systems" value="28" />
+            <v-radio label="Others" value="33" />
           </v-radio-group>
           <v-radio-group v-else-if="radios3 === 'ai'" v-model="radios4" mandatory>
-            <v-radio label="Electromagnetic" value="electromagnetic" />
-            <v-radio label="Optic" value="optic" />
-            <v-radio label="Others" value="othersp" />
+            <v-radio label="Fundamental of AI" value="29" />
+            <v-radio label="Neural Network" value="30" />
+            <v-radio label="Others" value="31" />
           </v-radio-group>
           </v-radio-group>
           <v-radio-group v-else-if="radios3==='bio'" v-model="radios4" mandatory>
-            <v-radio label="ML in Bioinformatics" value="mlinbio" />
-            <v-radio label="Mathematics" value="mathematics" />
-            <v-radio label="Geometery" value="geometery" />
-            <v-radio label="Others" value="othersm2" />
+            <v-radio label="ML in Bioinformatics" value="34" />
+            <v-radio label="NN in Bioinformatics" value="35" />
+            <v-radio label="Others" value="36" />
           </v-radio-group>
           <v-radio-group v-else-if="radios3==='expscience'" v-model="radios4" mandatory>
             <v-radio label="Biology" value="biology" />
@@ -150,7 +149,7 @@
           <v-radio-group v-else-if="radios3==='mathematics'" v-model="radios4" mandatory>
             <v-radio label="Geometry" value="geometry" />
             <v-radio label="Calculus" value="calculus" />
-            <v-radio label="Others" value="otherses" />
+            <v-radio label="Others" value="othersm" />
           </v-radio-group>
         </v-container>
         <v-btn color="primary" @click="e1 = 5">
