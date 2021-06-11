@@ -118,6 +118,14 @@
             <v-radio label="Network 1" value="21" />
             <v-radio label="Network 2" value="22" />
             <v-radio label="Others" value="23" />
+            <v-textarea
+              label="درس مورد نظر:"
+              outlined
+              rows="1"
+              row-height="10"
+              v-model="slug"
+            ></v-textarea>
+            
           </v-radio-group>
           <v-radio-group v-else-if="radios3 === 'ce'" v-model="radios4" mandatory>
             <v-radio label="Compiler" value="24" />
@@ -238,15 +246,10 @@ export default {
        slug:this.slug || undefined,
 }
 
-const others = [23,32,33,31,36,'otherses','othersm'];
-if (this.radios4 in others){
-  
-}
-
 if (parseInt(this.radios4)) {
   payload.specified_topic = this.radios4;
 }else{
-  if(this.radios4 == biology){
+  if(this.radios4 == "biology"){
   if(this.radios2 == 10){
     payload.specified_topic = 37;
   }else if(this.radios2 == 11){
@@ -254,7 +257,7 @@ if (parseInt(this.radios4)) {
   }else{
     payload.specified_topic = 39;
   }
-}else if(this.radios4 == Physics){
+}else if(this.radios4 == "Physics"){
   if(this.radios2 == 10){
     payload.specified_topic = 40;
   }else if(this.radios2 == 11){
@@ -262,7 +265,7 @@ if (parseInt(this.radios4)) {
   }else{
     payload.specified_topic = 42;
   }
-}else if(this.radios4 == geometry){
+}else if(this.radios4 == "geometry"){
   if(this.radios2 == 10){
     payload.specified_topic = 43;
   }else if(this.radios2 == 11){
@@ -270,13 +273,29 @@ if (parseInt(this.radios4)) {
   }else{
     payload.specified_topic = 45;
   }
-}else if(this.radios4 == calculus){
+}else if(this.radios4 == "calculus"){
   if(this.radios2 == 10){
     payload.specified_topic = 46;
   }else if(this.radios2 == 11){
     payload.specified_topic = 47;
   }else{
     payload.specified_topic = 48;
+  }
+}else if(this.radios4 == "otherses"){
+  if(this.radios2 == 10){
+    payload.specified_topic = 49;
+  }else if(this.radios2 == 11){
+    payload.specified_topic = 50;
+  }else{
+    payload.specified_topic = 51;
+  }
+}else if(this.radios4 == "othersm"){
+  if(this.radios2 == 10){
+    payload.specified_topic = 52;
+  }else if(this.radios2 == 11){
+    payload.specified_topic = 53;
+  }else{
+    payload.specified_topic = 54;
   }
 }
 } 
