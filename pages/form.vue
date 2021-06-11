@@ -237,6 +237,12 @@ export default {
        description: this.description,
        slug:this.slug || undefined,
 }
+
+const others = [23,32,33,31,36,'otherses','othersm'];
+if (this.radios4 in others){
+  
+}
+
 if (parseInt(this.radios4)) {
   payload.specified_topic = this.radios4;
 }else{
