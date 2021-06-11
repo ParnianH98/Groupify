@@ -8,12 +8,13 @@
                 <v-list-item-title>
                     <v-card-title>
                         <div>
-                            گفت و گو در گروه
+                            گفتگو در گروه
                         </div>
 
                         <v-btn 
                         color="black"
-                        icon 
+                        icon
+                        :loading="isLoadingMs" 
                         class="mr-4" 
                         @click="getMessages"
                         >
@@ -22,35 +23,40 @@
                     </v-card-title>
                 </v-list-item-title>
                 <v-list-item v-for="(item, index) in messages" :key="index">
-                    <v-row>
-                        <v-avatar color="indigo">
-                            {{ getAuthorInitials(item.sender) }}
-                        </v-avatar>
-                        <v-snackbar
-                        :timeout="-1"
-                        :value="true"
-                        color="blue-grey"
-                        absolute
-                        rounded="pill"
-                        >  
-                            {{ item.text }}
-                        </v-snackbar>
-                        <v-icon
-                        v-if="!item.isread"
-                        color="blue"
-                        x-small
-                        right
-                        >
-                            mdi-circle
-                        </v-icon>
-                    </v-row>
+                    <v-list-item-action>
+                        <v-row>
+                            <v-avatar color="indigo">
+                                {{ getAuthorInitials(item.sender) }}
+                            </v-avatar>
+                            <v-card
+                                max-width="230"
+                                min-height="24"
+                                color="indigo lighten-5"
+                            >
+                                <v-card-text> 
+                                    {{ item.text }}
+                                </v-card-text>
+                            </v-card>
+                            <v-spacer />
+                            <v-icon
+                                v-if="!item.isread"
+                                color="blue"
+                                x-small
+                                right
+                            >
+                                mdi-circle
+                            </v-icon>
+                        </v-row>
+                    </v-list-item-action>
                 </v-list-item>
             </v-list>
         </v-responsive>
-        <v-text-field
+        <v-textarea
             v-model="newInput"
             append-outer-icon="mdi-send"
-            :disabled="isSending"
+            :disabled="readyToSend"
+            auto-grow
+            rows="1"
             filled
             clear-icon="mdi-close-circle"
             clearable
@@ -58,22 +64,34 @@
             type="text"
             @click:append-outer="sendMessage"
             @click:clear="clearMessage"
-          ></v-text-field>
+          ></v-textarea>
     </v-container>
 </template>
 
 <script>
-import { postReq } from "~/utils/services";
+import { postReq, getReq } from "~/utils/services";
 export default {
     name: 'ChatBoard',
 
     data() {
         return{
-            username: 'Delbarsh',
+            username: '',
             messages: [],
             newInput: '',
             groupeNumber: 0,
-            isSending: false,
+            isSendingMs: false,
+            isLoadingMs: false,
+        }
+    },
+
+    computed:{
+        readyToSend(){
+            if(this.isSendingMs) { return true }
+            else {
+                if(this.groupeNumber === 0){
+                    return true
+                }
+            }
         }
     },
 
@@ -87,14 +105,42 @@ export default {
         clearMessage () {
             this.newInput = ''
         },
-        getMessages () {
+        async getMessages () {
             //get messages from api
+           this.isLoadingMs = !this.isLoadingMs
+            try{
+                const res = await getReq(this, `chat/${this.groupeNumber}/`)
+                console.log(res)
+                this.messages = res.response.data
+                this.isLoadingMs = !this.isLoadingMs
+            } catch (err){
+                console.log(err)
+                this.isLoadingMs = !this.isLoadingMs
+            }
+            /*this.messages = [{
+                    sender: {username: 'mohi', id:1},
+                    reciver: this.groupeNumber,
+                    text: 'hello',
+                    isread: true,
+                },
+                {
+                    sender: {username: "mohi", id:1},
+                    reciver: this.groupeNumber,
+                    text: 'hello',
+                    isread: true,
+                },
+                {
+                    sender: {username: "mohi", id:1},
+                    reciver: this.groupeNumber,
+                    text: 'سلام',
+                    isread: false,
+                }]*/
         },
         async sendMessage () {
             //send message to api
-            this.isSending = !this.isSending
+            this.isSendingMs = !this.isSendingMs
             try{
-                const res = await postReq('api/messages/',
+                const res = await postReq(this, 'api/messages/',
                 {
                     sender: this.username,
                     reciver: this.groupeNumber,
@@ -107,10 +153,10 @@ export default {
 
                 this.clearMessage()
 
-                this.isSending = !this.isSending
+                this.isSendingMs = !this.isSendingMs
             } catch(err){
                 console.log(err)
-                this.isSending = !this.isSending
+                this.isSendingMs = !this.isSendingMs
             }
         },
     }
