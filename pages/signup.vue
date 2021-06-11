@@ -199,12 +199,12 @@ export default {
       this.$v.$touch();
       this.isLoading = !this.isLoading;
       try {
-        const res = await postReq(this, "api/users/register", {
+        const res = await postReq(this, "api/users/register/", {
           username: this.UserName,
           password: this.password,
           email: this.email,
-          firstname: this.FirstName,
-          lastname: this.LastName
+          first_name: this.FirstName,
+          last_name: this.LastName
         });
         console.log(res);
         this.isLoading = !this.isLoading;

@@ -10,7 +10,7 @@
         <div v-if="this.isLoading">
             <v-progress-linear
               indeterminate
-              color="green"
+              color="blue"
               ></v-progress-linear>
         </div>
         <v-text-field
@@ -90,9 +90,10 @@ export default {
         )
         this.isLoading = !this.isLoading
         console.log(res)
-        this.$axios.setToken(res.data.access_token, 'Bearer')
-        localStorage.setItem('accesss', true)
-        localStorage.setItem('refresh', res.data.refresh_token)
+        this.$axios.setToken(res.access, 'Bearer')
+        localStorage.setItem('loggedin', true)
+        localStorage.setItem('access', res.access)
+        localStorage.setItem('refresh', res.refresh)
         refreshToken(this)
         this.$router.push({ name: 'dashboard' })
       } catch (err){

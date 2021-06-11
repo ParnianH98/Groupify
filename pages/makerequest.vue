@@ -114,7 +114,7 @@ import { postReq, getReq } from "~/utils/services";
 export default {
   name: "Makerequest",
 
-  async created() {
+  async mounted() {
     await this.getLabels();
   },
 
@@ -132,7 +132,7 @@ export default {
       // get labels from api
       try {
         const res = await getReq(this, "/api/demands/owned");
-        this.Labels = res.response.data;
+        this.Labels = res;
       } catch (err) {
         console.log(err);
       }
@@ -146,7 +146,7 @@ export default {
           hours_per_week: this.selectedlabel.hours_per_week,
           weeks: this.selectedlabel.weeks
         });
-        this.similarUsers = res.response.data;
+        this.similarUsers = res;
       } catch (err) {
         console.log(err);
       }
