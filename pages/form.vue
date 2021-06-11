@@ -234,7 +234,7 @@ export default {
       try{
         const res = postReq(this, "api/demands/create",{
           hours_per_week: this.hours,
-          specified_topic: this.courseCode,
+          specified_topic: this.radios4,
           weeks: this.duration,
           slug:this.slug,
           description: this.description
