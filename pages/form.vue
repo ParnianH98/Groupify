@@ -231,19 +231,53 @@ export default {
   },
   methods: {
     ClickHandler5 () {
-      try{
-        const res = postReq(this, "api/demands/create",{
-          hours_per_week: this.hours,
-          specified_topic: this.radios4,
-          weeks: this.duration,
-          slug:this.slug,
-          description: this.description
-        })
+      const payload = { 
+       hours_per_week: this.hours,
+       weeks: this.duration, 
+       description: this.description,
+       slug:this.slug || undefined,
+}
+if (parseInt(this.radios4)) {
+  payload.specified_topic = this.radios4;
+}else{
+  if(this.radios4 == biology){
+  if(this.radios2 == 10){
+    payload.specified_topic = 37;
+  }else if(this.radios2 == 11){
+    payload.specified_topic = 38;
+  }else{
+    payload.specified_topic = 39;
+  }
+}else if(this.radios4 == Physics){
+  if(this.radios2 == 10){
+    payload.specified_topic = 40;
+  }else if(this.radios2 == 11){
+    payload.specified_topic = 41;
+  }else{
+    payload.specified_topic = 42;
+  }
+}else if(this.radios4 == geometry){
+  if(this.radios2 == 10){
+    payload.specified_topic = 43;
+  }else if(this.radios2 == 11){
+    payload.specified_topic = 44;
+  }else{
+    payload.specified_topic = 45;
+  }
+}else if(this.radios4 == calculus){
+  if(this.radios2 == 10){
+    payload.specified_topic = 46;
+  }else if(this.radios2 == 11){
+    payload.specified_topic = 47;
+  }else{
+    payload.specified_topic = 48;
+  }
+}
+} 
+
+        postReq(this, "api/demands/create",payload).then((res)=>{console.log(res)}).catch(console.error);
       console.log(res)
       this.$router.push({ name: 'dashboard' })
-      }catch (e){
-        console.log(e)
-      }
     },
   }
 }
