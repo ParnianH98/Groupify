@@ -173,6 +173,9 @@
             <v-btn class="mr-4" @click="AddNewLabel">
               افزودن لیبل جدید
             </v-btn>
+            <v-btn color="primary" @click="goBack">
+              بازگشت به داشبورد
+            </v-btn>
           </v-list-item>
         </v-list>
       </v-card>
@@ -183,6 +186,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
+import { getReq } from "~/utils/services";
 
 export default {
   name: "Profile",
@@ -195,9 +199,9 @@ export default {
     email: { required, email }
   },
 
-  created() {
-    //this.getLabels()
-    this.Labels = [
+  async mounted() {
+    await this.getInfo()
+    /*this.Labels = [
       {
         id: 1,
         owner: {
@@ -232,7 +236,7 @@ export default {
         slug: "studying for this semester",
         description: "saturdays at faculty lobbby"
       }
-    ];
+    ];*/
     var i;
     for (i = 0; i < this.Labels.length; i++) {
       this.Labels[i].show = false;
@@ -297,11 +301,12 @@ export default {
   },
 
   methods: {
-    async getLabels() {
+    async getInfo() {
       // get labels from api
       try {
-        const res = await getReq(this, "/api/demands/owned");
-        this.Labels = res.response.data;
+        const res = await getReq(this, "/api/user/topics/");
+        console.log(res)
+        this.Labels = []
         var i;
         for (i = 0; i < this.Labels.length; i++) {
           this.Labels[i].show = false;
@@ -311,7 +316,7 @@ export default {
       }
     },
     AddNewLabel() {
-      //this.$router.push({ name: "form" });
+      this.$router.push({ name: "form" });
       console.log(this.Labels);
     },
     SaveProf() {
@@ -343,10 +348,17 @@ export default {
       this.Labels.splice(x, 1, lab);
     },
     logOut() {
-      localStorage.setItem("access", false);
+      localStorage.setItem("loggedin", false);
       this.$axios.setHeader("Authorization");
       localStorage.removeItem("refresh");
+      localStorage.removeItem("access");
+      localStorage.removeItem("refreshT");
+      localStorage.removeItem("accessT");
       this.$router.push({ name: "login" });
+    },
+    goBack() {
+      // return to dashboard
+      this.$router.push({ name: "dashboard" });
     }
   }
 };
