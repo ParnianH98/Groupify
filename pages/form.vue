@@ -117,15 +117,23 @@
           <v-radio-group v-if="radios3 === 'ee'" v-model="radios4" mandatory>
             <v-radio label="Network 1" value="21" />
             <v-radio label="Network 2" value="22" />
-            <v-radio label="Others" value="23" />
-            <v-textarea
-              label="درس مورد نظر:"
-              outlined
-              rows="1"
-              row-height="10"
-              v-model="slug"
-            ></v-textarea>
-            
+            <v-radio value="23">
+              <template v-slot:label>
+                <div>
+                  Others
+                  <v-textarea
+                    v-if="showslug"
+                    label="درس مورد نظر:"
+                    outlined
+                    auto-grow
+                    dense
+                    rows="1"
+                    row-height="10"
+                    v-model="slug"
+                  ></v-textarea>
+                </div>
+              </template>
+            </v-radio> 
           </v-radio-group>
           <v-radio-group v-else-if="radios3 === 'ce'" v-model="radios4" mandatory>
             <v-radio label="Compiler" value="24" />
@@ -133,6 +141,7 @@
             <v-radio label="Machine Learning" value="26" />
             <v-radio label="Others" value="32" />
           </v-radio-group>
+
           <v-radio-group v-else-if="radios3 === 'cs'" v-model="radios4" mandatory>
             <v-radio label="Theory of Computation" value="27" />
             <v-radio label="Computer Systems" value="28" />
@@ -142,7 +151,6 @@
             <v-radio label="Fundamental of AI" value="29" />
             <v-radio label="Neural Network" value="30" />
             <v-radio label="Others" value="31" />
-          </v-radio-group>
           </v-radio-group>
           <v-radio-group v-else-if="radios3==='bio'" v-model="radios4" mandatory>
             <v-radio label="ML in Bioinformatics" value="34" />
@@ -221,6 +229,8 @@
 </template>
 
 <script>
+import { postReq } from "~/utils/services";
+
 export default {
   data () {
     return {
@@ -235,6 +245,12 @@ export default {
       description: ' ',
       courseCode: 0,
       e1: 1
+    }
+  },
+  computed:{
+    showslug(){
+      if(this.radios4 === "23") return true
+      else return false
     }
   },
   methods: {
@@ -300,8 +316,7 @@ if (parseInt(this.radios4)) {
 }
 } 
 
-        postReq(this, "api/demands/create",payload).then((res)=>{console.log(res)}).catch(console.error);
-      console.log(res)
+      postReq(this, "api/demands/create",payload).then((res)=>{console.log(res)}).catch(console.error);
       this.$router.push({ name: 'dashboard' })
     },
   }
