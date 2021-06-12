@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { postReq, refreshToken } from '~/utils/services'
+import { postReq } from '~/utils/services'
 
 export default {
 
@@ -65,10 +65,15 @@ export default {
     Password: '',
     isLoading: false
   }),
+
   head () {
     return {
       title: 'Login'
     }
+  },
+
+  beforeCreate () {
+    localStorage.setItem('loggedin', false)
   },
 
   computed:{
@@ -88,13 +93,15 @@ export default {
             password: this.Password
           }
         )
+        const timeNow = Date.now()
         this.isLoading = !this.isLoading
         console.log(res)
         this.$axios.setToken(res.access, 'Bearer')
         localStorage.setItem('loggedin', true)
-        localStorage.setItem('access', res.access)
+        localStorage.setItem('access',res.access)
+        localStorage.setItem('accessT', timeNow)
         localStorage.setItem('refresh', res.refresh)
-        refreshToken(this)
+        localStorage.setItem('refreshT', timeNow)
         this.$router.push({ name: 'dashboard' })
       } catch (err){
         console.error(err)
