@@ -93,7 +93,7 @@
             <v-radio label="مهندسی برق" value="ee" />
           </v-radio-group>
           <v-radio-group v-else-if="radios2==='msc'" v-model="radios3" mandatory>
-            <v-radio label="هوش مصنوعی" value="َai" />
+            <v-radio label="هوش مصنوعی" value="ai" />
             <v-radio label="بیوانفورماتیک" value="bio" />
           </v-radio-group>
           <v-radio-group v-else v-model="radios3" mandatory>
@@ -118,11 +118,11 @@
             <v-radio label="Network 1" value="21" />
             <v-radio label="Network 2" value="22" />
             <v-radio value="23">
-              <template v-slot:label>
+              <template slot="label">
                 <div>
                   Others
                   <v-textarea
-                    v-if="showslug"
+                    v-if="radios4 === '23'"
                     label="درس مورد نظر:"
                     outlined
                     auto-grow
@@ -135,37 +135,132 @@
               </template>
             </v-radio> 
           </v-radio-group>
+          <v-radio-group v-else-if="radios3 === 'cs'" v-model="radios4" mandatory>
+            <v-radio label="Theory of Computation" value="27" />
+            <v-radio label="Computer Systems" value="28" />
+            <v-radio value="33">
+              <template slot="label">
+                <div>
+                  Others
+                  <v-textarea
+                    v-if="radios4 === '33'"
+                    label="درس مورد نظر:"
+                    outlined
+                    auto-grow
+                    dense
+                    rows="1"
+                    row-height="10"
+                    v-model="slug"
+                  ></v-textarea>
+                </div>
+              </template>
+            </v-radio>
+          </v-radio-group>
           <v-radio-group v-else-if="radios3 === 'ce'" v-model="radios4" mandatory>
             <v-radio label="Compiler" value="24" />
             <v-radio label="Artificial Intelligece" value="25" />
             <v-radio label="Machine Learning" value="26" />
-            <v-radio label="Others" value="32" />
+            <v-radio value="32">
+              <template slot="label">
+                <div>
+                  Others
+                  <v-textarea
+                    v-if="radios4 === '32'"
+                    label="درس مورد نظر:"
+                    outlined
+                    auto-grow
+                    dense
+                    rows="1"
+                    row-height="10"
+                    v-model="slug"
+                  ></v-textarea>
+                </div>
+              </template>
+            </v-radio>
           </v-radio-group>
-
-          <v-radio-group v-else-if="radios3 === 'cs'" v-model="radios4" mandatory>
-            <v-radio label="Theory of Computation" value="27" />
-            <v-radio label="Computer Systems" value="28" />
-            <v-radio label="Others" value="33" />
-          </v-radio-group>
-          <v-radio-group v-else-if="radios3 === 'ai'" v-model="radios4" mandatory>
+          <v-radio-group v-else-if="radios3 === 'ai'" v-model="radios4" m>
             <v-radio label="Fundamental of AI" value="29" />
             <v-radio label="Neural Network" value="30" />
-            <v-radio label="Others" value="31" />
+            <v-radio value="31">
+              <template slot="label">
+                <div>
+                  Others
+                  <v-textarea
+                    v-if="radios4 === '31'"
+                    label="درس مورد نظر:"
+                    outlined
+                    auto-grow
+                    dense
+                    rows="1"
+                    row-height="10"
+                    v-model="slug"
+                  ></v-textarea>
+                </div>
+              </template>
+            </v-radio>
           </v-radio-group>
           <v-radio-group v-else-if="radios3==='bio'" v-model="radios4" mandatory>
             <v-radio label="ML in Bioinformatics" value="34" />
             <v-radio label="NN in Bioinformatics" value="35" />
-            <v-radio label="Others" value="36" />
+            <v-radio value="36">
+              <template slot="label">
+                <div>
+                  Others
+                  <v-textarea
+                    v-if="radios4 === '36'"
+                    label="درس مورد نظر:"
+                    outlined
+                    auto-grow
+                    dense
+                    rows="1"
+                    row-height="10"
+                    v-model="slug"
+                  ></v-textarea>
+                </div>
+              </template>
+            </v-radio>
           </v-radio-group>
           <v-radio-group v-else-if="radios3==='expscience'" v-model="radios4" mandatory>
             <v-radio label="Biology" value="biology" />
             <v-radio label="Physics" value="Physics" />
-            <v-radio label="Others" value="otherses" />
+            <v-radio value="otherses">
+              <template slot="label">
+                <div>
+                  Others
+                  <v-textarea
+                    v-if="radios4 === 'otherses'"
+                    label="درس مورد نظر:"
+                    outlined
+                    auto-grow
+                    dense
+                    rows="1"
+                    row-height="10"
+                    v-model="slug"
+                  ></v-textarea>
+                </div>
+              </template>
+            </v-radio>
           </v-radio-group>
           <v-radio-group v-else-if="radios3==='mathematics'" v-model="radios4" mandatory>
             <v-radio label="Geometry" value="geometry" />
             <v-radio label="Calculus" value="calculus" />
-            <v-radio label="Others" value="othersm" />
+            <v-radio value="othersm">
+              <template slot="label">
+                <div>
+                  Others
+                  <v-textarea
+                    v-if="radios4 === 'othersm'"
+                    label="درس مورد نظر:"
+                    outlined
+                    auto-grow
+                    dense
+                    rows="1"
+                    row-height="10"
+                    v-model="slug"
+                  ></v-textarea>
+                </div>
+              </template>
+            </v-radio>
           </v-radio-group>
         </v-container>
         <v-btn color="primary" @click="e1 = 5">
@@ -245,12 +340,6 @@ export default {
       description: ' ',
       courseCode: 0,
       e1: 1
-    }
-  },
-  computed:{
-    showslug(){
-      if(this.radios4 === "23") return true
-      else return false
     }
   },
   methods: {
