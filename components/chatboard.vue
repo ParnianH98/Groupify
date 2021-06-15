@@ -8,7 +8,7 @@
                 <v-list-item-title>
                     <v-card-title>
                         <div>
-                            گفتگو در گروه
+                            {{groupeNumber}} گفتگو در گروه
                         </div>
 
                         <v-btn 
@@ -54,7 +54,7 @@
         <v-textarea
             v-model="newInput"
             append-outer-icon="mdi-send"
-            :disabled="readyToSend"
+            :disabled="notReadyToSend"
             auto-grow
             rows="1"
             filled
@@ -73,22 +73,23 @@ import { postReq, getReq } from "~/utils/services";
 export default {
     name: 'ChatBoard',
 
+    props: [groupeNumber],
+
     data() {
         return{
             username: '',
             messages: [],
             newInput: '',
-            groupeNumber: 0,
             isSendingMs: false,
             isLoadingMs: false,
         }
     },
 
     computed:{
-        readyToSend(){
+        notReadyToSend(){
             if(this.isSendingMs) { return true }
             else {
-                if(this.groupeNumber === 0){
+                if(groupeNumber === 0){
                     return true
                 }
             }
@@ -109,9 +110,9 @@ export default {
             //get messages from api
            this.isLoadingMs = !this.isLoadingMs
             try{
-                const res = await getReq(this, `chat/${this.groupeNumber}/`)
+                const res = await getReq(this, `chat/${groupeNumber}/`)
                 console.log(res)
-                this.messages = res.response.data
+                this.messages = res
                 this.isLoadingMs = !this.isLoadingMs
             } catch (err){
                 console.log(err)
@@ -143,7 +144,7 @@ export default {
                 const res = await postReq(this, 'api/messages/',
                 {
                     sender: this.username,
-                    reciver: this.groupeNumber,
+                    reciver: groupeNumber,
                     text: this.newInput
                 })
 
