@@ -30,7 +30,7 @@
                 <template v-for="(item, index) in items">
                   <v-list-item :key="item.title">
                     <template v-slot:default="{ active }">
-                      <v-list-item-content>
+                      <v-list-item-content @click="groupeNumber = item.id">
                         <v-list-item-title
                           v-text="item.title"
                         ></v-list-item-title>
@@ -94,7 +94,7 @@
         </v-col>
         <v-col width="400">
           <v-card>
-            <chat-board />
+            <chat-board :groupeNumber="groupeNumber"/>
           </v-card>
         </v-col>
       </v-row>
@@ -132,7 +132,7 @@ export default {
           this.items = data;
         })
         .catch(err => {
-          snackbar = true;
+          this.snackbar = true;
         });
     },
     delGP(id) {
@@ -141,7 +141,7 @@ export default {
           this.loadPage();
         })
         .catch(() => {
-          snackbar = true;
+          this.snackbar = true;
         });
     }
   },
@@ -164,6 +164,7 @@ export default {
       { id: 3, title: "گروه 3", description: "فیزیک", status: null },
       { id: 4, title: "گروه 4", description: "زیست", status: null }
     ],
+    groupeNumber: 0,
     snackbar: false,
     text: `retrieve error!`,
     icons: {
