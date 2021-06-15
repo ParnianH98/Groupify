@@ -191,7 +191,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
-import { getReq, delReq } from "~/utils/services";
+import { getReq, delReq, putReq } from "~/utils/services";
 
 export default {
   name: "Profile",
@@ -218,6 +218,7 @@ export default {
       lastName: "",
       email: "",
       rate: 0,
+      userid: 0,
       UserName: "",
       FirstName: "",
       LastName: "",
@@ -277,6 +278,7 @@ export default {
         const res = await getReq(this, "api/user/topics/");
         const data = res[0]
         this.rate = data.avgRate;
+        this.userid = data.id;
         this.FirstName = data.first_name;
         this.LastName = data.last_name;
         this.UserName = data.username;
@@ -296,9 +298,19 @@ export default {
       console.log(this.Labels);
     },
     async SaveProf() {
-      this.FirstName = this.firstName;
-      this.LastName = this.lastName;
-      this.Email = this.email;
+      try{
+        await putReq(this, `api/update_profile/${this.userid}/`,{
+          username: this.UserName,
+          email: this.email,
+          first_name: this.firstName,
+          last_name: this.lastName
+        });
+        this.FirstName = this.firstName;
+        this.LastName = this.lastName;
+        this.Email = this.email;
+      }catch(er){
+        console.log(er)
+      }
       this.closeProfEdit();
     },
     startProfEdit() {
