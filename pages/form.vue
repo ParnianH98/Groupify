@@ -83,16 +83,16 @@
       <v-stepper-content step="3">
         <v-container fluid>
           <p>رشته تحصیلی شما چیست؟</p>
-          <v-radio-group
-            v-if="radios2 === 'bsc'"
-            v-model="radios3"
-            mandatory
-          >
+          <v-radio-group v-if="radios2 === 'bsc'" v-model="radios3" mandatory>
             <v-radio label="مهندسی کامپیوتر" value="ce" />
             <v-radio label="علوم کامپیوتر" value="cs" />
             <v-radio label="مهندسی برق" value="ee" />
           </v-radio-group>
-          <v-radio-group v-else-if="radios2==='msc'" v-model="radios3" mandatory>
+          <v-radio-group
+            v-else-if="radios2 === 'msc'"
+            v-model="radios3"
+            mandatory
+          >
             <v-radio label="هوش مصنوعی" value="ai" />
             <v-radio label="بیوانفورماتیک" value="bio" />
           </v-radio-group>
@@ -133,9 +133,13 @@
                   ></v-textarea>
                 </div>
               </template>
-            </v-radio> 
+            </v-radio>
           </v-radio-group>
-          <v-radio-group v-else-if="radios3 === 'cs'" v-model="radios4" mandatory>
+          <v-radio-group
+            v-else-if="radios3 === 'cs'"
+            v-model="radios4"
+            mandatory
+          >
             <v-radio label="Theory of Computation" value="27" />
             <v-radio label="Computer Systems" value="28" />
             <v-radio value="33">
@@ -156,7 +160,11 @@
               </template>
             </v-radio>
           </v-radio-group>
-          <v-radio-group v-else-if="radios3 === 'ce'" v-model="radios4" mandatory>
+          <v-radio-group
+            v-else-if="radios3 === 'ce'"
+            v-model="radios4"
+            mandatory
+          >
             <v-radio label="Compiler" value="24" />
             <v-radio label="Artificial Intelligece" value="25" />
             <v-radio label="Machine Learning" value="26" />
@@ -199,7 +207,11 @@
               </template>
             </v-radio>
           </v-radio-group>
-          <v-radio-group v-else-if="radios3==='bio'" v-model="radios4" mandatory>
+          <v-radio-group
+            v-else-if="radios3 === 'bio'"
+            v-model="radios4"
+            mandatory
+          >
             <v-radio label="ML in Bioinformatics" value="34" />
             <v-radio label="NN in Bioinformatics" value="35" />
             <v-radio value="36">
@@ -220,7 +232,11 @@
               </template>
             </v-radio>
           </v-radio-group>
-          <v-radio-group v-else-if="radios3==='expscience'" v-model="radios4" mandatory>
+          <v-radio-group
+            v-else-if="radios3 === 'expscience'"
+            v-model="radios4"
+            mandatory
+          >
             <v-radio label="Biology" value="biology" />
             <v-radio label="Physics" value="Physics" />
             <v-radio value="otherses">
@@ -241,7 +257,11 @@
               </template>
             </v-radio>
           </v-radio-group>
-          <v-radio-group v-else-if="radios3==='mathematics'" v-model="radios4" mandatory>
+          <v-radio-group
+            v-else-if="radios3 === 'mathematics'"
+            v-model="radios4"
+            mandatory
+          >
             <v-radio label="Geometry" value="geometry" />
             <v-radio label="Calculus" value="calculus" />
             <v-radio value="othersm">
@@ -278,30 +298,21 @@
           <v-form>
             <v-container>
               <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                >
+                <v-col cols="12" sm="6">
                   <v-text-field
                     v-model="duration"
                     label="به مدت چند هفته مایلید با هم‌گروهی خود به مطالعه این درس بپردازید؟"
                   />
                 </v-col>
 
-                <v-col
-                  cols="12"
-                  sm="6"
-                >
+                <v-col cols="12" sm="6">
                   <v-text-field
                     v-model="hours"
                     label="حداقل چند ساعت در هفته می‌توانید برای مطالعه این درس زمان بگذارید؟"
                   />
                 </v-col>
 
-                <v-col
-                  cols="12"
-                  sm="6"
-                >
+                <v-col cols="12" sm="6">
                   <v-text-field
                     v-model="description"
                     label="اگر توضیحات بیشتری لازم می‌دانید، ذکر کنید:"
@@ -327,7 +338,7 @@
 import { postReq } from "~/utils/services";
 
 export default {
-  data () {
+  data() {
     return {
       radios: null,
       radios2: null,
@@ -336,78 +347,82 @@ export default {
       radios5: null,
       duration: 4,
       hours: 3,
-      slug: 'None',
-      description: ' ',
+      slug: " ",
+      description: " ",
       courseCode: 0,
       e1: 1
-    }
+    };
   },
   methods: {
-    ClickHandler5 () {
-      const payload = { 
-       hours_per_week: this.hours,
-       weeks: this.duration, 
-       description: this.description,
-       slug:this.slug || undefined,
-}
+    ClickHandler5() {
+      const payload = {
+        hours_per_week: this.hours,
+        weeks: this.duration,
+        description: this.description,
+        slug: this.slug || undefined
+      };
 
-if (parseInt(this.radios4)) {
-  payload.specified_topic = this.radios4;
-}else{
-  if(this.radios4 == "biology"){
-  if(this.radios2 == 10){
-    payload.specified_topic = 37;
-  }else if(this.radios2 == 11){
-    payload.specified_topic = 38;
-  }else{
-    payload.specified_topic = 39;
-  }
-}else if(this.radios4 == "Physics"){
-  if(this.radios2 == 10){
-    payload.specified_topic = 40;
-  }else if(this.radios2 == 11){
-    payload.specified_topic = 41;
-  }else{
-    payload.specified_topic = 42;
-  }
-}else if(this.radios4 == "geometry"){
-  if(this.radios2 == 10){
-    payload.specified_topic = 43;
-  }else if(this.radios2 == 11){
-    payload.specified_topic = 44;
-  }else{
-    payload.specified_topic = 45;
-  }
-}else if(this.radios4 == "calculus"){
-  if(this.radios2 == 10){
-    payload.specified_topic = 46;
-  }else if(this.radios2 == 11){
-    payload.specified_topic = 47;
-  }else{
-    payload.specified_topic = 48;
-  }
-}else if(this.radios4 == "otherses"){
-  if(this.radios2 == 10){
-    payload.specified_topic = 49;
-  }else if(this.radios2 == 11){
-    payload.specified_topic = 50;
-  }else{
-    payload.specified_topic = 51;
-  }
-}else if(this.radios4 == "othersm"){
-  if(this.radios2 == 10){
-    payload.specified_topic = 52;
-  }else if(this.radios2 == 11){
-    payload.specified_topic = 53;
-  }else{
-    payload.specified_topic = 54;
-  }
-}
-} 
+      if (parseInt(this.radios4)) {
+        payload.specified_topic = this.radios4;
+      } else {
+        if (this.radios4 == "biology") {
+          if (this.radios2 == 10) {
+            payload.specified_topic = 37;
+          } else if (this.radios2 == 11) {
+            payload.specified_topic = 38;
+          } else {
+            payload.specified_topic = 39;
+          }
+        } else if (this.radios4 == "Physics") {
+          if (this.radios2 == 10) {
+            payload.specified_topic = 40;
+          } else if (this.radios2 == 11) {
+            payload.specified_topic = 41;
+          } else {
+            payload.specified_topic = 42;
+          }
+        } else if (this.radios4 == "geometry") {
+          if (this.radios2 == 10) {
+            payload.specified_topic = 43;
+          } else if (this.radios2 == 11) {
+            payload.specified_topic = 44;
+          } else {
+            payload.specified_topic = 45;
+          }
+        } else if (this.radios4 == "calculus") {
+          if (this.radios2 == 10) {
+            payload.specified_topic = 46;
+          } else if (this.radios2 == 11) {
+            payload.specified_topic = 47;
+          } else {
+            payload.specified_topic = 48;
+          }
+        } else if (this.radios4 == "otherses") {
+          if (this.radios2 == 10) {
+            payload.specified_topic = 49;
+          } else if (this.radios2 == 11) {
+            payload.specified_topic = 50;
+          } else {
+            payload.specified_topic = 51;
+          }
+        } else if (this.radios4 == "othersm") {
+          if (this.radios2 == 10) {
+            payload.specified_topic = 52;
+          } else if (this.radios2 == 11) {
+            payload.specified_topic = 53;
+          } else {
+            payload.specified_topic = 54;
+          }
+        }
+      }
 
-      postReq(this, "api/demands/create",payload).then((res)=>{console.log(res)}).catch(console.error);
-      this.$router.push({ name: 'dashboard' })
-    },
+      postReq(this, "api/demands/create", payload)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(console.error);
+      this.$router.push({ name: "dashboard" });
+    }
   }
-}
+};
 </script>
