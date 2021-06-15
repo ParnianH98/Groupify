@@ -26,7 +26,7 @@
         <v-col width="400">
           <v-card max-width="400" min-width="300">
             <v-list two-line color="indigo lighten-4">
-              <v-list-item-group active-class="pink--text" multiple>
+              <v-list-item-group active-class="pink--text">
                 <template v-for="(item, index) in items">
                   <v-list-item :key="item.title">
                     <template v-slot:default="{ active }">
@@ -127,14 +127,7 @@ export default {
       this.$router.push({ name: String(newrout) });
     },
     loadPage() {
-      getReq(this, "api/groups/owned")
-        .then(({ data }) => {
-          this.items = data;
-        })
-        .catch(err => {
-          snackbar = true;
-        });
-      getReq(this, "api/groups/joined")
+      getReq(this, "api/demands/owned")
         .then(({ data }) => {
           this.items = data;
         })
@@ -143,7 +136,7 @@ export default {
         });
     },
     delGP(id) {
-      postReq(this, `api/delete/${id}`, { id })
+      postReq(this, `api/delete/${id}/`)
         .then(() => {
           this.loadPage();
         })
