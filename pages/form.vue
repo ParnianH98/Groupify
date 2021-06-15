@@ -347,7 +347,7 @@ export default {
       radios5: null,
       duration: 4,
       hours: 3,
-      slug: " ",
+      slug: "None",
       description: " ",
       courseCode: 0,
       e1: 1
