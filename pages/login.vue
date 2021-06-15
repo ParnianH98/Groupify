@@ -95,7 +95,6 @@ export default {
         )
         const timeNow = Date.now()
         this.isLoading = !this.isLoading
-        console.log(res)
         this.$axios.setToken(res.access, 'Bearer')
         localStorage.setItem('loggedin', true)
         localStorage.setItem('access',res.access)
