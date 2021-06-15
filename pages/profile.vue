@@ -38,6 +38,11 @@
               <v-list-item-subtitle>نام کاربری</v-list-item-subtitle>
             </v-list-item-content>
 
+            <v-list-item-content v-if="!this.isEditingProf">
+              <v-list-item-title>{{ rate }}</v-list-item-title>
+              <v-list-item-subtitle>امتیاز</v-list-item-subtitle>
+            </v-list-item-content>
+
             <v-text-field
               v-else
               v-model="UserName"
@@ -212,10 +217,11 @@ export default {
       firstName: "",
       lastName: "",
       email: "",
-      UserName: "p.hatami98",
-      FirstName: "پرنیان",
-      LastName: "حاتمی",
-      Email: "p.hatami98@gmail.com",
+      rate: 0,
+      UserName: "",
+      FirstName: "",
+      LastName: "",
+      Email: "",
       Labels: [],
       isEditingProf: false
     };
@@ -266,10 +272,17 @@ export default {
 
   methods: {
     async getInfo() {
-      // get labels from api
+      // get labels and user info from api
       try {
-        const res = await getReq(this, "api/demands/owned");
-        this.Labels = res
+        const res = await getReq(this, "api/user/topics/");
+        const data = res[0]
+        this.rate = data.avgRate;
+        this.FirstName = data.first_name;
+        this.LastName = data.last_name;
+        this.UserName = data.username;
+        this.Email = data.email;
+        const res2 = await getReq(this, "/api/demands/owned");
+        this.Labels = res2;
         var i;
         for (i = 0; i < this.Labels.length; i++) {
           this.Labels[i].show = false;
