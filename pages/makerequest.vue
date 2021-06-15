@@ -71,6 +71,10 @@
                     نام کاربری:
                     {{ item.owner.username }}
                   </v-chip>
+                  <v-chip class="ma-2">
+                    امتیاز:
+                    {{ item.owner.avgRate }}
+                  </v-chip>
                   <v-chip class="ma-2" color="indigo">
                     نام درس:
                     {{ item.topic.name }}
@@ -155,7 +159,7 @@ export default {
       // send the request to api to similarUsers[x]
       const group = this.similarUsers[x].id;
       try {
-        const res = await postReq(this, "/api/join", {
+        const res = await postReq(this, "api/join", {
           specified_group: group
         });
         console.log(res);
