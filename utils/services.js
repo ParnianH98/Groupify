@@ -13,7 +13,7 @@ async function refreshToken(that, token) {
 
 async function getReady(that) {
     const check = localStorage.getItem('loggedin')
-    if(check){
+    if(check === 'true'){
         const refreshTok = {token: localStorage.getItem('refresh'), time: localStorage.getItem('refreshT')}
         console.log(refreshTok)
         if( Date.now() - refreshTok.time >= 60*60*1000 ){
