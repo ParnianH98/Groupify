@@ -1,56 +1,64 @@
 <template>
   <v-container>
-    <v-responsive class="overflow-y-auto" max-height="300">
-      <v-list>
-        <v-list-item-title>
-          <v-card-title>
-            <div>{{ groupeNumber }} گفتگو در گروه</div>
+    <div v-if="this.groupeNumber === 0">
+      <v-card-title> 
+        <div>گفتگو در گروه</div>
+      </v-card-title>
+      <div> هنوز گروهی را انتخاب نکرده اید </div>
+    </div>
+    <div v-else>
+      <v-responsive class="overflow-y-auto" max-height="300">
+        <v-list>
+          <v-list-item-title>
+            <v-card-title>
+              <div>گفتگو در گروه {{ groupeNumber }}</div>
 
-            <v-btn
-              color="black"
-              icon
-              :loading="isLoadingMs"
-              class="mr-4"
-              @click="getMessages"
-            >
-              <v-icon> mdi-refresh </v-icon>
-            </v-btn>
-          </v-card-title>
-        </v-list-item-title>
-        <v-list-item v-for="(item, index) in messages" :key="index">
-          <v-list-item-action>
-            <v-row>
-              <v-avatar color="indigo">
-                {{ getAuthorInitials(item.sender) }}
-              </v-avatar>
-              <v-card max-width="230" min-height="24" color="indigo lighten-5">
-                <v-card-text>
-                  {{ item.text }}
-                </v-card-text>
-              </v-card>
-              <v-spacer />
-              <v-icon v-if="!item.isread" color="blue" x-small right>
-                mdi-circle
-              </v-icon>
-            </v-row>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list>
-    </v-responsive>
-    <v-textarea
-      v-model="newInput"
-      append-outer-icon="mdi-send"
-      :disabled="notReadyToSend"
-      auto-grow
-      rows="1"
-      filled
-      clear-icon="mdi-close-circle"
-      clearable
-      label="New Message"
-      type="text"
-      @click:append-outer="sendMessage"
-      @click:clear="clearMessage"
-    ></v-textarea>
+              <v-btn
+                color="black"
+                icon
+                :loading="isLoadingMs"
+                class="mr-4"
+                @click="getMessages"
+              >
+                <v-icon> mdi-refresh </v-icon>
+              </v-btn>
+            </v-card-title>
+          </v-list-item-title>
+          <v-list-item v-for="(item, index) in messages" :key="index">
+            <v-list-item-action>
+              <v-row>
+                <v-avatar color="indigo">
+                  {{ getAuthorInitials(item.sender) }}
+                </v-avatar>
+                <v-card max-width="230" min-height="24" color="indigo lighten-5">
+                  <v-card-text>
+                    {{ item.text }}
+                  </v-card-text>
+                </v-card>
+                <v-spacer />
+                <v-icon v-if="!item.isread" color="blue" x-small right>
+                  mdi-circle
+                </v-icon>
+              </v-row>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </v-responsive>
+      <v-textarea
+        v-model="newInput"
+        append-outer-icon="mdi-send"
+        :disabled="notReadyToSend"
+        auto-grow
+        rows="1"
+        filled
+        clear-icon="mdi-close-circle"
+        clearable
+        label="New Message"
+        type="text"
+        @click:append-outer="sendMessage"
+        @click:clear="clearMessage"
+      ></v-textarea>
+    </div>
   </v-container>
 </template>
 
