@@ -127,7 +127,14 @@ export default {
       this.$router.push({ name: String(newrout) });
     },
     loadPage() {
-      getReq(this, "api/demands/owned")
+      getReq(this, "api/groups/owned")
+        .then(({ data }) => {
+          this.items = data;
+        })
+        .catch(err => {
+          snackbar = true;
+        });
+      getReq(this, "api/groups/joined")
         .then(({ data }) => {
           this.items = data;
         })
