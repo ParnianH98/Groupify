@@ -24,6 +24,10 @@
                 نام درس:
                 {{ selectedlabel.topic.name }}
               </v-chip>
+              <v-chip v-if="selectedlabel.slug !== 'None'" class="ma-2">
+                توضیحات نام درس:
+                {{ item.slug }}
+              </v-chip>
               <v-chip class="ma-2">
                 ساعت در هفته:
                 {{ selectedlabel.hours_per_week }}
@@ -31,10 +35,6 @@
               <v-chip class="ma-2">
                 هفته:
                 {{ selectedlabel.weeks }}
-              </v-chip>
-              <v-chip class="ma-2">
-                توضیحات:
-                {{ selectedlabel.slug }}
               </v-chip>
               <v-chip class="ma-2">
                 توضیحات بیشتر:
@@ -57,7 +57,7 @@
         </v-btn>
 
         <v-btn text @click="goBack">
-          لغو کردن
+          انصراف
         </v-btn>
       </v-stepper-content>
 
@@ -75,6 +75,10 @@
                     نام درس:
                     {{ item.topic.name }}
                   </v-chip>
+                  <v-chip v-if="item.slug !== 'None'" class="ma-2">
+                    توضیحات نام درس:
+                    {{ item.slug }}
+                  </v-chip>
                   <v-chip class="ma-2">
                     ساعت در هفته:
                     {{ item.hours_per_week }}
@@ -82,10 +86,6 @@
                   <v-chip class="ma-2">
                     هفته:
                     {{ item.weeks }}
-                  </v-chip>
-                  <v-chip class="ma-2">
-                    توضیحات:
-                    {{ item.slug }}
                   </v-chip>
                   <v-chip class="ma-2">
                     توضیحات بیشتر:
@@ -156,7 +156,7 @@ export default {
       const group = this.similarUsers[x].id;
       try {
         const res = await postReq(this, "/api/join", {
-          group: group
+          specified_group: group
         });
         console.log(res);
         this.similarUsers.splice(x, 1);

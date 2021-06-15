@@ -134,12 +134,16 @@
           </v-card-title>
         </v-row>
 
-        <v-list>
+        <v-list max-width="490">
           <v-list-item v-for="(item, index) in Labels" :key="index">
             <v-chip-group>
               <v-chip class="ma-2" color="indigo">
                 نام درس:
                 {{ item.topic.name }}
+              </v-chip>
+              <v-chip v-if="item.slug !== 'None'" class="ma-2">
+                توضیحات نام درس:
+                {{ item.slug }}
               </v-chip>
               <v-chip v-if="item.show" class="ma-2">
                 ساعت در هفته:
@@ -148,10 +152,6 @@
               <v-chip v-if="item.show" class="ma-2">
                 هفته:
                 {{ item.weeks }}
-              </v-chip>
-              <v-chip v-if="item.show" class="ma-2">
-                توضیحات:
-                {{ item.slug }}
               </v-chip>
               <v-chip class="ma-2" v-if="item.show">
                 توضیحات بیشتر:
@@ -165,8 +165,8 @@
             <v-btn v-else icon class="mr-4" @click="showlabe(index)">
               <v-icon>mdi-eye-off</v-icon>
             </v-btn>
-            <v-btn icon class="mr-4" @click="deletelabel(index)">
-              <v-icon>mdi-close</v-icon>
+            <v-btn icon color="red" @click="deletelabel(index)">
+              <v-icon>mdi-delete</v-icon>
             </v-btn>
           </v-list-item>
           <v-list-item>
@@ -186,7 +186,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
-import { getReq } from "~/utils/services";
+import { getReq, delReq } from "~/utils/services";
 
 export default {
   name: "Profile",
@@ -201,42 +201,6 @@ export default {
 
   async mounted() {
     await this.getInfo()
-    /*this.Labels = [
-      {
-        id: 1,
-        owner: {
-          id: 1,
-          username: "mohi"
-        },
-        active: false,
-        created_at: "2021-05-02T14:18:50.864946Z",
-        hours_per_week: 4,
-        topic: {
-          id: 9,
-          name: "Compiler"
-        },
-        weeks: 7,
-        slug: "studying compiler for this semester",
-        description: "fridays and saturdays at faculty lobbby"
-      },
-      {
-        id: 2,
-        owner: {
-          id: 1,
-          username: "mohi"
-        },
-        active: false,
-        created_at: "2021-05-02T14:18:50.864946Z",
-        hours_per_week: 6,
-        topic: {
-          id: 12,
-          name: "Network"
-        },
-        weeks: 4,
-        slug: "studying for this semester",
-        description: "saturdays at faculty lobbby"
-      }
-    ];*/
     var i;
     for (i = 0; i < this.Labels.length; i++) {
       this.Labels[i].show = false;
@@ -304,9 +268,8 @@ export default {
     async getInfo() {
       // get labels from api
       try {
-        const res = await getReq(this, "/api/user/topics/");
-        console.log(res)
-        this.Labels = []
+        const res = await getReq(this, "api/demands/owned");
+        this.Labels = res
         var i;
         for (i = 0; i < this.Labels.length; i++) {
           this.Labels[i].show = false;
@@ -319,7 +282,7 @@ export default {
       this.$router.push({ name: "form" });
       console.log(this.Labels);
     },
-    SaveProf() {
+    async SaveProf() {
       this.FirstName = this.firstName;
       this.LastName = this.lastName;
       this.Email = this.email;
@@ -338,9 +301,15 @@ export default {
       this.lastName = "";
       this.email = "";
     },
-    deletelabel(x) {
+    async deletelabel(x) {
       //delete request
-      this.Labels.splice(x, 1);
+      var lab = this.Labels[x];
+      try{
+        await delReq(this, `api/delete/${lab.id}`);
+        this.Labels.splice(x, 1);
+      } catch (er){
+        console.log(er)
+      }
     },
     showlabe(x) {
       var lab = this.Labels[x];
