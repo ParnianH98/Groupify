@@ -15,7 +15,6 @@ async function getReady(that) {
     const check = localStorage.getItem('loggedin')
     if(check === 'true'){
         const refreshTok = {token: localStorage.getItem('refresh'), time: localStorage.getItem('refreshT')}
-        console.log(refreshTok)
         if( Date.now() - refreshTok.time >= 60*60*1000 ){
             localStorage.setItem('loggedin', false)
             localStorage.removeItem('access')
@@ -47,5 +46,10 @@ export async function getReq(that, url, config) {
 export async function delReq(that, url, config) {
     await getReady(that)
     const res = that.$axios.$delete(url, config);
+    return res;
+}
+export async function putReq(that, url, config) {
+    await getReady(that)
+    const res = that.$axios.$put(url, config);
     return res;
 }
