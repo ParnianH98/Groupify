@@ -5,7 +5,7 @@
         <v-list two-line color="indigo lighten-4">
           <v-list-item-group active-class="pink--text" multiple>
             <template v-for="(item, index) in items">
-              <v-list-item :key="item.title" @click="selectedGroup = item">
+              <v-list-item :key="index" @click="selectedGroup = item">
                 <v-list-item-content>
                   <v-list-item-title v-text="item.title"></v-list-item-title>
 
@@ -82,19 +82,16 @@ export default {
   },
   methods: {
     loadPage() {
-      getReq(this, "api/requests/owned")
-        .then(({ data }) => {
-          this.items = data;
-        })
-        .catch(err => {
-          snackbar = true;
-        });
+        try {
+        const res = await getReq(this, "api/requests/owned");
+        this.items = res;
+
+      } catch (err) {
+        this.snackbar = true;
+      }
     },
     updateStatus(id, status) {
-      postReq(this, `api/requests/owned/${id}`, {
-        data: { accepted: status },
-        method: "PUT"
-      })
+      putReq(this, `api/requests/owned/${id}`, {accepted: status})
         .then(() => {
           this.loadPage();
         })
@@ -120,12 +117,7 @@ export default {
     }
   },
   data: () => ({
-    items: [
-      { id: 1, title: "گروه 1", description: "cs", status: null },
-      { id: 2, title: "گروه 2", description: "فیزیک", status: null },
-      { id: 3, title: "گروه 3", description: "شیمی", status: null },
-      { id: 4, title: "گروه 4", description: "زیست", status: null }
-    ],
+    items: [],
     selectedGroup: null,
     snackbar: false,
     accepted: null,

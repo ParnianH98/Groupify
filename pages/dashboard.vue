@@ -2,7 +2,7 @@
   <div>
     <v-card width="800" color="indigo lighten-1">
       <v-card-title>
-        <span> {{ tester }} گروه‌های فعال من</span>
+        <span> گروه‌های فعال من</span>
 
         <v-spacer></v-spacer>
 
@@ -45,7 +45,7 @@
                           <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
-                                v-if="item.owner.id === "
+                                v-if="item.isOwner"
                                 icon
                                 color="blue"
                                 v-bind="attrs"
@@ -63,7 +63,7 @@
                           <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
-                                v-if="item.hasPermission"
+                                v-if="item.isOwner"
                                 icon
                                 color="error"
                                 rounded
@@ -118,8 +118,8 @@ import RateGroup from "~/components/rategroup.vue";
 import { getReq, postReq } from "~/utils/services";
 import { mdiDelete, mdiAlphaWCircle } from "@mdi/js";
 export default {
-  mounted() {
-    this.loadPage();
+  async mounted() {
+    await this.loadPage();
   },
   components: {
     ChatBoard,
@@ -129,14 +129,22 @@ export default {
     menuHandler(newrout) {
       this.$router.push({ name: String(newrout) });
     },
-    loadPage() {
-      getReq(this, "api/demands/owned")
-        .then(({ data }) => {
-          this.items = data;
-        })
-        .catch(err => {
-          this.snackbar = true;
-        });
+    async loadPage() {
+      try {
+        const res = await getReq(this, "api/demands/owned");
+        this.items = res;
+
+        // const res = await getReq(this, "api/groups/joined")
+        const resuser = await getReq(this, "api/user/topics/");
+        this.username = resuser[0].username;
+        this.userid = resuser[0].id;
+        var i;
+        for (i = 0; i < this.items.length; i++) {
+          this.items[i].isOwner = this.userid === this.items[i].owner.id;
+        }
+      } catch (err) {
+        this.snackbar = true;
+      }
     },
     delGP(id) {
       postReq(this, `api/delete/${id}/`)
@@ -160,19 +168,20 @@ export default {
         id: 100,
         is_pending: true,
         description: "ریاضی",
-        hasPermission: true,
-        topic: { id: 28, name: compsys },
-        owner: { id: 4, username: test }
+        topic: { id: 28, name: "compsys" },
+        owner: { id: 4, username: "test" }
       },
       {
         id: 200,
         is_pending: false,
         description: "شیمی",
-        topic: { id: 24, name: compiler },
-        owner: { id: 5, username: test1 }
+        topic: { id: 24, name: "compiler" },
+        owner: { id: 5, username: "test1" }
       }
     ],
     groupeNumber: 0,
+    username: "test",
+    userid: 4,
     snackbar: false,
     text: `retrieve error!`,
     icons: {
