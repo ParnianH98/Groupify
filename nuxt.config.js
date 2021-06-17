@@ -44,7 +44,7 @@ export default {
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
     axios: {
-        baseURL: "https://groupifyapi.herokuapp.com/"
+        baseURL: "https://groupifystudy.herokuapp.com/"
     },
 
     // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

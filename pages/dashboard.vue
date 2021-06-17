@@ -28,11 +28,11 @@
             <v-list two-line color="indigo lighten-4">
               <v-list-item-group active-class="pink--text">
                 <template v-for="(item, index) in items">
-                  <v-list-item :key="item.title">
+                  <v-list-item :key="item.id">
                     <template v-slot:default="{ active }">
                       <v-list-item-content @click="groupeNumber = item.id">
                         <v-list-item-title
-                          v-text="item.title"
+                          v-text="item.topic.name"
                         ></v-list-item-title>
 
                         <v-list-item-subtitle
@@ -45,7 +45,7 @@
                           <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
-                                v-if="item.hasPermission"
+                                v-if="item.owner.id === "
                                 icon
                                 color="blue"
                                 v-bind="attrs"
@@ -94,7 +94,7 @@
         </v-col>
         <v-col width="400">
           <v-card>
-            <chat-board :groupeNumber="groupeNumber"/>
+            <chat-board :groupeNumber="groupeNumber" />
           </v-card>
         </v-col>
       </v-row>
@@ -113,6 +113,8 @@
 
 <script>
 import ChatBoard from "~/components/chatboard.vue";
+import RateGroup from "~/components/rategroup.vue";
+
 import { getReq, postReq } from "~/utils/services";
 import { mdiDelete, mdiAlphaWCircle } from "@mdi/js";
 export default {
@@ -120,7 +122,8 @@ export default {
     this.loadPage();
   },
   components: {
-    ChatBoard
+    ChatBoard,
+    RateGroup
   },
   methods: {
     menuHandler(newrout) {
@@ -155,14 +158,19 @@ export default {
     items: [
       {
         id: 1,
-        title: "گروه 1",
+        is_pending: true,
         description: "ریاضی",
-        status: null,
-        hasPermission: true
+        hasPermission: true,
+        topic: { id: 28, name: compsys },
+        owner: { id: 4, username: test }
       },
-      { id: 2, title: "گروه 2", description: "شیمی", status: null },
-      { id: 3, title: "گروه 3", description: "فیزیک", status: null },
-      { id: 4, title: "گروه 4", description: "زیست", status: null }
+      {
+        id: 2,
+        is_pending: false,
+        description: "شیمی",
+        topic: { id: 24, name: compiler },
+        owner: { id: 5, username: test1 }
+      }
     ],
     groupeNumber: 0,
     snackbar: false,
