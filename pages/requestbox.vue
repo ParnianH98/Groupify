@@ -7,11 +7,36 @@
             <template v-for="(item, index) in items">
               <v-list-item :key="index" @click="selectedGroup = item">
                 <v-list-item-content>
-                  <v-list-item-title v-text="item.title"></v-list-item-title>
-
-                  <v-list-item-subtitle
-                    v-text="item.description"
-                  ></v-list-item-subtitle>
+                  <v-chip-group column>
+                    <v-chip class="ma-2" color="indigo">
+                      نام درس:
+                      {{ item.group.topic.name }}
+                    </v-chip>
+                    <v-chip v-if="item.group.slug !== 'None'" class="ma-2">
+                      توضیحات نام درس:
+                      {{ item.group.slug }}
+                    </v-chip>
+                    <v-chip class="ma-2">
+                      درخواست‌دهنده:
+                      {{ item.user.username }}
+                    </v-chip>
+                    <v-chip class="ma-2">
+                      امتیاز درخواست‌دهنده:
+                      {{ item.user.avgRate }}
+                    </v-chip>
+                    <v-chip class="ma-2">
+                      ساعت در هفته:
+                      {{ item.group.hours_per_week }}
+                    </v-chip>
+                    <v-chip class="ma-2">
+                      هفته:
+                      {{ item.group.weeks }}
+                    </v-chip>
+                    <v-chip class="ma-2">
+                      توضیحات بیشتر:
+                      {{ item.group.description }}
+                    </v-chip>
+                  </v-chip-group>
                 </v-list-item-content>
 
                 <v-list-item-action>
@@ -75,39 +100,39 @@
 </template>
 
 <script>
-import { getReq, postReq } from "~/utils/services";
+import { getReq, postReq, putReq } from "~/utils/services";
+
 export default {
   mounted() {
     this.loadPage();
   },
   methods: {
-    loadPage() {
-        try {
+    async loadPage() {
+      try {
         const res = await getReq(this, "api/requests/owned");
         this.items = res;
-
       } catch (err) {
         this.snackbar = true;
       }
     },
     updateStatus(id, status) {
-      putReq(this, `api/requests/owned/${id}`, {accepted: status})
+      putReq(this, `api/requests/answer/${id}`, { accepted: status })
         .then(() => {
           this.loadPage();
         })
         .catch(() => {
           snackbar = true;
         });
-    },
-    groupFind() {
-      getReq(this, `api/requests/owned/${this.selectedGroup.id}`)
-        .then(() => {
-          //this.loadPage();
-        })
-        .catch(() => {
-          snackbar = true;
-        });
     }
+    // groupFind() {
+    //   getReq(this, `api/requests/owned/${this.selectedGroup.id}`)
+    //     .then(() => {
+    //       //this.loadPage();
+    //     })
+    //     .catch(() => {
+    //       snackbar = true;
+    //     });
+    // }
   },
   watch: {
     selectedGroup(newVal) {

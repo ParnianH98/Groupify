@@ -30,7 +30,14 @@
                 <template v-for="(item, index) in items">
                   <v-list-item :key="item.id">
                     <template v-slot:default="{ active }">
-                      <v-list-item-content @click="groupeNumber = item.id">
+                      <v-list-item-content
+                        @click="
+                          group = {
+                            number: item.id,
+                            is_pending: item.is_pending
+                          }
+                        "
+                      >
                         <v-list-item-title
                           v-text="item.topic.name"
                         ></v-list-item-title>
@@ -93,8 +100,11 @@
           </v-card>
         </v-col>
         <v-col width="400">
-          <v-card>
-            <chat-board :groupeNumber="groupeNumber" />
+          <v-card v-if="this.group.is_pending">
+            <rate-group :groupeNumber="group.number" />
+          </v-card>
+          <v-card v-else>
+            <chat-board :groupeNumber="group.number" />
           </v-card>
         </v-col>
       </v-row>
@@ -179,7 +189,7 @@ export default {
         owner: { id: 5, username: "test1" }
       }
     ],
-    groupeNumber: 0,
+    group: { number: 0, is_pending: false },
     username: "test",
     userid: 4,
     snackbar: false,
