@@ -2,7 +2,7 @@
   <div>
     <v-card width="800" color="indigo lighten-1">
       <v-card-title>
-        <span>گروه‌های فعال من</span>
+        <span> {{ tester }} گروه‌های فعال من</span>
 
         <v-spacer></v-spacer>
 
