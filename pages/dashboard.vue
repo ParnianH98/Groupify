@@ -52,7 +52,7 @@
                           <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
-                                v-if="item.isOwner"
+                                v-show="item.isOwner"
                                 icon
                                 color="blue"
                                 v-bind="attrs"
@@ -70,7 +70,7 @@
                           <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
-                                v-if="item.isOwner"
+                                v-show="item.isOwner"
                                 icon
                                 color="error"
                                 rounded
@@ -103,8 +103,8 @@
           <v-card v-if="this.group.is_pending">
             <rate-group :groupeNumber="group.number" />
           </v-card>
-          <v-card v-else>
-            <chat-board :groupeNumber="group.number" />
+          <v-card v-else color="indigo lighten-4">
+            <chat-board :groupeNumber="group.number" :username="username" />
           </v-card>
         </v-col>
       </v-row>
@@ -125,7 +125,7 @@
 import ChatBoard from "~/components/chatboard.vue";
 import RateGroup from "~/components/rategroup.vue";
 
-import { getReq, postReq } from "~/utils/services";
+import { getReq, postReq, delReq } from "~/utils/services";
 import { mdiDelete, mdiAlphaWCircle } from "@mdi/js";
 export default {
   async mounted() {
@@ -141,10 +141,8 @@ export default {
     },
     async loadPage() {
       try {
-        const res = await getReq(this, "api/demands/owned");
+        const res = await getReq(this, "api/groups/joined");
         this.items = res;
-
-        // const res = await getReq(this, "api/groups/joined")
         const resuser = await getReq(this, "api/user/topics/");
         this.username = resuser[0].username;
         this.userid = resuser[0].id;
@@ -157,7 +155,7 @@ export default {
       }
     },
     delGP(id) {
-      postReq(this, `api/delete/${id}/`)
+      delReq(this, `api/delete/${id}/`)
         .then(() => {
           this.loadPage();
         })
