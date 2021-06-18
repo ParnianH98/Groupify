@@ -8,7 +8,7 @@
     </div>
     <div v-else>
       <v-responsive class="overflow-y-auto" max-height="300">
-        <v-list>
+        <v-list color="indigo lighten-4">
           <v-list-item-title>
             <v-card-title>
               <div>گفتگو در گروه {{ groupeNumber }}</div>
@@ -27,16 +27,17 @@
           <v-list-item v-for="(item, index) in messages" :key="index">
             <v-list-item-action>
               <v-row>
-                <v-avatar color="indigo">
-                  {{ getAuthorInitials(item.sender) }}
+                <v-avatar :color="getColor(item)" right>
+                  {{ getAuthorInitials(item) }}
                 </v-avatar>
+                <v-spacer />
                 <v-card max-width="230" min-height="24" color="indigo lighten-5">
                   <v-card-text>
                     {{ item.text }}
                   </v-card-text>
                 </v-card>
                 <v-spacer />
-                <v-icon v-if="!item.isread" color="blue" x-small right>
+                <v-icon v-if="!item.is_read" color="blue" x-small left>
                   mdi-circle
                 </v-icon>
               </v-row>
@@ -67,11 +68,10 @@ import { postReq, getReq } from "~/utils/services";
 export default {
   name: "ChatBoard",
 
-  props: { groupeNumber: Number },
+  props: { groupeNumber: Number , username: String},
 
   data() {
     return {
-      username: "",
       messages: [],
       newInput: "",
       isSendingMs: false,
@@ -93,10 +93,18 @@ export default {
 
   methods: {
     getAuthorInitials(massage) {
-      const author = massage.username;
+      const author = massage.sender;
       const l = author.length - 1;
       const initial = author.charAt(0) + author.charAt(l);
       return initial;
+    },
+    getColor(massage) {
+      const author = massage.sender;
+      if(author === this.username){
+        return "teal lighten-1"
+      } else {
+        return "red lighten-1"
+      }
     },
     clearMessage() {
       this.newInput = "";
@@ -106,31 +114,12 @@ export default {
       this.isLoadingMs = !this.isLoadingMs;
       try {
         const res = await getReq(this, `chat/${this.groupeNumber}/`);
-        console.log(res);
         this.messages = res;
         this.isLoadingMs = !this.isLoadingMs;
       } catch (err) {
         console.log(err);
         this.isLoadingMs = !this.isLoadingMs;
       }
-      /*this.messages = [{
-                    sender: {username: 'mohi', id:1},
-                    reciver: this.groupeNumber,
-                    text: 'hello',
-                    isread: true,
-                },
-                {
-                    sender: {username: "mohi", id:1},
-                    reciver: this.groupeNumber,
-                    text: 'hello',
-                    isread: true,
-                },
-                {
-                    sender: {username: "mohi", id:1},
-                    reciver: this.groupeNumber,
-                    text: 'سلام',
-                    isread: false,
-                }]*/
     },
     async sendMessage() {
       //send message to api
@@ -138,7 +127,8 @@ export default {
       try {
         const res = await postReq(this, "api/messages/", {
           sender: this.username,
-          reciver: this.groupeNumber,
+          receiver: this.groupeNumber,
+          is_read: false,
           text: this.newInput
         });
 
