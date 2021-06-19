@@ -1,17 +1,21 @@
 <template>
-  <v-card class="elevation-16 mx-auto" width="300">
+  <v-card class="elevation-16 mx-auto" max-width="400" color="indigo lighten-4">
     <v-card-title class="text-h5">
-      Rate Our Framework
+      امتیازدهی
     </v-card-title>
     <v-card-text>
-      گروه شما پایان یافته است. به هم‌تیمی خود امتیاز دهید!
+      گروه شما پایان یافته است. به هم‌تیمی(های) خود امتیاز دهید!
+      <!-- <v-list-item v-for="(i, index) in partnerName">
+        <template v-if="i.">
 
+        </template>
+      </v-list-item> -->
       <div class="text-center mt-12">
         <v-rating
           v-model="rating"
           color="yellow darken-3"
-          background-color="grey darken-1"
           empty-icon="$ratingFull"
+          background-color="indigo lighten-5"
           half-increments
           hover
           large
@@ -21,7 +25,7 @@
     <v-divider></v-divider>
     <v-card-actions class="justify-space-between">
       <v-btn color="primary" text>
-        Rate Now
+        ثبت امتیاز
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -29,11 +33,21 @@
 
 <script>
 export default {
+  async mounted() {
+    try {
+      const res = await getReq(this, `api/groups/members/${this.groupeNumber}`);
+      this.partnerName = res;
+      console.log(this.partnerName);
+    } catch (err) {
+      console.log("er");
+    }
+  },
   name: "RateGroup",
   props: { groupeNumber: Number },
 
   data: () => ({
-    rating: 4.5
+    rating: 0,
+    partnerName: []
   })
 };
 </script>

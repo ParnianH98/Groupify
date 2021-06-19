@@ -1,17 +1,17 @@
 <template>
   <v-container>
     <div v-if="this.groupeNumber === 0">
-      <v-card-title> 
+      <v-card-title>
         <div>گفتگو در گروه</div>
       </v-card-title>
-      <div> هنوز گروهی را انتخاب نکرده اید </div>
+      <div>هنوز گروهی را انتخاب نکرده اید</div>
     </div>
     <div v-else>
       <v-responsive class="overflow-y-auto" max-height="300">
         <v-list color="indigo lighten-4">
           <v-list-item-title>
             <v-card-title>
-              <div>گفتگو در گروه {{ groupeNumber }}</div>
+              <div>گفتگو در گروه</div>
 
               <v-btn
                 color="black"
@@ -31,7 +31,11 @@
                   {{ getAuthorInitials(item) }}
                 </v-avatar>
                 <v-spacer />
-                <v-card max-width="230" min-height="24" color="indigo lighten-5">
+                <v-card
+                  max-width="230"
+                  min-height="24"
+                  color="indigo lighten-5"
+                >
                   <v-card-text>
                     {{ item.text }}
                   </v-card-text>
@@ -68,7 +72,7 @@ import { postReq, getReq } from "~/utils/services";
 export default {
   name: "ChatBoard",
 
-  props: { groupeNumber: Number , username: String},
+  props: { groupeNumber: Number, username: String },
 
   data() {
     return {
@@ -100,10 +104,10 @@ export default {
     },
     getColor(massage) {
       const author = massage.sender;
-      if(author === this.username){
-        return "teal lighten-1"
+      if (author === this.username) {
+        return "teal lighten-1";
       } else {
-        return "red lighten-1"
+        return "red lighten-1";
       }
     },
     clearMessage() {
