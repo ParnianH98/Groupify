@@ -7,7 +7,7 @@
       {{ otherError }}
     </h1>
     <NuxtLink to="/">
-      Home page
+      صفحه اصلی
     </NuxtLink>
   </v-app>
 </template>
@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
+      otherError: 'مشکلی پیش آمده'
     }
   },
   head () {

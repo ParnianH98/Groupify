@@ -23,15 +23,10 @@
           </v-btn>
         </v-card-text>
 
-        <v-card-text class="white--text pt-0">
-          Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
-          Mauris cursus commodo interdum. Praesent ut risus eget metus luctus
-          accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim
-          a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula
-          lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus
-          iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum
-          tempor vel ut orci. Orci varius natoque penatibus et magnis dis
-          parturient montes, nascetur ridiculus mus.
+        <v-card-text class="white--text pt-0 px-16">
+          ما در این سایت قصد داریم افرادی را که اهداف زیادی دارند اما به علت نداشتن یک همپا
+          و همراه و همچنین انگیزه کافی از رسیدن به این اهداف دست می کشند و در میانه راه آنها را رها می کنند
+          در کنار هم جمع کنیم، همچنین به آنها در پیدا کردن همراهی با اهداف مشابه یاری نماییم.
         </v-card-text>
 
         <v-divider></v-divider>
@@ -49,6 +44,7 @@ export default {
   computed: {
     routeTitle() {
       return {
+        default: "صفحه اصلی",
         dashboard: "داشبورد",
         form: "فرم",
         login: "ورود",
@@ -64,23 +60,10 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: "mdi-apps",
-          title: "Welcome",
-          to: "/"
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "form",
-          to: "/form"
-        }
-      ],
       icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "Vuetify.js"
     };
   }
 };
