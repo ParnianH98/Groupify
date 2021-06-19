@@ -100,8 +100,12 @@
           </v-card>
         </v-col>
         <v-col width="400">
-          <rate-group :groupeNumber="group.number" />
-          <v-card color="indigo lighten-4">
+          <rate-group
+            :groupeNumber="group.number"
+            :username="username"
+            v-if="!this.group.is_pending"
+          />
+          <v-card v-else color="indigo lighten-4">
             <chat-board :groupeNumber="group.number" :username="username" />
           </v-card>
         </v-col>

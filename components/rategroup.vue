@@ -5,12 +5,13 @@
     </v-card-title>
     <v-card-text>
       گروه شما پایان یافته است. به هم‌تیمی(های) خود امتیاز دهید!
-      <!-- <v-list-item v-for="(i, index) in partnerName">
-        <template v-if="i.">
-
+      <v-list-item v-for="(item, index) in partnerName" :key="item.id">
+        <template v-if="item.username !== username">
+          {{ item.username }}
         </template>
-      </v-list-item> -->
+      </v-list-item>
       <div class="text-center mt-12">
+        <v-btn dark color="red" @click="findPartner">findPartner </v-btn>
         <v-rating
           v-model="rating"
           color="yellow darken-3"
@@ -32,18 +33,25 @@
 </template>
 
 <script>
+import { getReq, delReq } from "~/utils/services";
+
 export default {
-  async mounted() {
-    try {
-      const res = await getReq(this, `api/groups/members/${this.groupeNumber}`);
-      this.partnerName = res;
-      console.log(this.partnerName);
-    } catch (err) {
-      console.log("er");
+  async mounted() {},
+  methods: {
+    async findPartner() {
+      try {
+        const res = await getReq(
+          this,
+          `api/groups/members/${this.groupeNumber}`
+        );
+        this.partnerName = res;
+      } catch (err) {
+        console.log("er");
+      }
     }
   },
   name: "RateGroup",
-  props: { groupeNumber: Number },
+  props: { groupeNumber: Number, username: String },
 
   data: () => ({
     rating: 0,

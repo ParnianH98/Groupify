@@ -1,33 +1,41 @@
 async function refreshToken(that, token) {
-    try{
-        const res = await that.$axios.$post('api/token/refresh/', {
+    try {
+        const res = await that.$axios.$post("api/token/refresh/", {
             refresh: token.token
         });
-        localStorage.setItem('access', res.access);
-        localStorage.setItem('accessT', Date.now());
-    } catch (er){
-        localStorage.setItem('loggedin', false);
-        console.log(er);
+        localStorage.setItem("access", res.access);
+        localStorage.setItem("accessT", Date.now());
+    } catch (er) {
+        localStorage.setItem("loggedin", false);
     }
 }
 
 async function getReady(that) {
-    const check = localStorage.getItem('loggedin');
-    if(check === 'true'){
-        const refreshTok = {token: localStorage.getItem('refresh'), time: localStorage.getItem('refreshT')};
-        if( Date.now() - refreshTok.time >= 60*60*1000 ){
-            localStorage.setItem('loggedin', false);
-            localStorage.removeItem('access');
-            localStorage.removeItem('accessT');
-            localStorage.removeItem('refresh');
-            localStorage.removeItem('refreshT');
+    const check = localStorage.getItem("loggedin");
+    if (check === "true") {
+        const refreshTok = {
+            token: localStorage.getItem("refresh"),
+            time: localStorage.getItem("refreshT")
+        };
+        if (Date.now() - refreshTok.time >= 60 * 60 * 1000) {
+            localStorage.setItem("loggedin", false);
+            localStorage.removeItem("access");
+            localStorage.removeItem("accessT");
+            localStorage.removeItem("refresh");
+            localStorage.removeItem("refreshT");
         } else {
-            var accessTok = {token: localStorage.getItem('access'), time: localStorage.getItem('accessT')};
-            if ( Date.now() - accessTok.time >= 5*60*1000 ){
+            var accessTok = {
+                token: localStorage.getItem("access"),
+                time: localStorage.getItem("accessT")
+            };
+            if (Date.now() - accessTok.time >= 5 * 60 * 1000) {
                 await refreshToken(that, refreshTok);
-                accessTok = {token: localStorage.getItem('access'), time: localStorage.getItem('accessT')};
+                accessTok = {
+                    token: localStorage.getItem("access"),
+                    time: localStorage.getItem("accessT")
+                };
             }
-            that.$axios.setToken(accessTok.token, 'Bearer');
+            that.$axios.setToken(accessTok.token, "Bearer");
         }
     }
 }
