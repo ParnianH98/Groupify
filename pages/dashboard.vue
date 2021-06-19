@@ -46,6 +46,8 @@
                           v-text="item.description"
                         ></v-list-item-subtitle>
                       </v-list-item-content>
+                      
+                      <v-badge v-show="item.newMesseges !== 0" left color="blue" :content="item.newMesseges" />
 
                       <v-list-item-action>
                         <v-row>
@@ -103,7 +105,7 @@
           <rate-group
             :groupeNumber="group.number"
             :username="username"
-            v-if="!this.group.is_pending"
+            v-if="this.group.is_pending"
           />
           <v-card v-else color="indigo lighten-4">
             <chat-board :groupeNumber="group.number" :username="username" :snackbar="snakbar" />
@@ -143,7 +145,7 @@ export default {
     },
     async loadPage() {
       try {
-        const res = await getReq(this, "api/groups/joined");
+        const res = await getReq(this, "api/dashboard/");
         this.items = res;
         const resuser = await getReq(this, "api/user/topics/");
         this.username = resuser[0].username;

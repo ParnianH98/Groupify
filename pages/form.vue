@@ -43,7 +43,7 @@
           ادامه
         </v-btn>
 
-        <v-btn text>
+        <v-btn text @click="goBack">
           انصراف
         </v-btn>
       </v-stepper-content>
@@ -75,7 +75,7 @@
           ادامه
         </v-btn>
 
-        <v-btn text>
+        <v-btn text @click="goBack">
           انصراف
         </v-btn>
       </v-stepper-content>
@@ -105,7 +105,7 @@
           ادامه
         </v-btn>
 
-        <v-btn text>
+        <v-btn text @click="goBack">
           انصراف
         </v-btn>
       </v-stepper-content>
@@ -267,7 +267,7 @@
           ادامه
         </v-btn>
 
-        <v-btn text>
+        <v-btn text @click="goBack">
           انصراف
         </v-btn>
       </v-stepper-content>
@@ -315,7 +315,7 @@
           ادامه
         </v-btn>
 
-        <v-btn text>
+        <v-btn text @click="goBack">
           انصراف
         </v-btn>
       </v-stepper-content>
@@ -406,7 +406,10 @@ if (parseInt(this.radios4)) {
 } 
 
       postReq(this, "api/demands/create",payload).then((res)=>{console.log(res)}).catch(console.error);
-      this.$router.push({ name: 'dashboard' })
+      this.$router.push({ name: "profile" })
+    },
+    goBack (){
+    this.$router.push({ name: "profile" })
     },
   }
 }

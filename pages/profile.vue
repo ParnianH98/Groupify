@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col>
-        <v-card max-width="560" class="mx-auto">
+        <v-card max-width="560" class="mx-auto" color="indigo lighten-5">
           <v-row class="fill-height">
             <v-card-title class="Black--text pl-12 pt-12">
               <v-tooltip v-if="!isEditingProf" top>
@@ -43,7 +43,7 @@
             </v-card-title>
           </v-row>
 
-          <v-list two-line>
+          <v-list two-line color="indigo lighten-5">
             <v-list-item>
               <v-list-item-icon>
                 <v-icon color="indigo">
@@ -54,11 +54,6 @@
               <v-list-item-content v-if="!this.isEditingProf">
                 <v-list-item-title>{{ UserName }}</v-list-item-title>
                 <v-list-item-subtitle>نام کاربری</v-list-item-subtitle>
-              </v-list-item-content>
-
-              <v-list-item-content v-if="!this.isEditingProf">
-                <v-list-item-title>{{ rate }}</v-list-item-title>
-                <v-list-item-subtitle>امتیاز</v-list-item-subtitle>
               </v-list-item-content>
 
               <v-text-field
@@ -109,6 +104,21 @@
 
             <v-divider inset />
 
+            <v-list-item v-if="!this.isEditingProf">
+              <v-list-item-icon>
+                <v-icon color="yellow">
+                  mdi-star
+                </v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title>{{ rate }}</v-list-item-title>
+                <v-list-item-subtitle>امتیاز</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-divider v-if="!this.isEditingProf" inset />
+
             <v-list-item>
               <v-list-item-icon>
                 <v-icon color="indigo">
@@ -148,7 +158,7 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-card max-width="560" class="mx-auto">
+        <v-card max-width="560" class="mx-auto" color="indigo lighten-5">
           <v-row class="fill-height">
             <v-card-title class="Black--text pl-12 pt-12">
               <div>
@@ -157,26 +167,26 @@
             </v-card-title>
           </v-row>
 
-          <v-list max-width="490">
+          <v-list max-width="490" color="indigo lighten-5">
             <v-list-item v-for="(item, index) in Labels" :key="index">
               <v-chip-group>
-                <v-chip class="ma-2" color="indigo">
+                <v-chip class="ma-2" color="indigo darken-4" outlined>
                   نام درس:
                   {{ item.topic.name }}
                 </v-chip>
-                <v-chip v-if="item.slug !== 'None'" class="ma-2">
+                <v-chip v-if="item.slug !== 'None'" class="ma-2" color="indigo darken-4" outlined>
                   توضیحات نام درس:
                   {{ item.slug }}
                 </v-chip>
-                <v-chip v-if="item.show" class="ma-2">
+                <v-chip v-if="item.show" class="ma-2" color="black" outlined>
                   ساعت در هفته:
                   {{ item.hours_per_week }}
                 </v-chip>
-                <v-chip v-if="item.show" class="ma-2">
+                <v-chip v-if="item.show" class="ma-2" color="black" outlined>
                   هفته:
                   {{ item.weeks }}
                 </v-chip>
-                <v-chip class="ma-2" v-if="item.show">
+                <v-chip class="ma-2" v-if="item.show" color="black" outlined>
                   توضیحات بیشتر:
                   {{ item.description }}
                 </v-chip>
@@ -229,7 +239,8 @@
               <v-btn class="mr-4" @click="AddNewLabel">
                 افزودن لیبل جدید
               </v-btn>
-              <v-btn color="primary" @click="goBack">
+              <br />
+              <v-btn class="mr-4" @click="goBack">
                 بازگشت به داشبورد
               </v-btn>
             </v-list-item>
