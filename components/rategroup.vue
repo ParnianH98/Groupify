@@ -4,8 +4,7 @@
       Rate Our Framework
     </v-card-title>
     <v-card-text>
-      If you enjoy using Vuetify, please take a few seconds to rate your
-      experience with the framework. It really helps!
+      گروه شما پایان یافته است. به هم‌تیمی خود امتیاز دهید!
 
       <div class="text-center mt-12">
         <v-rating
