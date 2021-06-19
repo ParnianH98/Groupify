@@ -50,6 +50,16 @@
         </v-btn>
       </div>
     </v-container>
+
+    <v-snackbar v-model="snackbar">
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -61,6 +71,8 @@ export default {
   name: 'Login',
 
   data: () => ({
+    snackbar: false,
+    text: `retrieve error!`,
     UserName: '',
     Password: '',
     isLoading: false
@@ -85,29 +97,30 @@ export default {
 
   methods: {
     async submit () {
-      this.isLoading = !this.isLoading
+      this.isLoading = !this.isLoading;
       try{
         const res = await postReq(this, 'api/token/',
           {
             username: this.UserName,
             password: this.Password
           }
-        )
-        const timeNow = Date.now()
-        this.isLoading = !this.isLoading
-        this.$axios.setToken(res.access, 'Bearer')
-        localStorage.setItem('loggedin', true)
-        localStorage.setItem('access',res.access)
-        localStorage.setItem('accessT', timeNow)
-        localStorage.setItem('refresh', res.refresh)
-        localStorage.setItem('refreshT', timeNow)
-        this.$router.push({ name: 'dashboard' })
+        );
+        const timeNow = Date.now();
+        this.isLoading = !this.isLoading;
+        this.$axios.setToken(res.access, 'Bearer');
+        localStorage.setItem('loggedin', true);
+        localStorage.setItem('access',res.access);
+        localStorage.setItem('accessT', timeNow);
+        localStorage.setItem('refresh', res.refresh);
+        localStorage.setItem('refreshT', timeNow);
+        this.$router.push({ name: 'dashboard' });
       } catch (err){
-        console.error(err)
+        this.snackbar = !this.snackbar;
+        this.isLoading = !this.isLoading;
       }
     },
     goToSignUp () {
-      this.$router.push({ name: 'signup' })
+      this.$router.push({ name: 'signup' });
     }
   }
 }

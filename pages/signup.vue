@@ -97,6 +97,16 @@
         </v-btn>
       </div>
     </v-container>
+
+    <v-snackbar v-model="snackbar">
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -109,6 +119,7 @@ export default {
   name: "Signup",
 
   mixins: [validationMixin],
+
   head() {
     return {
       title: "SignUp"
@@ -133,7 +144,9 @@ export default {
     repeatPassword: "",
     show1: false,
     show2: false,
-    isLoading: false
+    isLoading: false,
+    snackbar: false,
+    text: `retrieve error!`
   }),
 
   computed: {
@@ -206,11 +219,10 @@ export default {
           first_name: this.FirstName,
           last_name: this.LastName
         });
-        console.log(res);
         this.isLoading = !this.isLoading;
         this.$router.push({ name: "login" });
       } catch (e) {
-        console.log(e);
+        this.snackbar = !this.snackbar;
         this.isLoading = !this.isLoading;
       }
     },
