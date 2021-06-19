@@ -72,7 +72,7 @@ import { postReq, getReq } from "~/utils/services";
 export default {
   name: "ChatBoard",
 
-  props: { groupeNumber: Number, username: String },
+  props: { groupeNumber: Number, username: String, snackbar: Boolean },
 
   data() {
     return {
@@ -121,7 +121,7 @@ export default {
         this.messages = res;
         this.isLoadingMs = !this.isLoadingMs;
       } catch (err) {
-        console.log(err);
+        this.snackbar = !this.snackbar;
         this.isLoadingMs = !this.isLoadingMs;
       }
     },
@@ -144,7 +144,7 @@ export default {
 
         this.isSendingMs = !this.isSendingMs;
       } catch (err) {
-        console.log(err);
+        this.snackbar = !this.snackbar;
         this.isSendingMs = !this.isSendingMs;
       }
     }
