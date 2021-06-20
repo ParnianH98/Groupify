@@ -119,6 +119,7 @@ export default {
       try {
         const res = await getReq(this, `chat/${this.groupeNumber}/`);
         this.messages = res;
+        this.$emit("update", this.isLoadingMs);
         await putReq(this, `chat/update/${this.groupeNumber}/`);
         this.isLoadingMs = !this.isLoadingMs;
       } catch (err) {
@@ -136,8 +137,6 @@ export default {
           is_read: false,
           text: this.newInput
         });
-
-        console.log(res);
 
         this.getMessages();
 
