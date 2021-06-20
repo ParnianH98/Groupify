@@ -46,8 +46,13 @@
                           v-text="item.description"
                         ></v-list-item-subtitle>
                       </v-list-item-content>
-                      
-                      <v-badge v-show="item.newMesseges !== 0" left color="blue" :content="item.newMesseges" />
+
+                      <v-badge
+                        v-show="item.newMesseges !== 0"
+                        left
+                        color="blue"
+                        :content="item.newMesseges"
+                      />
 
                       <v-list-item-action>
                         <v-row>
@@ -108,7 +113,11 @@
             v-if="this.group.is_pending"
           />
           <v-card v-else color="indigo lighten-4">
-            <chat-board :groupeNumber="group.number" :username="username" :snackbar="snakbar" />
+            <chat-board
+              :groupeNumber="group.number"
+              :username="username"
+              :snackbar="snakbar"
+            />
           </v-card>
         </v-col>
       </v-row>
@@ -129,7 +138,7 @@
 import ChatBoard from "~/components/chatboard.vue";
 import RateGroup from "~/components/rategroup.vue";
 
-import { getReq, postReq, delReq } from "~/utils/services";
+import { getReq, delReq } from "~/utils/services";
 import { mdiDelete, mdiAlphaWCircle } from "@mdi/js";
 export default {
   async mounted() {
@@ -159,13 +168,13 @@ export default {
       }
     },
     delGP(id) {
-      delReq(this, `api/delete/${id}/`)
-        .then(() => {
-          this.loadPage();
-        })
-        .catch(() => {
-          this.snackbar = true;
-        });
+      // delReq(this, `api/delete/${id}/`)
+      //   .then(() => {
+      //     this.loadPage();
+      //   })
+      //   .catch(() => {
+      //     this.snackbar = true;
+      //   });
     }
   },
   data: () => ({

@@ -10,8 +10,10 @@
           {{ item.username }}
         </template>
       </v-list-item>
-      <div class="text-center mt-12">
-        <v-btn dark color="red" @click="findPartner">findPartner </v-btn>
+      <div class="text-right mt-12">
+        <v-btn dark color="teal lighten-3" @click="findPartner"
+          >لیست هم‌تیمی(ها)
+        </v-btn>
         <v-rating
           v-model="rating"
           color="yellow darken-3"
@@ -25,7 +27,7 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions class="justify-space-between">
-      <v-btn color="primary" text>
+      <v-btn color="primary" text @click="enter">
         ثبت امتیاز
       </v-btn>
     </v-card-actions>
@@ -33,14 +35,24 @@
 </template>
 
 <script>
-import { getReq, delReq } from "~/utils/services";
+import { getReq, postReq } from "~/utils/services";
 
 export default {
   async mounted() {},
   methods: {
+    async enter() {
+      try {
+        const res = await postReq(this, "api/token/", {
+          entered: 2 * this.rating
+        });
+        console.log(this.rating);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async findPartner() {
       try {
-        const res = await getReq(
+        const res = await postReq(
           this,
           `api/groups/members/${this.groupeNumber}`
         );

@@ -134,13 +134,13 @@ export default {
     //     });
     // }
   },
-  watch: {
-    selectedGroup(newVal) {
-      if (newVal) {
-        this.groupFind();
-      }
-    }
-  },
+  // watch: {
+  //   selectedGroup(newVal) {
+  //     if (newVal) {
+  //       this.groupFind();
+  //     }
+  //   }
+  // },
   data: () => ({
     items: [],
     selectedGroup: null,
