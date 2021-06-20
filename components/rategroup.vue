@@ -5,11 +5,29 @@
     </v-card-title>
     <v-card-text>
       گروه شما پایان یافته است. به هم‌تیمی(های) خود امتیاز دهید!
-      <v-list-item v-for="(item, index) in partnerName" :key="item.id">
-        <template v-if="item.username !== username">
-          {{ item.username }}
+      <v-row>
+        <template>
+          {{ partnerN }}
         </template>
-      </v-list-item>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-show="item.isOwner"
+              icon
+              color="blue"
+              v-bind="attrs"
+              v-on="on"
+              @click="updateStatus(item.id, false)"
+            >
+              <v-icon dark>
+                {{ icons.mdiAlphaWCircle }}
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>تعداد هفته‌های فعالیت</span>
+        </v-tooltip>
+      </v-row>
+
       <div class="text-right mt-12">
         <v-btn dark color="teal lighten-3" @click="findPartner"
           >لیست هم‌تیمی(ها)
@@ -43,13 +61,22 @@ export default {
     async enter() {
       try {
         const res = await postReq(this, "api/token/", {
-          entered: 2 * this.rating
+          rate: 2 * this.rating
         });
         console.log(this.rating);
       } catch (err) {
         console.log(err);
       }
     },
+    partnerN() {
+      var i;
+      for (i in range(this.partnerName.length)) {
+        if (this.partnerName[i].username !== this.username) {
+          return this.partnerName.username;
+        }
+      }
+    },
+
     async findPartner() {
       try {
         const res = await postReq(
@@ -67,7 +94,8 @@ export default {
 
   data: () => ({
     rating: 0,
-    partnerName: []
+    partnerName: [],
+    duration: 0
   })
 };
 </script>

@@ -61,29 +61,11 @@
                               <v-btn
                                 v-show="item.isOwner"
                                 icon
-                                color="blue"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="updateStatus(item.id, false)"
-                              >
-                                <v-icon dark>
-                                  {{ icons.mdiAlphaWCircle }}
-                                </v-icon>
-                              </v-btn>
-                            </template>
-                            <span>تعداد هفته‌های فعالیت</span>
-                          </v-tooltip>
-
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                v-show="item.isOwner"
-                                icon
                                 color="error"
                                 rounded
                                 v-bind="attrs"
                                 v-on="on"
-                                @click="delGP(item.id)"
+                                @click="endGP(item.id)"
                               >
                                 <v-icon>
                                   {{ icons.mdiDelete }}
@@ -167,14 +149,17 @@ export default {
         this.snackbar = true;
       }
     },
-    delGP(id) {
-      // delReq(this, `api/delete/${id}/`)
-      //   .then(() => {
-      //     this.loadPage();
-      //   })
-      //   .catch(() => {
-      //     this.snackbar = true;
-      //   });
+    endGP(id) {
+      this.group.is_pending = true;
+    },
+    delGP() {
+      delReq(this, `api/delete/${id}/`)
+        .then(() => {
+          this.loadPage();
+        })
+        .catch(() => {
+          this.snackbar = true;
+        });
     }
   },
   data: () => ({
@@ -205,6 +190,7 @@ export default {
     userid: 4,
     snackbar: false,
     text: `retrieve error!`,
+    isEnd: false,
     icons: {
       mdiDelete,
       mdiAlphaWCircle
