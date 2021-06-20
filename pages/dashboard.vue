@@ -94,6 +94,7 @@
             :groupeNumber="group.number"
             :username="username"
             :isOwner="group.isOwner"
+            @update="delGP"
             v-if="this.group.is_pending"
           />
           <v-card v-else color="indigo lighten-4">
@@ -150,14 +151,16 @@ export default {
     endGP(id) {
       this.group.is_pending = true;
     },
-    delGP() {
-      delReq(this, `api/delete/${id}/`)
-        .then(() => {
-          this.loadPage();
-        })
-        .catch(() => {
-          this.snackbar = true;
-        });
+    delGP(value) {
+      if (value) {
+        delReq(this, `api/delete/${id}/`)
+          .then(() => {
+            this.loadPage();
+          })
+          .catch(() => {
+            this.snackbar = true;
+          });
+      }
     }
   },
   data: () => ({

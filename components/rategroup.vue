@@ -57,6 +57,8 @@ export default {
           rating_user: this.username
         });
         if (this.isOwner === false) {
+          this.rated = true;
+          this.$emit("update", this.rated);
         }
         console.log(this.rating);
       } catch (err) {
@@ -90,7 +92,8 @@ export default {
   data: () => ({
     rating: 0,
     partnerName: [],
-    duration: 0
+    duration: 0,
+    rated: false
   })
 };
 </script>
