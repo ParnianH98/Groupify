@@ -98,7 +98,7 @@
             v-if="this.group.is_pending"
           />
           <v-card v-else color="indigo lighten-4">
-            <chat-board :groupeNumber="group.number" :username="username" />
+            <chat-board :groupeNumber="group.number" :username="username" @update="reload" />
           </v-card>
         </v-col>
       </v-row>
@@ -150,6 +150,16 @@ export default {
     },
     endGP(id) {
       this.group.is_pending = true;
+    },
+    async reload(value) {
+      if(value){
+        const res = await getReq(this, "api/dashboard/");
+        this.items = res;
+        var i;
+        for (i = 0; i < this.items.length; i++) {
+          this.items[i].isOwner = this.userid === this.items[i].owner.id;
+        }
+      }
     },
     delGP(value) {
       if (value) {
