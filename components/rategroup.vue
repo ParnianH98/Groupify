@@ -9,23 +9,16 @@
         <template>
           {{ partnerN }}
         </template>
-        <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              v-show="item.isOwner"
-              icon
-              color="blue"
-              v-bind="attrs"
-              v-on="on"
-              @click="updateStatus(item.id, false)"
-            >
-              <v-icon dark>
-                {{ icons.mdiAlphaWCircle }}
-              </v-icon>
-            </v-btn>
-          </template>
-          <span>تعداد هفته‌های فعالیت</span>
-        </v-tooltip>
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-if="this.isOwner"
+            label="تعداد هفته‌های فعالیت:"
+            outlined
+            dense
+            required
+            v-model="duration"
+          ></v-text-field>
+        </template>
       </v-row>
 
       <div class="text-right mt-12">
@@ -45,7 +38,7 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions class="justify-space-between">
-      <v-btn color="primary" text @click="enter">
+      <v-btn color="primary" :disabled="duration === 0" text @click="enter">
         ثبت امتیاز
       </v-btn>
     </v-card-actions>
@@ -60,9 +53,14 @@ export default {
   methods: {
     async enter() {
       try {
-        const res = await postReq(this, "api/token/", {
-          rate: 2 * this.rating
+        const res = await postReq(this, `api/rating/${groupeNumber}/`, {
+          rate: 2 * this.rating,
+          duration: this.duration,
+          rated_user: this.partnerN(),
+          rating_user: this.username
         });
+        if (this.isOwner === false) {
+        }
         console.log(this.rating);
       } catch (err) {
         console.log(err);
@@ -90,7 +88,7 @@ export default {
     }
   },
   name: "RateGroup",
-  props: { groupeNumber: Number, username: String },
+  props: { groupeNumber: Number, username: String, isOwner: Boolean },
 
   data: () => ({
     rating: 0,
