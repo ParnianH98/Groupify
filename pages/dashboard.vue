@@ -34,7 +34,8 @@
                         @click="
                           group = {
                             number: item.id,
-                            is_pending: item.is_pending
+                            is_pending: item.is_pending,
+                            isOwner: item.isOwner
                           }
                         "
                       >
@@ -92,6 +93,7 @@
           <rate-group
             :groupeNumber="group.number"
             :username="username"
+            :isOwner="group.isOwner"
             v-if="this.group.is_pending"
           />
           <v-card v-else color="indigo lighten-4">
@@ -190,7 +192,6 @@ export default {
     userid: 4,
     snackbar: false,
     text: `retrieve error!`,
-    isEnd: false,
     icons: {
       mdiDelete,
       mdiAlphaWCircle
