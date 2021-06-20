@@ -97,11 +97,7 @@
             v-if="this.group.is_pending"
           />
           <v-card v-else color="indigo lighten-4">
-            <chat-board
-              :groupeNumber="group.number"
-              :username="username"
-              :snackbar="snakbar"
-            />
+            <chat-board :groupeNumber="group.number" :username="username" />
           </v-card>
         </v-col>
       </v-row>

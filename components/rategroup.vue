@@ -5,26 +5,21 @@
     </v-card-title>
     <v-card-text>
       گروه شما پایان یافته است. به هم‌تیمی(های) خود امتیاز دهید!
-      <v-row>
-        <template>
-          {{ partnerN }}
-        </template>
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-if="this.isOwner"
-            label="تعداد هفته‌های فعالیت:"
-            outlined
-            dense
-            required
-            v-model="duration"
-          ></v-text-field>
-        </template>
-      </v-row>
 
       <div class="text-right mt-12">
-        <v-btn dark color="teal lighten-3" @click="findPartner"
-          >لیست هم‌تیمی(ها)
-        </v-btn>
+        <v-col>
+          <template>
+            <v-text-field
+              :disabled="!this.isOwner"
+              label="تعداد هفته‌های فعالیت:"
+              outlined
+              dense
+              required
+              v-model="duration"
+            ></v-text-field>
+          </template>
+          <template>نام هم‌تیمی: {{ partnerN() }} </template>
+        </v-col>
         <v-rating
           v-model="rating"
           color="yellow darken-3"
@@ -49,11 +44,13 @@
 import { getReq, postReq } from "~/utils/services";
 
 export default {
-  async mounted() {},
+  async mounted() {
+    await this.findPartner();
+  },
   methods: {
     async enter() {
       try {
-        const res = await postReq(this, `api/rating/${groupeNumber}/`, {
+        const res = await postReq(this, `api/rating/${this.groupeNumber}/`, {
           rate: 2 * this.rating,
           duration: this.duration,
           rated_user: this.partnerN(),
@@ -68,16 +65,16 @@ export default {
     },
     partnerN() {
       var i;
-      for (i in range(this.partnerName.length)) {
+      for (i = 0; i < this.partnerName.length; i++) {
         if (this.partnerName[i].username !== this.username) {
-          return this.partnerName.username;
+          return String(this.partnerName[i].username);
         }
       }
     },
 
     async findPartner() {
       try {
-        const res = await postReq(
+        const res = await getReq(
           this,
           `api/groups/members/${this.groupeNumber}`
         );

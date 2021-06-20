@@ -68,11 +68,11 @@
 </template>
 
 <script>
-import { postReq, getReq } from "~/utils/services";
+import { postReq, putReq } from "~/utils/services";
 export default {
   name: "ChatBoard",
 
-  props: { groupeNumber: Number, username: String, snackbar: Boolean },
+  props: { groupeNumber: Number, username: String },
 
   data() {
     return {
@@ -117,11 +117,11 @@ export default {
       //get messages from api
       this.isLoadingMs = !this.isLoadingMs;
       try {
-        const res = await getReq(this, `chat/${this.groupeNumber}/`);
+        const res = await putReq(this, `chat/${this.groupeNumber}/`);
         this.messages = res;
         this.isLoadingMs = !this.isLoadingMs;
       } catch (err) {
-        this.snackbar = !this.snackbar;
+        // this.snackbar = !this.snackbar;
         this.isLoadingMs = !this.isLoadingMs;
       }
     },
@@ -144,7 +144,7 @@ export default {
 
         this.isSendingMs = !this.isSendingMs;
       } catch (err) {
-        this.snackbar = !this.snackbar;
+        // this.snackbar = !this.snackbar;
         this.isSendingMs = !this.isSendingMs;
       }
     }
