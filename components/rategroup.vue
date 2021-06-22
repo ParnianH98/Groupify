@@ -63,9 +63,8 @@ export default {
         if(this.isOwner === true) {
           await putReq(this, `api/pending_update/${this.groupeNumber}/`);
         }
-        console.log(this.isOwner);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     },
     partnerN() {
@@ -92,7 +91,7 @@ export default {
           this.duration = resdr[0].duration
         }
       } catch (err) {
-        console.log("er");
+        console.error("er");
       }
     }
   },
