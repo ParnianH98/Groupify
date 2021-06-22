@@ -177,7 +177,8 @@ export default {
       if (value) {
         try{
         await delReq(this, `api/pending_delete/${this.group.number}/`);
-        this.loadPage();
+        this.group.number = 0;
+        this.group.is_pending = false;
         }catch(err){
           this.snackbar = true;
         }
