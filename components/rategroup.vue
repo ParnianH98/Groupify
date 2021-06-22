@@ -5,7 +5,6 @@
     </v-card-title>
     <v-card-text>
       گروه شما پایان یافته است. به هم‌تیمی(های) خود امتیاز دهید!
-
       <div class="text-right mt-12">
         <v-col>
           <template>
@@ -41,7 +40,7 @@
 </template>
 
 <script>
-import { getReq, postReq } from "~/utils/services";
+import { getReq, postReq, putReq } from "~/utils/services";
 
 export default {
   async mounted() {
@@ -54,13 +53,17 @@ export default {
           rate: 2 * this.rating,
           duration: this.duration,
           rated_user: this.partnerN(),
-          rating_user: this.username
+          rating_user: this.username,
+          group: this.groupeNumber,
         });
         if (this.isOwner === false) {
           this.rated = true;
           this.$emit("update", this.rated);
         }
-        console.log(this.rating);
+        if(this.isOwner === true) {
+          await putReq(this, `api/pending_update/${this.groupeNumber}/`);
+        }
+        console.log(this.isOwner);
       } catch (err) {
         console.log(err);
       }
@@ -81,6 +84,13 @@ export default {
           `api/groups/members/${this.groupeNumber}`
         );
         this.partnerName = res;
+        if (this.isOwner === false){
+          const resdr = await getReq(
+            this,
+            `api/rating_members/${this.groupeNumber}/`
+          );
+          this.duration = resdr[0].duration
+        }
       } catch (err) {
         console.log("er");
       }

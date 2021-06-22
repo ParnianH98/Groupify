@@ -1,29 +1,23 @@
 <template>
   <v-container>
-    <div v-if="this.groupeNumber === 0">
-      <v-card-title>
-        <div>گفتگو در گروه</div>
-      </v-card-title>
-      <div>هنوز گروهی را انتخاب نکرده اید</div>
-    </div>
-    <div v-else>
-      <v-responsive class="overflow-y-auto" max-height="300">
-        <v-list color="indigo lighten-4">
-          <v-list-item-title>
-            <v-card-title>
-              <div>گفتگو در گروه</div>
+    <v-card-title>
+      <div>گفتگو در گروه</div>
 
-              <v-btn
-                color="black"
-                icon
-                :loading="isLoadingMs"
-                class="mr-4"
-                @click="getMessages"
-              >
-                <v-icon> mdi-refresh </v-icon>
-              </v-btn>
-            </v-card-title>
-          </v-list-item-title>
+      <v-btn
+        v-show="this.groupeNumber !== 0"
+        color="black"
+        icon
+        :loading="isLoadingMs"
+        class="mr-4"
+        @click="getMessages"
+      >
+        <v-icon> mdi-refresh </v-icon>
+      </v-btn>
+    </v-card-title>
+    <div v-if="this.groupeNumber === 0">هنوز گروهی را انتخاب نکرده اید</div>
+    <div>
+      <v-responsive v-show="this.groupeNumber !== 0" class="overflow-y-auto" max-height="300">
+        <v-list color="indigo lighten-4">
           <v-list-item v-for="(item, index) in messages" :key="index">
             <v-list-item-action>
               <v-row>
@@ -83,6 +77,14 @@ export default {
     };
   },
 
+  watch:{
+    groupeNumber(newVal){
+      if(newVal){
+        this.getMessages();
+      }
+    }
+  },
+
   computed: {
     notReadyToSend() {
       if (this.isSendingMs) {
@@ -115,16 +117,17 @@ export default {
     },
     async getMessages() {
       //get messages from api
-      this.isLoadingMs = !this.isLoadingMs;
-      try {
-        const res = await getReq(this, `chat/${this.groupeNumber}/`);
-        this.messages = res;
-        this.$emit("update", this.isLoadingMs);
-        await putReq(this, `chat/update/${this.groupeNumber}/`);
+      if(this.groupeNumber !== 0) {
         this.isLoadingMs = !this.isLoadingMs;
-      } catch (err) {
-        this.snackbar = !this.snackbar;
-        this.isLoadingMs = !this.isLoadingMs;
+        try {
+          const res = await getReq(this, `chat/${this.groupeNumber}/`);
+          this.messages = res;
+          this.$emit("update", this.isLoadingMs);
+          await putReq(this, `chat/update/${this.groupeNumber}/`);
+          this.isLoadingMs = !this.isLoadingMs;
+        } catch (err) {
+          this.isLoadingMs = !this.isLoadingMs;
+        }
       }
     },
     async sendMessage() {
@@ -144,7 +147,6 @@ export default {
 
         this.isSendingMs = !this.isSendingMs;
       } catch (err) {
-        this.snackbar = !this.snackbar;
         this.isSendingMs = !this.isSendingMs;
       }
     }
