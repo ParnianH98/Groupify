@@ -109,6 +109,11 @@ export default {
   mounted() {
     this.loadPage();
   },
+  head () {
+    return {
+      title: 'RequstBox'
+    }
+  },
   methods: {
     async loadPage() {
       try {

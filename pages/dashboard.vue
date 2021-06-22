@@ -135,6 +135,11 @@ export default {
   async mounted() {
     await this.loadPage();
   },
+  head () {
+    return {
+      title: 'Dashboard'
+    }
+  },
   components: {
     ChatBoard,
     RateGroup

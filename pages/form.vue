@@ -353,6 +353,11 @@ export default {
       e1: 1
     };
   },
+  head () {
+    return {
+      title: 'Form'
+    }
+  },
   methods: {
     ClickHandler5() {
       const payload = {
