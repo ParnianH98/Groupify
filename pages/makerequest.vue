@@ -27,7 +27,7 @@
                 </v-chip>
                 <v-chip v-if="selectedlabel.slug !== 'None'" class="ma-2">
                   توضیحات نام درس:
-                  {{ item.slug }}
+                  {{ selectedlabel.slug }}
                 </v-chip>
                 <v-chip class="ma-2">
                   ساعت در هفته:

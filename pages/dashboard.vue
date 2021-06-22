@@ -4,6 +4,15 @@
       <v-card-title>
         <span> گروه‌های فعال من</span>
 
+        <v-btn
+          color="black"
+          icon
+          class="mr-4"
+          @click="loadPage"
+        >
+          <v-icon> mdi-refresh </v-icon>
+        </v-btn>
+
         <v-spacer></v-spacer>
 
         <v-menu bottom right>
@@ -27,63 +36,64 @@
           <v-card max-width="400" min-width="300">
             <v-list two-line color="indigo lighten-4">
               <v-list-item-group active-class="pink--text">
-                <template v-for="(item, index) in items">
-                  <v-list-item :key="item.id">
-                    <template v-slot:default="{ active }">
-                      <v-list-item-content
-                        @click="
-                          group = {
-                            number: item.id,
-                            is_pending: item.is_pending,
-                            isOwner: item.isOwner
-                          }
-                        "
-                      >
-                        <v-list-item-title
-                          v-text="item.topic.name"
-                        ></v-list-item-title>
+                <template v-for="(item, index)  in items" >
+                  <div :key="index">
+                    <v-list-item v-show="!item.isOwner || !item.is_pending">
+                      <template v-slot:default="{ active }">
+                        <v-list-item-content
+                          @click="
+                            group = {
+                              number: item.id,
+                              is_pending: item.is_pending,
+                              isOwner: item.isOwner
+                            }
+                          "
+                        >
+                          <v-list-item-title
+                            v-text="item.topic.name"
+                          ></v-list-item-title>
 
-                        <v-list-item-subtitle
-                          v-text="item.description"
-                        ></v-list-item-subtitle>
-                      </v-list-item-content>
+                          <v-list-item-subtitle
+                            v-text="item.description"
+                          ></v-list-item-subtitle>
+                        </v-list-item-content>
 
-                      <v-badge
-                        v-show="item.newMesseges !== 0"
-                        left
-                        color="blue"
-                        :content="item.newMesseges"
-                      />
+                        <v-badge
+                          v-show="item.newMesseges !== 0"
+                          left
+                          color="blue"
+                          :content="item.newMesseges"
+                        />
 
-                      <v-list-item-action>
-                        <v-row>
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                v-show="item.isOwner"
-                                icon
-                                color="error"
-                                rounded
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="endGP(item.id)"
-                              >
-                                <v-icon>
-                                  {{ icons.mdiDelete }}
-                                </v-icon>
-                              </v-btn>
-                            </template>
-                            <span>حذف این گروه</span>
-                          </v-tooltip>
-                        </v-row>
-                      </v-list-item-action>
-                    </template>
-                  </v-list-item>
+                        <v-list-item-action>
+                          <v-row>
+                            <v-tooltip top>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                  v-show="item.isOwner"
+                                  icon
+                                  color="error"
+                                  rounded
+                                  v-bind="attrs"
+                                  v-on="on"
+                                  @click="endGP(item.id)"
+                                >
+                                  <v-icon>
+                                    {{ icons.mdiDelete }}
+                                  </v-icon>
+                                </v-btn>
+                              </template>
+                              <span>حذف این گروه</span>
+                            </v-tooltip>
+                          </v-row>
+                        </v-list-item-action>
+                      </template>
+                    </v-list-item>
 
-                  <v-divider
-                    v-if="index < items.length - 1"
-                    :key="index"
-                  ></v-divider>
+                    <v-divider
+                      v-if="index < items.length - 1"
+                    ></v-divider>
+                  </div>
                 </template>
               </v-list-item-group>
             </v-list>
@@ -140,6 +150,7 @@ export default {
         const resuser = await getReq(this, "api/user/topics/");
         this.username = resuser[0].username;
         this.userid = resuser[0].id;
+        // this.group = { number: 0, is_pending: false }
         var i;
         for (i = 0; i < this.items.length; i++) {
           this.items[i].isOwner = this.userid === this.items[i].owner.id;
@@ -150,6 +161,7 @@ export default {
     },
     endGP(id) {
       this.group.is_pending = true;
+      this.group.number = id;
     },
     async reload(value) {
       if(value){
@@ -161,15 +173,14 @@ export default {
         }
       }
     },
-    delGP(value) {
+    async delGP(value) {
       if (value) {
-        delReq(this, `api/delete/${id}/`)
-          .then(() => {
-            this.loadPage();
-          })
-          .catch(() => {
-            this.snackbar = true;
-          });
+        try{
+        await delReq(this, `api/pending_delete/${this.group.number}/`);
+        this.loadPage();
+        }catch(err){
+          this.snackbar = true;
+        }
       }
     }
   },
@@ -180,22 +191,7 @@ export default {
       { title: "درخواست‌های دریافتی" }
     ],
     pageItems: ["profile", "makerequest", "requestbox"],
-    items: [
-      {
-        id: 100,
-        is_pending: true,
-        description: "ریاضی",
-        topic: { id: 28, name: "compsys" },
-        owner: { id: 4, username: "test" }
-      },
-      {
-        id: 200,
-        is_pending: false,
-        description: "شیمی",
-        topic: { id: 24, name: "compiler" },
-        owner: { id: 5, username: "test1" }
-      }
-    ],
+    items: [],
     group: { number: 0, is_pending: false },
     username: "test",
     userid: 4,

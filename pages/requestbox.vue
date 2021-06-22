@@ -86,6 +86,10 @@
           </v-list-item-group>
         </v-list>
       </v-card>
+      <br />
+      <v-btn class="mr-4" @click="goBack">
+        بازگشت به داشبورد
+      </v-btn>
     </v-col>
     <v-snackbar v-model="snackbar">
       {{ text }}
@@ -101,7 +105,6 @@
 
 <script>
 import { getReq, postReq, putReq } from "~/utils/services";
-
 export default {
   mounted() {
     this.loadPage();
@@ -123,6 +126,10 @@ export default {
         .catch(() => {
           snackbar = true;
         });
+    },
+    goBack() {
+      // return to dashboard
+      this.$router.push({ name: "dashboard" });
     }
     // groupFind() {
     //   getReq(this, `api/requests/owned/${this.selectedGroup.id}`)
