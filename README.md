@@ -2,6 +2,8 @@
 
 ## Build Setup
 
+A University front-end Project 
+
 ```bash
 # install dependencies
 $ yarn install
